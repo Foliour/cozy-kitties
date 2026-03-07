@@ -1,0 +1,7 @@
+# Appfile - Cozy Kitties Health Tracker
+# Update these values with your Apple Developer account info
+
+app_identifier "com.kathrynstyons.cozykitties"
+# apple_id "YOUR_APPLE_ID@email.com"  # Uncomment and set your Apple ID
+# team_id "YOUR_TEAM_ID"               # Uncomment and set your Team ID
+# itc_team_id "YOUR_ITC_TEAM_ID"       # Uncomment and set your App Store Connect Team ID

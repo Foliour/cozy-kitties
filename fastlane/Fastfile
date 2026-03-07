@@ -1,0 +1,61 @@
+# Fastfile - Cozy Kitties Health Tracker
+
+default_platform(:ios)
+
+platform :ios do
+  desc "Build the app for testing"
+  lane :build do
+    build_app(
+      scheme: "CozyKitties",
+      clean: true,
+      export_method: "development"
+    )
+  end
+
+  desc "Build and upload to TestFlight"
+  lane :beta do
+    build_app(
+      scheme: "CozyKitties",
+      clean: true,
+      export_method: "app-store"
+    )
+    upload_to_testflight(
+      skip_waiting_for_build_processing: true
+    )
+  end
+
+  desc "Build and submit to App Store for review"
+  lane :release do
+    build_app(
+      scheme: "CozyKitties",
+      clean: true,
+      export_method: "app-store"
+    )
+    deliver(
+      submit_for_review: true,
+      automatic_release: false,
+      force: true,
+      precheck_include_in_app_purchases: false,
+      submission_information: {
+        add_id_info_uses_idfa: false
+      }
+    )
+  end
+
+  desc "Upload metadata only (no binary)"
+  lane :metadata do
+    deliver(
+      skip_binary_upload: true,
+      skip_screenshots: true,
+      force: true
+    )
+  end
+
+  desc "Run tests"
+  lane :test do
+    run_tests(
+      scheme: "CozyKitties",
+      device: "iPhone 16 Pro"
+    )
+  end
+end

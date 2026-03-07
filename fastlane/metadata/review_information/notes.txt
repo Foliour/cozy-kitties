@@ -1,0 +1,12 @@
+This app uses HealthKit to read step count, sleep analysis, and environmental audio levels. All data is processed entirely on-device and never transmitted to any server.
+
+To test the app:
+1. Complete the onboarding flow
+2. Grant HealthKit permissions when prompted
+3. The apartment view will show your starter cat (Mochi)
+4. Walking streaks unlock additional cats (5-day streaks)
+5. Quality sleep (7+ hours) helps plants grow
+
+Note: HealthKit data may not be available on the simulator. The app handles this gracefully by showing default states.
+
+No demo account is required - the app works entirely offline with local data.

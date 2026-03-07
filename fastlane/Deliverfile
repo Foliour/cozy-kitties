@@ -1,0 +1,19 @@
+# Deliverfile - Cozy Kitties Health Tracker
+
+# App pricing (0 = free)
+price_tier 0
+
+# App rating configuration
+app_rating_config_path "./fastlane/rating_config.json"
+
+# Categories
+primary_category "HEALTH_FITNESS"
+secondary_category "LIFESTYLE"
+
+# Copyright
+copyright "#{Time.now.year} Kathryn Styons"
+
+# Submission info
+submission_information({
+  add_id_info_uses_idfa: false
+})

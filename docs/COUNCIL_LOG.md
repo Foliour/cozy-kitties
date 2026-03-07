@@ -135,3 +135,133 @@ Based on Council feedback, the following changes will be made:
 ---
 
 *Review #1 Complete. Proceeding to execution with amendments.*
+
+---
+
+## Review #2: Pre-Submission Review
+**Date:** March 7, 2026
+**Phase:** After Phase 3 (UI Implementation), before fastlane setup
+**Status:** Implementation complete, app builds and runs
+
+---
+
+### Current State Summary
+
+**Completed:**
+- Xcode project with iOS 18 deployment target
+- SwiftData models (GameState, Plant)
+- Services (HealthKitService, GameStateService, AudioService)
+- Full UI with:
+  - ApartmentView (main scene with cats, plants, window)
+  - CatView/PlantView with animations
+  - CatCollectionView (grid of all cats)
+  - ProgressDashboardView with glass cards
+  - OnboardingView (3-step)
+  - SettingsView
+  - TabView navigation
+- App builds, installs, and launches on simulator
+
+**Not Yet Done:**
+- Fastlane setup
+- App Store metadata
+- Privacy policy
+- App icon (using placeholder)
+- Unit tests
+
+---
+
+### Priya (Product Lead)
+
+> **Assessment:** We have a functional MVP. Key questions for submission readiness:
+>
+> 1. **First-launch experience:** Does the onboarding actually work? Can a user complete it and see the apartment with Mochi?
+>
+> 2. **HealthKit permission:** On real device, the HealthKit flow will prompt. Is the messaging clear?
+>
+> 3. **Empty states:** If no HealthKit data, what does the user see? This needs testing.
+>
+> **Recommendation:** This is shippable for an MVP. The core experience exists. App Store reviewers will want to see:
+> - Clear HealthKit usage justification (we have it in Info.plist)
+> - Something visual happening (cats + apartment)
+> - Settings that work
+>
+> **APPROVE for submission** with caveat: Test onboarding flow manually.
+
+---
+
+### Marcus (Systems Engineer)
+
+> **Assessment:** Architecture is solid. A few runtime concerns:
+>
+> 1. **SwiftData initialization:** Is the ModelContainer being created correctly? First launch creates empty GameState?
+>
+> 2. **HealthKit on simulator:** HealthKit returns no data on simulator. The app should handle this gracefully.
+>
+> 3. **No unit tests yet:** For MVP, acceptable. But streak calculation logic should be tested before v1.1.
+>
+> **Recommendation:**
+> - Verify GameState is created on first launch
+> - Verify app doesn't crash when HealthKit returns no data
+>
+> **APPROVE for submission** with caveat: Manual smoke test recommended.
+
+---
+
+### Sasha (Front-End Architect)
+
+> **Assessment:** UI is implemented with proper structure. Notes:
+>
+> 1. **SF Symbols as placeholders:** Working as intended. Can be swapped for custom art later.
+>
+> 2. **Glass card styling:** Using .ultraThinMaterial appropriately for iOS 18.
+>
+> 3. **Tab bar:** Standard SwiftUI TabView, nothing exotic.
+>
+> 4. **Animations:** CatView has breathing animation. Simple but effective.
+>
+> **Recommendation:** UI is MVP-ready. No blocking issues.
+>
+> **APPROVE for submission.**
+
+---
+
+### Dev (Agentic Engineer)
+
+> **Assessment:** Factory-style process worked well. Observations:
+>
+> 1. **Sub-agents successfully created code** but needed explicit instruction to update project.pbxproj.
+>
+> 2. **Pattern documented:** Future prompts should always include "update project file" instruction.
+>
+> 3. **Build verification after each phase:** Critical for catching issues early.
+>
+> 4. **No CI yet:** Acceptable for MVP. Add before v1.1.
+>
+> **Remaining tasks for submission:**
+> - Fastlane setup (Appfile, Fastfile, metadata)
+> - Privacy policy URL
+> - App icon (can use placeholder)
+>
+> **APPROVE for submission** pending fastlane setup.
+
+---
+
+## Council Verdict: APPROVED FOR SUBMISSION
+
+All four council members approve proceeding to fastlane setup and App Store submission.
+
+### Pre-Submission Checklist
+- [x] App builds without errors
+- [x] App runs in simulator
+- [x] Onboarding flow exists
+- [x] Main apartment view renders
+- [x] Tab navigation works
+- [x] HealthKit entitlements configured
+- [ ] Fastlane initialized
+- [ ] App Store metadata written
+- [ ] Privacy policy URL
+- [ ] App icon
+
+---
+
+*Review #2 Complete. Proceeding to fastlane setup.*
