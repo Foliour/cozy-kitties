@@ -19,6 +19,14 @@
 		B1000007 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000017 /* HealthKitService.swift */; };
 		B1000008 /* GameStateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000018 /* GameStateService.swift */; };
 		B1000009 /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000019 /* AudioService.swift */; };
+		C1000001 /* ApartmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000011 /* ApartmentView.swift */; };
+		C1000002 /* CatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000012 /* CatView.swift */; };
+		C1000003 /* PlantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000013 /* PlantView.swift */; };
+		C1000004 /* WindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000014 /* WindowView.swift */; };
+		C1000005 /* CatCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000015 /* CatCollectionView.swift */; };
+		C1000006 /* ProgressDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000016 /* ProgressDashboardView.swift */; };
+		C1000007 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000017 /* OnboardingView.swift */; };
+		C1000008 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000018 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +45,14 @@
 		B1000017 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
 		B1000018 /* GameStateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameStateService.swift; sourceTree = "<group>"; };
 		B1000019 /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
+		C1000011 /* ApartmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentView.swift; sourceTree = "<group>"; };
+		C1000012 /* CatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatView.swift; sourceTree = "<group>"; };
+		C1000013 /* PlantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantView.swift; sourceTree = "<group>"; };
+		C1000014 /* WindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowView.swift; sourceTree = "<group>"; };
+		C1000015 /* CatCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatCollectionView.swift; sourceTree = "<group>"; };
+		C1000016 /* ProgressDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDashboardView.swift; sourceTree = "<group>"; };
+		C1000017 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		C1000018 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +82,7 @@
 				B1000020 /* Design */,
 				B1000021 /* Models */,
 				B1000022 /* Services */,
+				C1000020 /* Views */,
 				A1B2C3D400000013 /* Assets.xcassets */,
 				A1B2C3D400000014 /* CozyKitties.entitlements */,
 				A1B2C3D400000015 /* Info.plist */,
@@ -109,6 +126,61 @@
 				B1000019 /* AudioService.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		C1000020 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				C1000021 /* Apartment */,
+				C1000022 /* Collection */,
+				C1000023 /* Progress */,
+				C1000024 /* Onboarding */,
+				C1000025 /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		C1000021 /* Apartment */ = {
+			isa = PBXGroup;
+			children = (
+				C1000011 /* ApartmentView.swift */,
+				C1000012 /* CatView.swift */,
+				C1000013 /* PlantView.swift */,
+				C1000014 /* WindowView.swift */,
+			);
+			path = Apartment;
+			sourceTree = "<group>";
+		};
+		C1000022 /* Collection */ = {
+			isa = PBXGroup;
+			children = (
+				C1000015 /* CatCollectionView.swift */,
+			);
+			path = Collection;
+			sourceTree = "<group>";
+		};
+		C1000023 /* Progress */ = {
+			isa = PBXGroup;
+			children = (
+				C1000016 /* ProgressDashboardView.swift */,
+			);
+			path = Progress;
+			sourceTree = "<group>";
+		};
+		C1000024 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				C1000017 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		C1000025 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C1000018 /* SettingsView.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -191,6 +263,14 @@
 				B1000007 /* HealthKitService.swift in Sources */,
 				B1000008 /* GameStateService.swift in Sources */,
 				B1000009 /* AudioService.swift in Sources */,
+				C1000001 /* ApartmentView.swift in Sources */,
+				C1000002 /* CatView.swift in Sources */,
+				C1000003 /* PlantView.swift in Sources */,
+				C1000004 /* WindowView.swift in Sources */,
+				C1000005 /* CatCollectionView.swift in Sources */,
+				C1000006 /* ProgressDashboardView.swift in Sources */,
+				C1000007 /* OnboardingView.swift in Sources */,
+				C1000008 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
