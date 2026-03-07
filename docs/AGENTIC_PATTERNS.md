@@ -334,6 +334,29 @@ The following patterns could become reusable Claude Code skills:
 
 ---
 
+## 11. Xcode Project File Management
+
+### The Problem
+Sub-agents may create Swift files but not update the `.xcodeproj/project.pbxproj` file. SourceKit will show "Cannot find type" errors even though files exist on disk.
+
+### Detection
+- SourceKit errors about missing types
+- Files exist in filesystem but `grep` on project.pbxproj shows no matches
+
+### Solution
+After any sub-agent creates new Swift files, verify and update project.pbxproj:
+1. Check files are in project: `grep "FileName.swift" project.pbxproj`
+2. If missing, update project.pbxproj with:
+   - PBXFileReference for each new file
+   - PBXBuildFile for each source file
+   - PBXGroup entries for new directories
+   - Add files to PBXSourcesBuildPhase
+
+### Key Insight
+**Always verify sub-agent output includes project file updates.** Include explicit instruction in prompts: "Update project.pbxproj to include new files."
+
+---
+
 ## Anti-Patterns Observed
 
 ### Over-Engineering Early
