@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSHealthShareUsageDescription</key>
+	<string>CozyKitties needs access to your health data to track your wellness activities.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>CozyKitties needs permission to save health data from your activities.</string>
+	<key>UILaunchScreen</key>
+	<dict/>
+</dict>
+</plist>
