@@ -1,0 +1,173 @@
+# Task Manifest - Cozy Kitties Health Tracker
+# Machine-readable task definitions for agentic development
+# Format: YAML with acceptance criteria for automated verification
+
+tasks:
+  # === PROJECT SETUP ===
+  - id: TASK-001
+    name: Create Xcode project
+    feature: project-setup
+    status: pending
+    files:
+      - CozyKitties.xcodeproj
+      - CozyKitties/App/CozyKittiesApp.swift
+    acceptance:
+      - Xcode project exists with scheme "CozyKitties"
+      - Bundle identifier is "com.kathrynstyons.cozykitties"
+      - Deployment target is iOS 26.0
+      - Swift 6 language version configured
+
+  - id: TASK-002
+    name: Configure HealthKit entitlements
+    feature: healthkit
+    status: pending
+    depends_on: [TASK-001]
+    files:
+      - CozyKitties/CozyKitties.entitlements
+      - CozyKitties/Info.plist
+    acceptance:
+      - HealthKit capability enabled in entitlements
+      - NSHealthShareUsageDescription present in Info.plist
+      - Background processing mode enabled
+
+  - id: TASK-003
+    name: Initialize fastlane
+    feature: ci-cd
+    status: pending
+    depends_on: [TASK-001]
+    files:
+      - fastlane/Appfile
+      - fastlane/Fastfile
+      - fastlane/Deliverfile
+      - fastlane/metadata/en-US/name.txt
+      - fastlane/metadata/en-US/description.txt
+    acceptance:
+      - fastlane init completed
+      - Appfile contains correct bundle ID
+      - Metadata files exist for en-US locale
+      - "fastlane beta" lane builds without error
+
+  # === DATA MODELS ===
+  - id: TASK-004
+    name: Implement SwiftData models
+    feature: data-models
+    status: pending
+    depends_on: [TASK-001]
+    files:
+      - CozyKitties/Models/GameState.swift
+      - CozyKitties/Models/Cat.swift
+      - CozyKitties/Models/Plant.swift
+      - CozyKitties/Models/WeatherState.swift
+    acceptance:
+      - GameState model compiles with @Model macro
+      - Cat model has id, name, appearance, unlockedAt fields
+      - Plant model has id, type, growthStage, position fields
+      - WeatherState enum has sunny, partlyCloudy, overcast, gentleRain cases
+
+  - id: TASK-005
+    name: Create DesignTokens
+    feature: design-system
+    status: pending
+    depends_on: [TASK-001]
+    files:
+      - CozyKitties/Design/DesignTokens.swift
+    acceptance:
+      - Spacing enum with xs, sm, md, lg, xl values
+      - Radius enum with sm, md, lg, full values
+      - Typography enum with largeTitle, title, headline, body, caption
+      - Shadow enum with sm, md, lg values
+
+  # === SERVICES ===
+  - id: TASK-006
+    name: Implement HealthKitService
+    feature: healthkit
+    status: pending
+    depends_on: [TASK-002, TASK-004]
+    files:
+      - CozyKitties/Services/HealthKitService.swift
+    acceptance:
+      - requestAuthorization() requests step, sleep, noise permissions
+      - fetchSteps(for:) returns step count for given date
+      - calculateCurrentStreak(goal:) returns consecutive days meeting goal
+      - fetchSleepData(for:) returns SleepRecord for given date
+      - countGoodNights(since:) returns count of 7+ hour sleep nights
+      - Retroactive scan supports 90-day lookback
+
+  - id: TASK-007
+    name: Implement GameStateService
+    feature: game-logic
+    status: pending
+    depends_on: [TASK-004, TASK-006]
+    files:
+      - CozyKitties/Services/GameStateService.swift
+    acceptance:
+      - checkAndUnlockCats(currentStreak:) unlocks cats based on Specs/cats.yaml
+      - Unlocked cats persist across app launches
+      - updatePlantGrowth(goodNights:) updates plant stages per Specs/plants.yaml
+      - Retroactive rewards work on first launch
+
+  - id: TASK-008
+    name: Implement AudioService
+    feature: audio
+    status: pending
+    depends_on: [TASK-001]
+    files:
+      - CozyKitties/Services/AudioService.swift
+    acceptance:
+      - playAmbience() plays looping ambient sound
+      - stopAmbience() stops playback
+      - playPurr() triggers short sound + haptic
+      - Respects soundEnabled setting
+
+  # === VIEWS ===
+  - id: TASK-009
+    name: Build ApartmentView
+    feature: apartment-ui
+    status: pending
+    depends_on: [TASK-004, TASK-005, TASK-007]
+    files:
+      - CozyKitties/Views/Apartment/ApartmentView.swift
+      - CozyKitties/Views/Apartment/CatView.swift
+      - CozyKitties/Views/Apartment/PlantView.swift
+      - CozyKitties/Views/Apartment/WindowView.swift
+    acceptance:
+      - Apartment renders with background image
+      - Unlocked cats appear at positions
+      - Plants render at growth stages
+      - Window shows weather state
+      - Liquid Glass tab bar overlays bottom
+
+  - id: TASK-010
+    name: Build Onboarding flow
+    feature: onboarding
+    status: pending
+    depends_on: [TASK-006, TASK-009]
+    files:
+      - CozyKitties/Views/Onboarding/OnboardingContainerView.swift
+      - CozyKitties/Views/Onboarding/WelcomeView.swift
+      - CozyKitties/Views/Onboarding/HealthKitPermissionView.swift
+      - CozyKitties/Views/Onboarding/GoalSettingView.swift
+    acceptance:
+      - Welcome screen displays app intro
+      - HealthKit permission screen explains data usage
+      - Goal setting allows 1000-20000 steps in 1000 increments
+      - Retroactive rewards displayed after HealthKit grant
+      - Onboarding completes and shows apartment
+
+  # === CI/CD ===
+  - id: TASK-011
+    name: Create GitHub Actions workflow
+    feature: ci-cd
+    status: pending
+    depends_on: [TASK-003]
+    files:
+      - .github/workflows/ci.yml
+    acceptance:
+      - Workflow triggers on push to main and pull requests
+      - Build step compiles for iOS Simulator
+      - Test step runs unit tests
+      - Deploy step runs "fastlane beta" on main branch only
+
+# Metadata
+version: "1.0"
+last_updated: "2026-03-06"

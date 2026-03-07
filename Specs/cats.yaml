@@ -1,0 +1,64 @@
+# Cat Roster - Cozy Kitties Health Tracker
+# Machine-readable content definition for agentic development
+# Unlock condition: consecutive days meeting step goal
+
+cats:
+  - id: mochi
+    name: Mochi
+    appearance: cat_white_fluffy
+    streak_required: 0
+    description: A fluffy white cloud of a cat
+
+  - id: shadow
+    name: Shadow
+    appearance: cat_black_sleek
+    streak_required: 5
+    description: Sleek and mysterious
+
+  - id: marmalade
+    name: Marmalade
+    appearance: cat_orange_tabby
+    streak_required: 10
+    description: Warm as a sunny afternoon
+
+  - id: luna
+    name: Luna
+    appearance: cat_gray_socks
+    streak_required: 15
+    description: Gray with adorable white socks
+
+  - id: biscuit
+    name: Biscuit
+    appearance: cat_cream
+    streak_required: 20
+    description: Cream-colored and always kneading
+
+  - id: pepper
+    name: Pepper
+    appearance: cat_tuxedo
+    streak_required: 25
+    description: Formally dressed at all times
+
+  - id: olive
+    name: Olive
+    appearance: cat_tortie
+    streak_required: 30
+    description: A beautiful tortoiseshell
+
+  - id: cloud
+    name: Cloud
+    appearance: cat_persian_white
+    streak_required: 35
+    description: Fluffy Persian royalty
+
+  - id: espresso
+    name: Espresso
+    appearance: cat_brown
+    streak_required: 40
+    description: Dark roast energy
+
+  - id: captain
+    name: Captain
+    appearance: cat_calico_eyepatch
+    streak_required: 45
+    description: Calico with a distinguished eyepatch marking

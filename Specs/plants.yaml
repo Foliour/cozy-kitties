@@ -1,0 +1,107 @@
+# Plant Definitions - Cozy Kitties Health Tracker
+# Machine-readable content definition for agentic development
+# Unlock condition: cumulative "good nights" (7+ hours sleep)
+
+plants:
+  - id: pothos
+    name: Pothos
+    good_nights_required: 3
+    growth_stages:
+      - stage: 0
+        name: sprout
+        asset: plant_pothos_sprout
+      - stage: 1
+        name: small
+        asset: plant_pothos_small
+      - stage: 2
+        name: trailing
+        asset: plant_pothos_trailing
+      - stage: 3
+        name: lush
+        asset: plant_pothos_lush
+    position:
+      x: 0.15
+      y: 0.7
+
+  - id: succulent
+    name: Succulent
+    good_nights_required: 5
+    growth_stages:
+      - stage: 0
+        name: single
+        asset: plant_succulent_single
+      - stage: 1
+        name: pair
+        asset: plant_succulent_pair
+      - stage: 2
+        name: cluster
+        asset: plant_succulent_cluster
+      - stage: 3
+        name: garden
+        asset: plant_succulent_garden
+    position:
+      x: 0.85
+      y: 0.65
+
+  - id: monstera
+    name: Monstera
+    good_nights_required: 7
+    growth_stages:
+      - stage: 0
+        name: sprout
+        asset: plant_monstera_sprout
+      - stage: 1
+        name: small_leaf
+        asset: plant_monstera_small
+      - stage: 2
+        name: medium
+        asset: plant_monstera_medium
+      - stage: 3
+        name: full
+        asset: plant_monstera_full
+    position:
+      x: 0.25
+      y: 0.5
+
+  - id: fern
+    name: Fern
+    good_nights_required: 10
+    growth_stages:
+      - stage: 0
+        name: sparse
+        asset: plant_fern_sparse
+      - stage: 1
+        name: growing
+        asset: plant_fern_growing
+      - stage: 2
+        name: full
+        asset: plant_fern_full
+      - stage: 3
+        name: lush
+        asset: plant_fern_lush
+    position:
+      x: 0.75
+      y: 0.55
+
+  - id: flowers
+    name: Flowers
+    good_nights_required: 14
+    growth_stages:
+      - stage: 0
+        name: buds
+        asset: plant_flowers_buds
+      - stage: 1
+        name: opening
+        asset: plant_flowers_opening
+      - stage: 2
+        name: blooming
+        asset: plant_flowers_blooming
+      - stage: 3
+        name: flourishing
+        asset: plant_flowers_flourishing
+    position:
+      x: 0.5
+      y: 0.6
+
+# Sleep threshold for "good night"
+good_night_threshold_minutes: 420  # 7 hours
