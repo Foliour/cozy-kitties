@@ -212,6 +212,17 @@ xcrun simctl listapps booted | grep bundle.id
 ### Key Insight
 The accessibility tree from `idb ui describe-all` provides structured, parseable data about UI state. This is far more reliable than trying to interpret screenshots.
 
+### Observed Issue (March 7, 2026)
+idb failed with companion connection issues. Fallback to simctl worked:
+```bash
+# Verify app installed
+xcrun simctl listapps booted | grep "bundle.id"
+
+# Get app container
+xcrun simctl get_app_container booted com.bundle.id
+```
+**Lesson:** Always have simctl as fallback when idb fails.
+
 ---
 
 ## 7. Context Management Strategies
