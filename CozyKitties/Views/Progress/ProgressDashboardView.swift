@@ -7,10 +7,11 @@ struct ProgressDashboardView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var gameStateService = GameStateService.shared
 
-    // Simulated current streak (would come from HealthKit in production)
-    @State private var currentStreak: Int = 3
-    @State private var todaySteps: Int = 4250
+    // Data from HealthKit and GameState
+    @State private var currentStreak: Int = 0
+    @State private var todaySteps: Int = 0
     @State private var stepGoal: Int = 5000
+    @State private var isLoading: Bool = true
 
     var body: some View {
         NavigationStack {
@@ -33,11 +34,32 @@ struct ProgressDashboardView: View {
             .background(Color(red: 0.98, green: 0.96, blue: 0.92))
             .navigationTitle("Progress")
         }
-        .onAppear {
-            gameStateService.configure(with: modelContext)
-            if let state = gameStateService.gameState {
-                stepGoal = state.dailyStepGoal
-            }
+        .task {
+            await loadProgressData()
+        }
+    }
+
+    // MARK: - Data Loading
+
+    private func loadProgressData() async {
+        gameStateService.configure(with: modelContext)
+
+        // Get step goal from game state
+        if let state = gameStateService.gameState {
+            stepGoal = state.dailyStepGoal
+        }
+
+        // Fetch current streak from HealthKit
+        let streak = await HealthKitService.shared.calculateCurrentStreak(goal: stepGoal)
+        await MainActor.run {
+            currentStreak = streak
+        }
+
+        // Fetch today's steps from HealthKit
+        let steps = await HealthKitService.shared.fetchTodaySteps()
+        await MainActor.run {
+            todaySteps = steps
+            isLoading = false
         }
     }
 

@@ -1,8 +1,19 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 @main
 struct CozyKittiesApp: App {
+
+    init() {
+        // Configure tab bar appearance with solid background
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithOpaqueBackground()
+        tabBarAppearance.backgroundColor = UIColor.systemBackground
+
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
+    }
     /// SwiftData model container for GameState and Plant models
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([

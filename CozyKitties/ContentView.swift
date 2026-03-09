@@ -58,6 +58,8 @@ struct ContentView: View {
                 .tag(3)
         }
         .tint(.orange)
+        .toolbarBackground(.visible, for: .tabBar)
+        .toolbarBackground(Color(uiColor: .systemBackground), for: .tabBar)
     }
 
     // MARK: - Initialization

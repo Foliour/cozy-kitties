@@ -9,6 +9,9 @@ final class GameStateService {
     private var modelContext: ModelContext?
     private(set) var gameState: GameState?
 
+    /// Cats that were recently unlocked and need celebration
+    var catsAwaitingCelebration: [CatDefinition] = []
+
     private init() {}
 
     // MARK: - Initialization
@@ -40,7 +43,7 @@ final class GameStateService {
                 }
 
                 // Mochi is unlocked by default (0 streak required)
-                newState.unlockedCatIDs = ["mochi"]
+                newState.unlockedCatIDs = ["trouble"]
 
                 modelContext.insert(newState)
                 try modelContext.save()
@@ -75,6 +78,9 @@ final class GameStateService {
             gameState.longestStreak = currentStreak
         }
 
+        // Add newly unlocked cats to celebration queue
+        catsAwaitingCelebration.append(contentsOf: newlyUnlocked)
+
         saveContext()
 
         return newlyUnlocked
@@ -82,9 +88,15 @@ final class GameStateService {
 
     /// Get all unlocked cat definitions
     func getUnlockedCats() -> [CatDefinition] {
-        guard let gameState = gameState else { return [] }
+        guard let gameState = gameState else {
+            print("GameStateService: getUnlockedCats - gameState is nil")
+            return []
+        }
 
-        return catRoster.filter { gameState.unlockedCatIDs.contains($0.id) }
+        print("GameStateService: getUnlockedCats - unlockedCatIDs: \(gameState.unlockedCatIDs)")
+        let cats = catRoster.filter { gameState.unlockedCatIDs.contains($0.id) }
+        print("GameStateService: getUnlockedCats - found \(cats.count) cats: \(cats.map { $0.name })")
+        return cats
     }
 
     /// Get the next cat to unlock and days remaining
@@ -149,6 +161,45 @@ final class GameStateService {
         saveContext()
     }
 
+    // MARK: - Health Data Sync
+
+    /// Sync health data and check for unlocks
+    /// - Returns: Array of newly unlocked cats (for celebration UI)
+    @MainActor
+    func syncHealthData() async -> [CatDefinition] {
+        guard let gameState = gameState else {
+            print("GameStateService: syncHealthData - no gameState!")
+            return []
+        }
+
+        do {
+            print("GameStateService: Syncing health data...")
+            print("GameStateService: Step goal = \(gameState.dailyStepGoal)")
+            print("GameStateService: Already unlocked cats = \(gameState.unlockedCatIDs)")
+
+            // Debug: print recent steps
+            await HealthKitService.shared.debugPrintRecentSteps(goal: gameState.dailyStepGoal)
+
+            // Get current streak from HealthKit (only counting days since dayZero)
+            let streak = await HealthKitService.shared.calculateCurrentStreak(goal: gameState.dailyStepGoal, dayZero: gameState.dayZero)
+            print("GameStateService: Current streak = \(streak) days (since dayZero: \(gameState.dayZero))")
+
+            // Check and unlock cats based on streak
+            let newlyUnlocked = checkAndUnlockCats(currentStreak: streak)
+
+            if !newlyUnlocked.isEmpty {
+                print("GameStateService: Unlocked \(newlyUnlocked.count) new cats: \(newlyUnlocked.map { $0.name })")
+            } else {
+                print("GameStateService: No new cats unlocked")
+            }
+
+            return newlyUnlocked
+        } catch {
+            print("GameStateService: Failed to sync health data - \(error)")
+            return []
+        }
+    }
+
     // MARK: - Settings
 
     /// Update the daily step goal
@@ -172,6 +223,49 @@ final class GameStateService {
         guard let gameState = gameState else { return }
 
         gameState.hasCompletedOnboarding = true
+        saveContext()
+    }
+
+    // MARK: - Day Zero Management
+
+    /// Set day zero (for debug purposes) - also resets unlocked cats
+    func setDayZero(_ date: Date) {
+        guard let gameState = gameState else { return }
+
+        gameState.dayZero = date
+        // Reset to only starter cat since streak is now recalculated from new dayZero
+        gameState.unlockedCatIDs = ["trouble"]
+        gameState.longestStreak = 0
+        catsAwaitingCelebration = []
+        saveContext()
+    }
+
+    /// Get the current day zero
+    func getDayZero() -> Date? {
+        return gameState?.dayZero
+    }
+
+    /// Reset the entire game with a new day zero
+    func resetGame() {
+        guard let gameState = gameState else { return }
+
+        // Reset all progress
+        gameState.longestStreak = 0
+        gameState.totalGoodNights = 0
+        gameState.dayZero = Date()
+
+        // Keep only the starter cat (Trouble)
+        gameState.unlockedCatIDs = ["trouble"]
+
+        // Reset plants
+        for plant in gameState.plants {
+            plant.unlockedAt = nil
+            plant.growthStage = 0
+        }
+
+        // Clear celebration queue
+        catsAwaitingCelebration = []
+
         saveContext()
     }
 

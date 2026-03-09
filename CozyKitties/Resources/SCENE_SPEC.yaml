@@ -1,0 +1,242 @@
+# SCENE_SPEC.yaml - Backyard Scene Specification
+# =============================================================================
+# This file documents the EXACT layer structure for Tiled maps.
+#
+# IMPORTANT FOR AGENTS:
+# - When exporting from Tiled, ALL layers listed here MUST be included
+# - Follow the export checklist at the bottom
+# - Layer order and naming must match exactly
+# =============================================================================
+
+backyard:
+  description: |
+    Outdoor backyard scene for Cozy Kitties.
+    Top-down view with paths, trees, water features, and buildings.
+    This is where cats roam and plants grow.
+
+  # Source file
+  source_file: "backyard.tmx"
+
+  # Tiled export settings
+  export_format: json
+  export_settings:
+    embed_tilesets: false
+    resolve_object_properties: true
+    output_file: "backyard.json"
+
+  # Map dimensions
+  dimensions:
+    tile_size: {width: 16, height: 16}
+    map_size_tiles: {width: 50, height: 60}
+    map_size_pixels: {width: 800, height: 960}
+    notes: |
+      Scene is larger than iPhone viewport (typically ~390x844 points).
+      User can pan/swipe to explore the full scene.
+
+  # ==========================================================================
+  # TILESETS - Images used for tiles
+  # ==========================================================================
+  tilesets:
+    - name: terrain
+      file: "gentle forest v01.png"
+      tile_size: {width: 16, height: 16}
+      first_gid: 1
+      notes: "Grass, dirt, water base tiles"
+
+    - name: trees
+      file: "gentle trees 80x96 v01.png"
+      tile_size: {width: 80, height: 96}
+      first_gid: 257
+      notes: "Large tree sprites (multi-tile)"
+
+    - name: waterfall
+      file: "gentle waterfall A v01.png"
+      tile_size: {width: 16, height: 16}
+      first_gid: 259
+      animated: true
+      animation:
+        frames: 6
+        duration_per_frame: 100ms
+      notes: "Animated waterfall tiles"
+
+    - name: water_sparkles
+      file: "gentle water sparkles A v01.png"
+      tile_size: {width: 16, height: 16}
+      first_gid: 319
+      animated: true
+      animation:
+        frames: 3
+        duration_per_frame: 200ms
+      notes: "Animated water sparkle overlay"
+
+    - name: buildings
+      file: "iconic_homestead v1.png"
+      tile_size: {width: 16, height: 16}
+      first_gid: 328
+      notes: "Building exteriors, fences, outdoor furniture"
+
+    - name: interiors
+      file: "iconic interiors.png"
+      tile_size: {width: 16, height: 16}
+      first_gid: 1506
+      notes: "Interior items (used for some outdoor decorations)"
+
+  # ==========================================================================
+  # TILE LAYERS - Rendered graphics (bottom to top)
+  # ==========================================================================
+  tile_layers:
+    - name: Ground
+      z_order: 0
+      required: true
+      description: |
+        Base terrain layer - grass, dirt, water, stone.
+        Covers the entire map area.
+      style_notes: "Natural outdoor terrain with variety"
+
+    - name: Paths
+      z_order: 1
+      required: true
+      description: |
+        Walkways, stone paths, bridges over water.
+        Renders above ground but below objects.
+      style_notes: "Stone and dirt paths connecting areas"
+
+    - name: Objects
+      z_order: 2
+      required: true
+      description: |
+        Decorations and objects at ground level.
+        Fences, flower pots, benches, garden items.
+        Cats render at this level or slightly above.
+      style_notes: "Garden decorations, small objects"
+
+    - name: AbovePlayer
+      z_order: 3
+      required: true
+      description: |
+        Elements that render OVER cats/characters.
+        Tree canopies, roof overhangs, tall structures.
+        Creates depth - cats can walk "under" these.
+      style_notes: "Tree tops, overhead elements"
+
+  # ==========================================================================
+  # OBJECT LAYERS - Spawn points and collision (not rendered)
+  # ==========================================================================
+  object_layers:
+    - name: Collisions
+      z_order: -1
+      required: false
+      description: |
+        Collision shapes for pathfinding/movement.
+        Not used in current app (cats don't have physics).
+        Kept for future use or reference.
+
+    - name: SpawnPoints
+      z_order: -1
+      required: true
+      description: |
+        Point objects marking where cats and plants appear.
+        Each object should have a name like "cat_spawn_1" or "plant_pothos".
+      objects:
+        - name: "cat_spawn_1"
+          type: point
+          description: "Primary cat spawn location"
+        - name: "cat_spawn_2"
+          type: point
+          description: "Secondary cat spawn"
+        - name: "cat_spawn_3"
+          type: point
+          description: "Third cat spawn"
+        # Add more as needed based on actual TMX content
+
+    - name: Transitions
+      z_order: -1
+      required: false
+      description: |
+        Area transition zones (not used in this app).
+        Kept for reference from original map.
+
+  # ==========================================================================
+  # Z-ORDER REFERENCE
+  # ==========================================================================
+  z_order_stack:
+    - z: 0
+      layer: "Ground"
+      type: "tile"
+
+    - z: 1
+      layer: "Paths"
+      type: "tile"
+
+    - z: 2
+      layer: "Objects"
+      type: "tile"
+
+    - z: 2.5
+      layer: "(plants - programmatic)"
+      type: "sprite"
+      notes: "Plants render above objects"
+
+    - z: 2.75
+      layer: "(cats - programmatic)"
+      type: "sprite"
+      notes: "Cats render above plants and objects"
+
+    - z: 3
+      layer: "AbovePlayer"
+      type: "tile"
+      notes: "Tree tops render OVER cats for depth"
+
+  # ==========================================================================
+  # VIEWPORT & NAVIGATION
+  # ==========================================================================
+  viewport:
+    notes: |
+      The map (800x960) is larger than typical iPhone screens (~390x844).
+      The app provides pan/swipe gestures to explore the scene.
+    initial_focus: "center"  # or specific coordinates
+    pan_enabled: true
+    zoom_enabled: false  # Keep at fixed scale for pixel art clarity
+    bounds_padding: 0  # No padding, hard stop at edges
+
+  # ==========================================================================
+  # EXPORT CHECKLIST
+  # ==========================================================================
+  export_checklist:
+    before_export:
+      - "All tile layers visible and included"
+      - "All object layers visible and included"
+      - "Object names match this spec exactly"
+      - "No typos in layer names"
+
+    export_settings:
+      - "Format: JSON"
+      - "Embed tilesets: OFF (use external tileset images)"
+      - "Resolve object properties: ON"
+
+    after_export:
+      - "Verify backyard.json was created"
+      - "Verify all tileset image paths are correct"
+      - "Test load in app"
+
+    common_mistakes:
+      - "Hiding a layer before export (layer excluded)"
+      - "Typo in object name (code can't find spawn point)"
+      - "Wrong export format (TMX instead of JSON)"
+      - "Embedded tileset (larger file, harder to update)"
+
+  # ==========================================================================
+  # STYLE GUIDE
+  # ==========================================================================
+  style_guide:
+    pixel_scale: "16x16 tiles, displayed at 2x scale"
+    color_palette: |
+      - Greens for grass and foliage
+      - Browns for dirt paths and tree trunks
+      - Blues for water features
+      - Warm stone colors for paths and buildings
+    mood: "Peaceful outdoor garden/backyard. Cozy and inviting."
+    references:
+      - "Stardew Valley outdoor areas"
+      - "Cozy Grove aesthetics"
+      - "Animal Crossing exterior spaces"

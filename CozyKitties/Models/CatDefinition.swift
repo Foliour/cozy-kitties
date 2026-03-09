@@ -15,73 +15,73 @@ struct CatDefinition: Identifiable, Equatable {
 /// Cats are unlocked based on consecutive days meeting the step goal
 let catRoster: [CatDefinition] = [
     CatDefinition(
-        id: "mochi",
-        name: "Mochi",
-        appearance: "cat_white_fluffy",
+        id: "trouble",
+        name: "Trouble",
+        appearance: "cat_black",
         streakRequired: 0,
-        description: "A fluffy white cloud of a cat"
+        description: "A mischievous black cat"
     ),
     CatDefinition(
-        id: "shadow",
-        name: "Shadow",
-        appearance: "cat_black_sleek",
-        streakRequired: 5,
-        description: "Sleek and mysterious"
-    ),
-    CatDefinition(
-        id: "marmalade",
-        name: "Marmalade",
+        id: "topaz",
+        name: "Topaz",
         appearance: "cat_orange_tabby",
-        streakRequired: 10,
+        streakRequired: 1,
         description: "Warm as a sunny afternoon"
+    ),
+    CatDefinition(
+        id: "pizza",
+        name: "Pizza",
+        appearance: "cat_calico",
+        streakRequired: 3,
+        description: "A colorful calico with a warm personality"
     ),
     CatDefinition(
         id: "luna",
         name: "Luna",
-        appearance: "cat_gray_socks",
-        streakRequired: 15,
-        description: "Gray with adorable white socks"
+        appearance: "cat_white",
+        streakRequired: 7,
+        description: "Elegant and mysterious"
     ),
     CatDefinition(
         id: "biscuit",
         name: "Biscuit",
-        appearance: "cat_cream",
-        streakRequired: 20,
+        appearance: "cat_siamese",
+        streakRequired: 14,
         description: "Cream-colored and always kneading"
     ),
     CatDefinition(
         id: "pepper",
         name: "Pepper",
         appearance: "cat_tuxedo",
-        streakRequired: 25,
+        streakRequired: 21,
         description: "Formally dressed at all times"
     ),
     CatDefinition(
-        id: "olive",
-        name: "Olive",
-        appearance: "cat_tortie",
+        id: "marmalade",
+        name: "Marmalade",
+        appearance: "cat_brown",
         streakRequired: 30,
-        description: "A beautiful tortoiseshell"
+        description: "Warm as a sunny afternoon"
     ),
     CatDefinition(
         id: "cloud",
         name: "Cloud",
         appearance: "cat_persian_white",
-        streakRequired: 35,
+        streakRequired: 45,
         description: "Fluffy Persian royalty"
     ),
     CatDefinition(
         id: "espresso",
         name: "Espresso",
         appearance: "cat_brown",
-        streakRequired: 40,
+        streakRequired: 60,
         description: "Dark roast energy"
     ),
     CatDefinition(
         id: "captain",
         name: "Captain",
         appearance: "cat_calico_eyepatch",
-        streakRequired: 45,
+        streakRequired: 90,
         description: "Calico with a distinguished eyepatch marking"
     )
 ]

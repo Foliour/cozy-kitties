@@ -12,6 +12,9 @@ final class GameState {
     var soundEnabled: Bool = true
     var hasCompletedOnboarding: Bool = false
 
+    /// Day zero - when the user started playing (for streak tracking)
+    var dayZero: Date = Date()
+
     // Track which cats have been unlocked (by ID) - unlocks are permanent
     var unlockedCatIDs: [String] = []
 
@@ -24,6 +27,7 @@ final class GameState {
         dailyStepGoal: Int = 5000,
         soundEnabled: Bool = true,
         hasCompletedOnboarding: Bool = false,
+        dayZero: Date = Date(),
         unlockedCatIDs: [String] = [],
         plants: [Plant] = []
     ) {
@@ -32,6 +36,7 @@ final class GameState {
         self.dailyStepGoal = dailyStepGoal
         self.soundEnabled = soundEnabled
         self.hasCompletedOnboarding = hasCompletedOnboarding
+        self.dayZero = dayZero
         self.unlockedCatIDs = unlockedCatIDs
         self.plants = plants
     }

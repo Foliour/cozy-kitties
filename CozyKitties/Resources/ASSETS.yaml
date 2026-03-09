@@ -1,0 +1,602 @@
+# ASSETS.yaml - Cozy Kitties Asset Manifest
+# =============================================================================
+# SINGLE SOURCE OF TRUTH for all game assets
+#
+# IMPORTANT FOR AGENTS:
+# - READ THIS FILE before creating or modifying ANY assets
+# - If an asset isn't here, it doesn't exist
+# - To add an asset: add entry here FIRST, then add the file
+# - To modify an asset: update metadata here, keep same file path
+# - NEVER create new files for existing entities
+# =============================================================================
+
+version: "1.0"
+last_updated: "2026-03-07"
+
+# =============================================================================
+# CATS - Sprite assets for cat characters
+# Each cat has idle, sleep, and play animations
+# =============================================================================
+cats:
+  trouble:
+    id: "cat_black"
+    display_name: "Trouble"
+    appearance: "cat_black"
+    type: sprite_sheet
+    frame_size: {width: 48, height: 48}
+    source: "CatSprites_Carysaurus"
+    sprite_files:
+      - file: "Black-Idle.png"
+        action: idle
+        frames: 18
+        fps: 8
+      - file: "Black-Sleep.png"
+        action: sleep
+        frames: 8
+        fps: 4
+      - file: "Black-Sit.png"
+        action: sit
+        frames: 10
+        fps: 6
+      - file: "Black-Meow.png"
+        action: meow
+        frames: 8
+        fps: 8
+      - file: "Black-Run.png"
+        action: run
+        frames: 8
+        fps: 12
+      - file: "Black-Eat.png"
+        action: eat
+        frames: 6
+        fps: 6
+      - file: "Black-Attack.png"
+        action: attack
+        frames: 10
+        fps: 10
+      - file: "Black-Jump.png"
+        action: jump
+        frames: 20
+        fps: 12
+      - file: "Black-Pounce.png"
+        action: pounce
+        frames: 18
+        fps: 12
+      - file: "Black-Crouch.png"
+        action: crouch
+        frames: 6
+        fps: 6
+    colors:
+      primary: "#1A1A1A"
+      secondary: "#333333"
+    unlock_condition: "starter"
+    notes: "Mischievous black cat. Starter cat, always unlocked."
+
+  shadow:
+    id: "cat_shadow"
+    display_name: "Shadow"
+    file: "Sprites/Cats/shadow.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#1A1A1A"
+      secondary: "#333333"
+    unlock_condition: "5_day_streak"
+    notes: "Sleek black cat. Unlocked at 5-day walking streak."
+
+  marmalade:
+    id: "cat_marmalade"
+    display_name: "Marmalade"
+    file: "Sprites/Cats/marmalade.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#FF8C00"
+      secondary: "#FFA500"
+    unlock_condition: "10_day_streak"
+    notes: "Orange tabby cat. Unlocked at 10-day walking streak."
+
+  luna:
+    id: "cat_luna"
+    display_name: "Luna"
+    file: "Sprites/Cats/luna.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#4A4A4A"
+      secondary: "#6A6A6A"
+    unlock_condition: "15_day_streak"
+    notes: "Gray cat with white paws. Unlocked at 15-day streak."
+
+  biscuit:
+    id: "cat_biscuit"
+    display_name: "Biscuit"
+    file: "Sprites/Cats/biscuit.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#D2B48C"
+      secondary: "#C4A77D"
+    unlock_condition: "20_day_streak"
+    notes: "Tan/cream colored cat. Unlocked at 20-day streak."
+
+  patches:
+    id: "cat_patches"
+    display_name: "Patches"
+    file: "Sprites/Cats/patches.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#FFFFFF"
+      secondary: "#FF8C00"
+    unlock_condition: "25_day_streak"
+    notes: "Calico cat. Unlocked at 25-day streak."
+
+  midnight:
+    id: "cat_midnight"
+    display_name: "Midnight"
+    file: "Sprites/Cats/midnight.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#191970"
+      secondary: "#000080"
+    unlock_condition: "30_day_streak"
+    notes: "Dark blue/black cat. Unlocked at 30-day streak."
+
+  ginger:
+    id: "cat_ginger"
+    display_name: "Ginger"
+    file: "Sprites/Cats/ginger.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#B7410E"
+      secondary: "#CD5C5C"
+    unlock_condition: "45_day_streak"
+    notes: "Red/ginger cat. Unlocked at 45-day streak."
+
+  snowball:
+    id: "cat_snowball"
+    display_name: "Snowball"
+    file: "Sprites/Cats/snowball.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#FFFAFA"
+      secondary: "#F0F0F0"
+    unlock_condition: "60_day_streak"
+    notes: "Pure white fluffy cat. Unlocked at 60-day streak."
+
+  cinnamon:
+    id: "cat_cinnamon"
+    display_name: "Cinnamon"
+    file: "Sprites/Cats/cinnamon.png"
+    type: sprite_sheet
+    frame_size: {width: 64, height: 64}
+    animations:
+      idle:
+        frames: [0, 1, 2, 3]
+        fps: 4
+        loop: true
+      sleep:
+        frames: [4, 5, 6, 7]
+        fps: 2
+        loop: true
+      play:
+        frames: [8, 9, 10, 11, 12, 13]
+        fps: 8
+        loop: true
+    colors:
+      primary: "#D2691E"
+      secondary: "#8B4513"
+    unlock_condition: "90_day_streak"
+    notes: "Cinnamon/brown cat. Ultimate unlock at 90-day streak."
+
+# =============================================================================
+# PLANTS - Multi-stage growth sprites
+# Each plant has 4 growth stages (0-3)
+# =============================================================================
+plants:
+  pothos:
+    id: "plant_pothos"
+    display_name: "Pothos"
+    type: multi_stage
+    stages:
+      - stage: 0
+        file: "Sprites/Plants/pothos_stage0.png"
+        size: {width: 32, height: 32}
+        description: "Small sprout"
+      - stage: 1
+        file: "Sprites/Plants/pothos_stage1.png"
+        size: {width: 32, height: 48}
+        description: "Small plant"
+      - stage: 2
+        file: "Sprites/Plants/pothos_stage2.png"
+        size: {width: 48, height: 64}
+        description: "Medium plant with trailing vines"
+      - stage: 3
+        file: "Sprites/Plants/pothos_stage3.png"
+        size: {width: 64, height: 96}
+        description: "Full grown with long trailing vines"
+    notes: "Trailing vine plant. Starter plant. Grows with quality sleep."
+
+  succulent:
+    id: "plant_succulent"
+    display_name: "Succulent"
+    type: multi_stage
+    stages:
+      - stage: 0
+        file: "Sprites/Plants/succulent_stage0.png"
+        size: {width: 24, height: 24}
+      - stage: 1
+        file: "Sprites/Plants/succulent_stage1.png"
+        size: {width: 32, height: 32}
+      - stage: 2
+        file: "Sprites/Plants/succulent_stage2.png"
+        size: {width: 40, height: 40}
+      - stage: 3
+        file: "Sprites/Plants/succulent_stage3.png"
+        size: {width: 48, height: 48}
+    notes: "Compact succulent in pot. Unlocked after first week of sleep tracking."
+
+  monstera:
+    id: "plant_monstera"
+    display_name: "Monstera"
+    type: multi_stage
+    stages:
+      - stage: 0
+        file: "Sprites/Plants/monstera_stage0.png"
+        size: {width: 32, height: 32}
+      - stage: 1
+        file: "Sprites/Plants/monstera_stage1.png"
+        size: {width: 48, height: 56}
+      - stage: 2
+        file: "Sprites/Plants/monstera_stage2.png"
+        size: {width: 64, height: 80}
+      - stage: 3
+        file: "Sprites/Plants/monstera_stage3.png"
+        size: {width: 80, height: 112}
+    notes: "Large leafy monstera. Unlocked after two weeks of sleep tracking."
+
+  fern:
+    id: "plant_fern"
+    display_name: "Fern"
+    type: multi_stage
+    stages:
+      - stage: 0
+        file: "Sprites/Plants/fern_stage0.png"
+        size: {width: 24, height: 28}
+      - stage: 1
+        file: "Sprites/Plants/fern_stage1.png"
+        size: {width: 36, height: 42}
+      - stage: 2
+        file: "Sprites/Plants/fern_stage2.png"
+        size: {width: 48, height: 56}
+      - stage: 3
+        file: "Sprites/Plants/fern_stage3.png"
+        size: {width: 60, height: 72}
+    notes: "Delicate fern. Unlocked after three weeks of sleep tracking."
+
+  flowers:
+    id: "plant_flowers"
+    display_name: "Flowers"
+    type: multi_stage
+    stages:
+      - stage: 0
+        file: "Sprites/Plants/flowers_stage0.png"
+        size: {width: 24, height: 24}
+      - stage: 1
+        file: "Sprites/Plants/flowers_stage1.png"
+        size: {width: 32, height: 40}
+      - stage: 2
+        file: "Sprites/Plants/flowers_stage2.png"
+        size: {width: 40, height: 52}
+      - stage: 3
+        file: "Sprites/Plants/flowers_stage3.png"
+        size: {width: 48, height: 64}
+    notes: "Flowering plant in pot. Unlocked after one month of sleep tracking."
+
+# =============================================================================
+# SCENE - Apartment background and tilemap
+# =============================================================================
+scene:
+  backyard:
+    id: "scene_backyard"
+    type: tilemap
+    tiled_file: "Scenes/backyard.tmx"
+    exported_json: "Scenes/backyard.json"
+    tile_size: {width: 16, height: 16}
+    map_size: {width: 50, height: 60}
+    pixel_size: {width: 800, height: 960}
+    viewport:
+      pan_enabled: true
+      zoom_enabled: false
+      scale: 2  # Pixel art scale
+    tilesets:
+      - name: "terrain"
+        file: "Scenes/gentle forest v01.png"
+        tile_size: {width: 16, height: 16}
+      - name: "trees"
+        file: "Scenes/gentle trees 80x96 v01.png"
+        tile_size: {width: 80, height: 96}
+      - name: "waterfall"
+        file: "Scenes/gentle waterfall A v01.png"
+        tile_size: {width: 16, height: 16}
+        animated: true
+      - name: "water_sparkles"
+        file: "Scenes/gentle water sparkles A v01.png"
+        tile_size: {width: 16, height: 16}
+        animated: true
+      - name: "buildings"
+        file: "Scenes/iconic_homestead v1.png"
+        tile_size: {width: 16, height: 16}
+      - name: "interiors"
+        file: "Scenes/iconic interiors.png"
+        tile_size: {width: 16, height: 16}
+    layers:
+      - name: "Ground"
+        z_index: 0
+        type: tile_layer
+      - name: "Paths"
+        z_index: 1
+        type: tile_layer
+      - name: "Objects"
+        z_index: 2
+        type: tile_layer
+      - name: "AbovePlayer"
+        z_index: 3
+        type: tile_layer
+      - name: "Collisions"
+        z_index: -1
+        type: object_layer
+      - name: "SpawnPoints"
+        z_index: -1
+        type: object_layer
+      - name: "Transitions"
+        z_index: -1
+        type: object_layer
+    notes: "Outdoor backyard scene. Larger than viewport - supports panning. See SCENE_SPEC.yaml for details."
+
+# =============================================================================
+# WEATHER - Sky colors (sprites not yet acquired)
+# Maps to WeatherState enum: sunny, partlyCloudy, overcast, gentleRain
+# =============================================================================
+weather:
+  sunny:
+    id: "weather_sunny"
+    type: color
+    color: "#87CEEB"  # Sky blue
+    decibels: "<60 dB"
+    notes: "Bright sunny sky - calm environment"
+
+  partlyCloudy:
+    id: "weather_partly_cloudy"
+    type: color
+    color: "#9CA3AF"  # Light gray
+    decibels: "60-70 dB"
+    notes: "Partly cloudy - moderate ambient noise"
+
+  overcast:
+    id: "weather_overcast"
+    type: color
+    color: "#6B7280"  # Darker gray
+    decibels: "70-80 dB"
+    notes: "Overcast sky - noisier environment"
+
+  gentleRain:
+    id: "weather_gentle_rain"
+    type: color
+    color: "#374151"  # Dark gray-blue
+    decibels: ">80 dB"
+    notes: "Gentle rain - loud ambient noise (still cozy!)"
+
+# =============================================================================
+# UI - Interface elements
+# =============================================================================
+ui:
+  tab_home:
+    id: "ui_tab_home"
+    file: "Sprites/UI/tab_home.png"
+    type: static
+    size: {width: 24, height: 24}
+    notes: "Home tab icon"
+
+  tab_collection:
+    id: "ui_tab_collection"
+    file: "Sprites/UI/tab_collection.png"
+    type: static
+    size: {width: 24, height: 24}
+    notes: "Collection tab icon"
+
+  tab_progress:
+    id: "ui_tab_progress"
+    file: "Sprites/UI/tab_progress.png"
+    type: static
+    size: {width: 24, height: 24}
+    notes: "Progress tab icon"
+
+  tab_settings:
+    id: "ui_tab_settings"
+    file: "Sprites/UI/tab_settings.png"
+    type: static
+    size: {width: 24, height: 24}
+    notes: "Settings tab icon"
+
+# =============================================================================
+# AUDIO
+# =============================================================================
+audio:
+  purr:
+    id: "audio_purr"
+    file: "Audio/purr.mp3"
+    type: sfx
+    duration_seconds: 2.5
+    notes: "Cat purring sound for tapping cats"
+
+  meow:
+    id: "audio_meow"
+    file: "Audio/meow.mp3"
+    type: sfx
+    duration_seconds: 1.0
+    notes: "Cat meow sound for interactions"
+
+  rain_ambience:
+    id: "audio_rain"
+    file: "Audio/rain_ambience.mp3"
+    type: music
+    loop: true
+    notes: "Ambient rain for rainy/stormy weather"
+
+  cozy_music:
+    id: "audio_cozy"
+    file: "Audio/cozy_music.mp3"
+    type: music
+    loop: true
+    notes: "Optional background lo-fi music"
+
+# =============================================================================
+# PLACEHOLDER INFO - Assets not yet acquired
+# =============================================================================
+placeholders:
+  notes: |
+    The following assets need to be purchased from Itch.io or created:
+    - All cat sprites (10 cats x idle/sleep/play animations)
+    - All plant sprites (5 plants x 4 growth stages)
+    - Apartment tileset and scene
+    - Weather overlays
+    - UI icons (can use SF Symbols as fallback)
+    - Audio files
+
+    When purchasing from Itch.io:
+    1. Download the asset pack
+    2. Create mapping from source files to our IDs
+    3. Copy files to appropriate Sprites/ subdirectory
+    4. Update this manifest with actual file paths and frame data
+    5. Update sources section with attribution
+
+# =============================================================================
+# ASSET SOURCES - Licensing and attribution
+# =============================================================================
+sources:
+  - name: "Cat Sprites"
+    artist: "Carysaurus"
+    url: "https://itch.io"
+    license: "Purchased"
+    used_for: ["trouble", "shadow", "marmalade", "luna", "biscuit", "pepper", "olive"]
+    cat_types:
+      - BlackCat
+      - BrownCat
+      - OrangeTabby
+      - SiameseCat
+      - TuxedoCat
+      - WhiteCat
+    notes: |
+      Sprite sheets for cats. Each cat has multiple actions.
+      Actions included: Attack, Crouch, Eat, Idle, Jump, Meow, Pounce, Run, Sit, Sleep
+      Actions excluded from game: Death, Hurt
+      Frame size: 32x48 pixels per frame (horizontal strip layout)

@@ -1,12 +1,14 @@
 import SwiftUI
 import SwiftData
+import UIKit
 
 /// Grid view showing all cats (unlocked + locked)
 /// Locked cats are shown as silhouettes
 struct CatCollectionView: View {
     @Environment(\.modelContext) private var modelContext
-    @State private var gameStateService = GameStateService.shared
+    private var gameStateService = GameStateService.shared
     @State private var selectedCat: CatDefinition?
+    @State private var isLoaded = false
 
     private let columns = [
         GridItem(.flexible(), spacing: Spacing.md),
@@ -40,11 +42,15 @@ struct CatCollectionView: View {
         }
         .onAppear {
             gameStateService.configure(with: modelContext)
+            DispatchQueue.main.async {
+                isLoaded = true
+            }
         }
     }
 
     private func isCatUnlocked(_ cat: CatDefinition) -> Bool {
-        gameStateService.gameState?.unlockedCatIDs.contains(cat.id) ?? false
+        guard isLoaded else { return false }
+        return gameStateService.gameState?.unlockedCatIDs.contains(cat.id) ?? false
     }
 }
 
@@ -56,13 +62,20 @@ struct CatCollectionCell: View {
 
     var body: some View {
         VStack(spacing: Spacing.sm) {
-            // Cat icon
-            Image(systemName: "cat.fill")
-                .font(.system(size: 44))
-                .foregroundStyle(catColor)
-                .frame(width: 80, height: 80)
-                .background(.ultraThinMaterial)
-                .clipShape(RoundedRectangle(cornerRadius: Radius.lg))
+            // Cat icon - sprite for unlocked, generic for locked
+            if isUnlocked {
+                CatThumbnailView(cat: cat)
+                    .frame(width: 80, height: 80)
+                    .background(.ultraThinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: Radius.lg))
+            } else {
+                Image(systemName: "cat.fill")
+                    .font(.system(size: 44))
+                    .foregroundStyle(.gray.opacity(0.4))
+                    .frame(width: 80, height: 80)
+                    .background(.ultraThinMaterial)
+                    .clipShape(RoundedRectangle(cornerRadius: Radius.lg))
+            }
 
             // Name or locked indicator
             if isUnlocked {
@@ -85,33 +98,76 @@ struct CatCollectionCell: View {
                 .fill(isUnlocked ? Color.white.opacity(0.6) : Color.gray.opacity(0.1))
         )
     }
+}
 
-    private var catColor: Color {
-        guard isUnlocked else {
-            return .gray.opacity(0.4)
+// MARK: - Cat Thumbnail View
+
+struct CatThumbnailView: View {
+    let cat: CatDefinition
+    @State private var spriteFrame: UIImage?
+
+    var body: some View {
+        Group {
+            if let sprite = spriteFrame {
+                Image(uiImage: sprite)
+                    .interpolation(.none)
+                    .resizable()
+                    .scaledToFit()
+            } else {
+                Image(systemName: "cat.fill")
+                    .font(.system(size: 44))
+                    .foregroundStyle(.gray.opacity(0.4))
+            }
+        }
+        .task {
+            loadSpriteFrame()
+        }
+    }
+
+    private func loadSpriteFrame() {
+        // Map cat appearance to sprite base name
+        let spriteBaseName: String
+        switch cat.appearance {
+        case "cat_black":
+            spriteBaseName = "Black"
+        case "cat_orange_tabby":
+            spriteBaseName = "OrangeTabby"
+        case "cat_brown":
+            spriteBaseName = "Brown"
+        case "cat_white":
+            spriteBaseName = "White"
+        case "cat_siamese":
+            spriteBaseName = "Siamese"
+        case "cat_tuxedo":
+            spriteBaseName = "Tuxedo"
+        case "cat_calico":
+            spriteBaseName = "Calico"
+        default:
+            return
         }
 
-        switch cat.appearance {
-        case "cat_white_fluffy", "cat_persian_white":
-            return .white
-        case "cat_black_sleek":
-            return .black
-        case "cat_orange_tabby":
-            return .orange
-        case "cat_gray_socks":
-            return .gray
-        case "cat_cream":
-            return Color(red: 1.0, green: 0.95, blue: 0.8)
-        case "cat_tuxedo":
-            return .black
-        case "cat_tortie":
-            return Color(red: 0.6, green: 0.4, blue: 0.2)
-        case "cat_brown":
-            return .brown
-        case "cat_calico_eyepatch":
-            return Color(red: 1.0, green: 0.8, blue: 0.6)
-        default:
-            return .orange
+        // Load the idle sprite sheet using same method as CatView
+        let spriteName = "\(spriteBaseName)-Idle"
+
+        var image: UIImage?
+        if let path = Bundle.main.path(forResource: spriteName, ofType: "png") {
+            image = UIImage(contentsOfFile: path)
+        }
+        if image == nil, let url = Bundle.main.url(forResource: spriteName, withExtension: "png") {
+            image = UIImage(contentsOfFile: url.path)
+        }
+        if image == nil {
+            image = UIImage(named: spriteName)
+        }
+
+        guard let spriteSheet = image, let cgImage = spriteSheet.cgImage else {
+            return
+        }
+
+        // Extract first frame (48x48)
+        let frameRect = CGRect(x: 0, y: 0, width: 48, height: 48)
+        if let croppedImage = cgImage.cropping(to: frameRect) {
+            spriteFrame = UIImage(cgImage: croppedImage, scale: 1.0, orientation: .up)
         }
     }
 }
@@ -137,11 +193,9 @@ struct CatDetailSheet: View {
 
             Spacer()
 
-            // Cat image
-            Image(systemName: "cat.fill")
-                .font(.system(size: 100))
-                .foregroundStyle(catColor)
-                .shadow(Shadow.lg)
+            // Cat sprite
+            CatThumbnailView(cat: cat)
+                .frame(width: 150, height: 150)
 
             // Cat info
             Text(cat.name)
@@ -161,31 +215,6 @@ struct CatDetailSheet: View {
         }
         .padding()
         .background(Color(red: 0.98, green: 0.96, blue: 0.92))
-    }
-
-    private var catColor: Color {
-        switch cat.appearance {
-        case "cat_white_fluffy", "cat_persian_white":
-            return .white
-        case "cat_black_sleek":
-            return .black
-        case "cat_orange_tabby":
-            return .orange
-        case "cat_gray_socks":
-            return .gray
-        case "cat_cream":
-            return Color(red: 1.0, green: 0.95, blue: 0.8)
-        case "cat_tuxedo":
-            return .black
-        case "cat_tortie":
-            return Color(red: 0.6, green: 0.4, blue: 0.2)
-        case "cat_brown":
-            return .brown
-        case "cat_calico_eyepatch":
-            return Color(red: 1.0, green: 0.8, blue: 0.6)
-        default:
-            return .orange
-        }
     }
 }
 

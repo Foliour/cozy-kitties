@@ -25,6 +25,11 @@ final class HealthKitService: HealthKitServiceProtocol {
         return types
     }
 
+    private var writeTypes: Set<HKSampleType> {
+        // Only needed for debug/testing - write step count
+        [HKQuantityType(.stepCount)]
+    }
+
     // MARK: - Authorization
 
     func requestAuthorization() async throws {
@@ -33,9 +38,67 @@ final class HealthKitService: HealthKitServiceProtocol {
         }
 
         try await healthStore.requestAuthorization(
-            toShare: [], // We only read, never write
+            toShare: writeTypes, // Allow writing for debug test data
             read: readTypes
         )
+    }
+
+    // MARK: - Debug: Write Test Data
+
+    /// Writes test step data for debugging purposes
+    /// - Parameters:
+    ///   - steps: Number of steps to add
+    ///   - daysAgo: How many days ago (0 = today, 1 = yesterday, etc.)
+    func writeTestSteps(_ steps: Int, daysAgo: Int) async throws {
+        let stepType = HKQuantityType(.stepCount)
+        let today = calendar.startOfDay(for: Date())
+
+        guard let targetDate = calendar.date(byAdding: .day, value: -daysAgo, to: today) else {
+            throw HealthKitError.queryFailed("Invalid date")
+        }
+
+        // Create sample at noon of the target day (point-in-time sample)
+        guard let sampleTime = calendar.date(byAdding: .hour, value: 12, to: targetDate) else {
+            throw HealthKitError.queryFailed("Invalid sample time")
+        }
+
+        let quantity = HKQuantity(unit: .count(), doubleValue: Double(steps))
+        let sample = HKQuantitySample(
+            type: stepType,
+            quantity: quantity,
+            start: sampleTime,
+            end: sampleTime  // Point-in-time sample
+        )
+
+        try await healthStore.save(sample)
+        print("HealthKit: Wrote \(steps) steps for \(daysAgo) days ago")
+    }
+
+    /// Writes 5000 steps for the last 5 days (for testing cat unlocks)
+    func writeTestStepsForLastFiveDays() async throws {
+        print("HealthKit: Writing test steps for last 5 days...")
+        for day in 1...5 {
+            try await writeTestSteps(5000, daysAgo: day)
+        }
+        print("HealthKit: Done writing test steps")
+    }
+
+    /// Debug: Fetch and print steps for recent days
+    func debugPrintRecentSteps(goal: Int) async {
+        print("HealthKit Debug: Checking recent steps (goal: \(goal))...")
+        let today = calendar.startOfDay(for: Date())
+
+        for daysAgo in 0...7 {
+            guard let checkDate = calendar.date(byAdding: .day, value: -daysAgo, to: today) else { continue }
+            do {
+                let steps = try await fetchSteps(for: checkDate)
+                let dateStr = DateFormatter.localizedString(from: checkDate, dateStyle: .short, timeStyle: .none)
+                let metGoal = steps >= goal ? "YES" : "NO"
+                print("  Day -\(daysAgo) (\(dateStr)): \(steps) steps, met goal: \(metGoal)")
+            } catch {
+                print("  Day -\(daysAgo): Error - \(error)")
+            }
+        }
     }
 
     // MARK: - Step Data
@@ -70,9 +133,10 @@ final class HealthKitService: HealthKitServiceProtocol {
         }
     }
 
-    func calculateCurrentStreak(goal: Int) async throws -> Int {
+    func calculateCurrentStreak(goal: Int, dayZero: Date? = nil) async -> Int {
         var streak = 0
         let today = calendar.startOfDay(for: Date())
+        let dayZeroStart = dayZero.map { calendar.startOfDay(for: $0) }
 
         // Start from yesterday (today is still in progress)
         guard let yesterday = calendar.date(byAdding: .day, value: -1, to: today) else {
@@ -85,17 +149,38 @@ final class HealthKitService: HealthKitServiceProtocol {
                 break
             }
 
-            let steps = try await fetchSteps(for: checkDate)
+            // Don't count days before dayZero
+            if let dayZeroStart = dayZeroStart, checkDate < dayZeroStart {
+                break
+            }
+
+            // Use fetchStepsSafe which returns 0 on error instead of throwing
+            let steps = await fetchStepsSafe(for: checkDate)
 
             if steps >= goal {
                 streak += 1
             } else {
-                // Streak broken
+                // Streak broken (either no data or below goal)
                 break
             }
         }
 
         return streak
+    }
+
+    /// Fetch steps without throwing - returns 0 if no data or error
+    private func fetchStepsSafe(for date: Date) async -> Int {
+        do {
+            return try await fetchSteps(for: date)
+        } catch {
+            // No data for this day = 0 steps
+            return 0
+        }
+    }
+
+    /// Fetch today's steps - returns 0 if no data or error
+    func fetchTodaySteps() async -> Int {
+        return await fetchStepsSafe(for: Date())
     }
 
     // MARK: - Sleep Data

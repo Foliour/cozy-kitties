@@ -43,9 +43,11 @@ protocol HealthKitServiceProtocol {
 
     /// Calculates the current streak of consecutive days meeting the step goal
     /// Scans backwards from yesterday (today is still in progress)
-    /// - Parameter goal: The daily step goal to check against
+    /// - Parameters:
+    ///   - goal: The daily step goal to check against
+    ///   - dayZero: Optional start date - streak won't count days before this
     /// - Returns: The number of consecutive days meeting the goal
-    func calculateCurrentStreak(goal: Int) async throws -> Int
+    func calculateCurrentStreak(goal: Int, dayZero: Date?) async -> Int
 
     /// Fetches sleep data for a specific date
     /// - Parameter date: The date to fetch sleep data for

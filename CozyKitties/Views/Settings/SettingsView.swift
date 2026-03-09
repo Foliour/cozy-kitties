@@ -8,6 +8,10 @@ struct SettingsView: View {
     @State private var stepGoal: Double = 5000
     @State private var soundEnabled: Bool = true
     @State private var healthKitAuthorized: Bool = false
+    @State private var debugInfo: String = ""
+    @State private var debugDaysToAdd: Int = 5
+    @State private var debugDayZero: Date = Date()
+    @State private var showResetConfirmation: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -125,19 +129,79 @@ struct SettingsView: View {
                     Label("About", systemImage: "info.circle")
                 }
 
-                // Debug Section (only in DEBUG builds)
-                #if DEBUG
+                // Reset Game Section
                 Section {
-                    Button(action: { resetOnboarding() }) {
+                    Button(action: { showResetConfirmation = true }) {
                         HStack {
                             Image(systemName: "arrow.counterclockwise")
                                 .foregroundStyle(.red)
-                            Text("Reset Onboarding")
+                            Text("Reset Game")
                                 .foregroundStyle(.red)
                         }
                     }
                 } header: {
+                    Label("Data", systemImage: "externaldrive")
+                } footer: {
+                    Text("This will reset all progress, unlock only the starter cat, and set today as your new Day Zero.")
+                }
+
+                // Debug Section (only in DEBUG builds)
+                #if DEBUG
+                Section {
+                    // Day Zero display and picker
+                    DatePicker(
+                        "Day Zero",
+                        selection: $debugDayZero,
+                        displayedComponents: .date
+                    )
+                    .onChange(of: debugDayZero) { _, newValue in
+                        gameStateService.setDayZero(newValue)
+                    }
+
+                    // Days stepper
+                    Stepper(value: $debugDaysToAdd, in: 1...50) {
+                        HStack {
+                            Text("Days to add:")
+                            Spacer()
+                            Text("\(debugDaysToAdd)")
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+
+                    Button(action: { addTestSteps() }) {
+                        HStack {
+                            Image(systemName: "figure.walk")
+                                .foregroundStyle(.green)
+                            Text("Add 5,000 Steps (\(debugDaysToAdd) days)")
+                        }
+                    }
+
+                    Button(action: { checkStreak() }) {
+                        HStack {
+                            Image(systemName: "chart.line.uptrend.xyaxis")
+                                .foregroundStyle(.blue)
+                            Text("Check Streak & Unlock Cats")
+                        }
+                    }
+
+                    Button(action: { resetOnboarding() }) {
+                        HStack {
+                            Image(systemName: "arrow.counterclockwise")
+                                .foregroundStyle(.orange)
+                            Text("Reset Onboarding")
+                        }
+                    }
+
+                    // Debug info display
+                    if !debugInfo.isEmpty {
+                        Text(debugInfo)
+                            .font(.system(.caption, design: .monospaced))
+                            .foregroundStyle(.secondary)
+                    }
+                } header: {
                     Label("Debug", systemImage: "hammer")
+                } footer: {
+                    Text("Cat unlock thresholds: 0, 1, 3, 7, 14, 21, 30, 45, 60, 90 days")
                 }
                 #endif
             }
@@ -145,6 +209,15 @@ struct SettingsView: View {
         }
         .onAppear {
             loadSettings()
+        }
+        .alert("Reset Game?", isPresented: $showResetConfirmation) {
+            Button("Cancel", role: .cancel) { }
+            Button("Reset", role: .destructive) {
+                gameStateService.resetGame()
+                loadSettings() // Refresh UI
+            }
+        } message: {
+            Text("This will reset all your progress. You'll keep only Trouble (the starter cat) and today will become your new Day Zero. This cannot be undone.")
         }
     }
 
@@ -174,6 +247,7 @@ struct SettingsView: View {
         if let state = gameStateService.gameState {
             stepGoal = Double(state.dailyStepGoal)
             soundEnabled = state.soundEnabled
+            debugDayZero = state.dayZero
         }
         // Check HealthKit status
         // healthKitAuthorized = HealthKitService.shared.isAuthorized
@@ -191,6 +265,88 @@ struct SettingsView: View {
     private func resetOnboarding() {
         if let state = gameStateService.gameState {
             state.hasCompletedOnboarding = false
+        }
+    }
+
+    private func addTestSteps() {
+        let daysToAdd = debugDaysToAdd
+        Task {
+            do {
+                await MainActor.run {
+                    debugInfo = "Requesting authorization..."
+                }
+                try await HealthKitService.shared.requestAuthorization()
+
+                await MainActor.run {
+                    debugInfo = "Writing \(daysToAdd) days of steps..."
+                }
+
+                // Write steps for the specified number of days
+                for day in 1...daysToAdd {
+                    try await HealthKitService.shared.writeTestSteps(5000, daysAgo: day)
+                }
+
+                await MainActor.run {
+                    debugInfo = "Added 5,000 steps for \(daysToAdd) days!"
+                }
+
+                // Auto-check streak after adding
+                await checkStreakInternal()
+            } catch {
+                await MainActor.run {
+                    debugInfo = "Error: \(error.localizedDescription)"
+                }
+            }
+        }
+    }
+
+    private func checkStreak() {
+        Task {
+            await checkStreakInternal()
+        }
+    }
+
+    private func checkStreakInternal() async {
+        guard let state = gameStateService.gameState else {
+            await MainActor.run {
+                debugInfo = "Error: No game state"
+            }
+            return
+        }
+
+        let goal = state.dailyStepGoal
+        var info = "Step Goal: \(goal)\n"
+        info += "Unlocked: \(state.unlockedCatIDs.joined(separator: ", "))\n\n"
+
+        // Check recent days
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+
+        for daysAgo in 0...6 {
+            guard let checkDate = calendar.date(byAdding: .day, value: -daysAgo, to: today) else { continue }
+            do {
+                let steps = try await HealthKitService.shared.fetchSteps(for: checkDate)
+                let dayLabel = daysAgo == 0 ? "Today" : daysAgo == 1 ? "Yesterday" : "\(daysAgo) days ago"
+                let met = steps >= goal ? "✓" : "✗"
+                info += "\(dayLabel): \(steps) steps \(met)\n"
+            } catch {
+                info += "Day -\(daysAgo): Error\n"
+            }
+        }
+
+        // Calculate streak (respecting dayZero)
+        let streak = await HealthKitService.shared.calculateCurrentStreak(goal: goal, dayZero: state.dayZero)
+        info += "\nDay Zero: \(state.dayZero.formatted(date: .abbreviated, time: .omitted))"
+        info += "\nStreak: \(streak) days"
+
+        // Check for unlocks
+        let newCats = gameStateService.checkAndUnlockCats(currentStreak: streak)
+        if !newCats.isEmpty {
+            info += "\n🎉 Unlocked: \(newCats.map { $0.name }.joined(separator: ", "))"
+        }
+
+        await MainActor.run {
+            debugInfo = info
         }
     }
 }
