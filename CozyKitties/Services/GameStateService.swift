@@ -218,6 +218,14 @@ final class GameStateService {
         saveContext()
     }
 
+    /// Update day/night mode setting
+    func updateDayNightMode(_ mode: DayNightMode) {
+        guard let gameState = gameState else { return }
+
+        gameState.dayNightMode = mode
+        saveContext()
+    }
+
     /// Mark onboarding as completed
     func completeOnboarding() {
         guard let gameState = gameState else { return }

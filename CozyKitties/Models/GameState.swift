@@ -1,6 +1,21 @@
 import Foundation
 import SwiftData
 
+/// Day/night mode setting
+enum DayNightMode: Int, CaseIterable {
+    case auto = 0      // Based on actual time of day
+    case alwaysDay = 1
+    case alwaysNight = 2
+
+    var displayName: String {
+        switch self {
+        case .auto: return "Auto"
+        case .alwaysDay: return "Always Day"
+        case .alwaysNight: return "Always Night"
+        }
+    }
+}
+
 @Model
 final class GameState {
     // NOTE: currentStreak is NOT stored - it is derived from HealthKit on each app launch
@@ -15,6 +30,15 @@ final class GameState {
     /// Day zero - when the user started playing (for streak tracking)
     var dayZero: Date = Date()
 
+    /// Day/night mode setting (stored as Int for SwiftData)
+    var dayNightModeRaw: Int = 0
+
+    /// Computed property for day/night mode
+    var dayNightMode: DayNightMode {
+        get { DayNightMode(rawValue: dayNightModeRaw) ?? .auto }
+        set { dayNightModeRaw = newValue.rawValue }
+    }
+
     // Track which cats have been unlocked (by ID) - unlocks are permanent
     var unlockedCatIDs: [String] = []
 
@@ -28,6 +52,7 @@ final class GameState {
         soundEnabled: Bool = true,
         hasCompletedOnboarding: Bool = false,
         dayZero: Date = Date(),
+        dayNightModeRaw: Int = 0,
         unlockedCatIDs: [String] = [],
         plants: [Plant] = []
     ) {
@@ -37,6 +62,7 @@ final class GameState {
         self.soundEnabled = soundEnabled
         self.hasCompletedOnboarding = hasCompletedOnboarding
         self.dayZero = dayZero
+        self.dayNightModeRaw = dayNightModeRaw
         self.unlockedCatIDs = unlockedCatIDs
         self.plants = plants
     }

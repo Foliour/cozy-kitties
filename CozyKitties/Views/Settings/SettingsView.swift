@@ -7,6 +7,7 @@ struct SettingsView: View {
     @State private var gameStateService = GameStateService.shared
     @State private var stepGoal: Double = 5000
     @State private var soundEnabled: Bool = true
+    @State private var dayNightMode: DayNightMode = .auto
     @State private var healthKitAuthorized: Bool = false
     @State private var debugInfo: String = ""
     @State private var debugDaysToAdd: Int = 5
@@ -65,6 +66,28 @@ struct SettingsView: View {
                     }
                 } header: {
                     Label("Audio", systemImage: "speaker.wave.2")
+                }
+
+                // Day/Night Mode Section
+                Section {
+                    Picker(selection: $dayNightMode) {
+                        ForEach(DayNightMode.allCases, id: \.self) { mode in
+                            Text(mode.displayName).tag(mode)
+                        }
+                    } label: {
+                        HStack {
+                            Image(systemName: dayNightMode == .alwaysNight ? "moon.stars.fill" : "sun.max.fill")
+                                .foregroundStyle(dayNightMode == .alwaysNight ? .indigo : .orange)
+                            Text("Time of Day")
+                        }
+                    }
+                    .onChange(of: dayNightMode) { _, newValue in
+                        gameStateService.updateDayNightMode(newValue)
+                    }
+                } header: {
+                    Label("Appearance", systemImage: "paintpalette")
+                } footer: {
+                    Text("Auto changes background based on your local time (day 6AM-8PM).")
                 }
 
                 // HealthKit Section
@@ -247,6 +270,7 @@ struct SettingsView: View {
         if let state = gameStateService.gameState {
             stepGoal = Double(state.dailyStepGoal)
             soundEnabled = state.soundEnabled
+            dayNightMode = state.dayNightMode
             debugDayZero = state.dayZero
         }
         // Check HealthKit status
