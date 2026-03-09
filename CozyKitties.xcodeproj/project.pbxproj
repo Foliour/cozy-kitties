@@ -7,32 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C8AC613B675A167C6E5AB9CE /* Tuxedo-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 350CABC1CBC998E073D2E9BD /* Tuxedo-Idle.png */; };
-		0F96A2B1D49D09AB8B869A38 /* Tuxedo-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = C8B8F6E5B040D513ABAA8EB6 /* Tuxedo-Pounce.png */; };
-		8C09F6053E66F21ADFBAF6BC /* Tuxedo-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = CF971D345DE29D6105A9F334 /* Tuxedo-Sit.png */; };
-		74E9E49A2F18612C5DC1468B /* Calico-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CD4484BC05230CA84155 /* Calico-Idle.png */; };
-		39A1804C60585CCD7CEDA0A1 /* Calico-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 12AAF1B2136A336AD579141D /* Calico-Pounce.png */; };
-		E68197B5E5984B3526014A58 /* Calico-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 958C69C339A93F6B94A0942C /* Calico-Sit.png */; };
-		95F060EEADD93706A06DF97A /* Siamese-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6B588FF4217517980C1125 /* Siamese-Sit.png */; };
-		277D80D016081BC42C61F981 /* Siamese-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 7110138B0866DB9507E5A93C /* Siamese-Pounce.png */; };
-		6F5DF4E7441473B214936780 /* Siamese-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F4653980959354E25D571 /* Siamese-Idle.png */; };
-		83D031003EF85D22AE0CE642 /* White-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 86C4D7A77C340FC1462CA752 /* White-Sit.png */; };
-		2919B164DBA3D85DEEE05222 /* White-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 767977ABA7ECB2F97430B519 /* White-Pounce.png */; };
-		5B38CB23FF94DB5BB088339B /* White-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = D8FB8F79B010BB37592042B5 /* White-Idle.png */; };
-		406B5623120D83F0C7D49D8F /* Brown-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A6AD01D208AC5CCB46B41 /* Brown-Sit.png */; };
-		C6408A20CA013303DF0372BA /* Brown-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 91BA8D219D128346847FEC39 /* Brown-Pounce.png */; };
-		76763738DCF59D3D4CD887D7 /* Brown-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = AA259501C20400AF551EC2F4 /* Brown-Idle.png */; };
-		C606F0D3A69CC4C858BD864C /* OrangeTabby-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = B98335F37A00CA461199F533 /* OrangeTabby-Sit.png */; };
-		EB67996E32C1DD4B0B080DD5 /* OrangeTabby-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 16DF6541EAB3303BDA154659 /* OrangeTabby-Pounce.png */; };
-		1696DA369100217E7AAAC826 /* OrangeTabby-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FF3E8D10B1BCE904BFD572 /* OrangeTabby-Idle.png */; };
-		9F20210C81A169281D84705D /* CatUnlockCelebration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353A916E4573503C43C3269 /* CatUnlockCelebration.swift */; };
 		02C40E6B37ED13260127074D /* Black-Crouch.png in Resources */ = {isa = PBXBuildFile; fileRef = 531B03861925318E62F78790 /* Black-Crouch.png */; };
-		0AFF92CC5346219D81409E1E /* JoystickView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92C6AEDF3E9F53F63B99F3E1 /* JoystickView.swift */; };
+		0F96A2B1D49D09AB8B869A38 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = C8B8F6E5B040D513ABAA8EB6 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png */; };
 		139C030CDD7ACD95456942C4 /* Black-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C9BF0D391EF7A09CE2D98D /* Black-Sleep.png */; };
+		1696DA369100217E7AAAC826 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 03FF3E8D10B1BCE904BFD572 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png */; };
+		277D80D016081BC42C61F981 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 7110138B0866DB9507E5A93C /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png */; };
+		2919B164DBA3D85DEEE05222 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 767977ABA7ECB2F97430B519 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png */; };
+		39A1804C60585CCD7CEDA0A1 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 12AAF1B2136A336AD579141D /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png */; };
+		406B5623120D83F0C7D49D8F /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 964A6AD01D208AC5CCB46B41 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png */; };
+		46661D68EF9D41E0F09589B2 /* background.png in Resources */ = {isa = PBXBuildFile; fileRef = 681E000ADD3D031D58B96AD7 /* background.png */; };
 		4B2ED2F4BD56B502E27DED6A /* Black-Run.png in Resources */ = {isa = PBXBuildFile; fileRef = 382DA79003B8D71076BC2E6C /* Black-Run.png */; };
-		5319B7A70D2EBB8ACF98024F /* character.png in Resources */ = {isa = PBXBuildFile; fileRef = 44E7F26ADE5DD7C3034C2001 /* character.png */; };
+		5B38CB23FF94DB5BB088339B /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = D8FB8F79B010BB37592042B5 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png */; };
+		6F5DF4E7441473B214936780 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 2B4F4653980959354E25D571 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png */; };
+		74E9E49A2F18612C5DC1468B /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 25A7CD4484BC05230CA84155 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png */; };
+		76763738DCF59D3D4CD887D7 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = AA259501C20400AF551EC2F4 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png */; };
 		774AE11D88A65420775F608B /* Black-Hurt.png in Resources */ = {isa = PBXBuildFile; fileRef = 45AB20D983876FFBDD20562A /* Black-Hurt.png */; };
+		83D031003EF85D22AE0CE642 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 86C4D7A77C340FC1462CA752 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png */; };
+		8C09F6053E66F21ADFBAF6BC /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = CF971D345DE29D6105A9F334 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png */; };
 		8DD24272C4025128CA868324 /* Black-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = B48E4C71FF390DAA48B60A9A /* Black-Pounce.png */; };
+		95F060EEADD93706A06DF97A /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 8B6B588FF4217517980C1125 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png */; };
+		9F20210C81A169281D84705D /* CatUnlockCelebration.swift in Sources */ = {isa = PBXBuildFile; fileRef = D353A916E4573503C43C3269 /* CatUnlockCelebration.swift */; };
 		A1B2C3D400000001 /* CozyKittiesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D400000011 /* CozyKittiesApp.swift */; };
 		A1B2C3D400000002 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1B2C3D400000012 /* ContentView.swift */; };
 		A1B2C3D400000003 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D400000013 /* Assets.xcassets */; };
@@ -58,57 +52,58 @@
 		C1000006 /* ProgressDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000016 /* ProgressDashboardView.swift */; };
 		C1000007 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000017 /* OnboardingView.swift */; };
 		C1000008 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000018 /* SettingsView.swift */; };
+		C606F0D3A69CC4C858BD864C /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = B98335F37A00CA461199F533 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png */; };
+		C6408A20CA013303DF0372BA /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 91BA8D219D128346847FEC39 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png */; };
+		C6737D257D015FF1E087FB56 /* backyard-day.png in Resources */ = {isa = PBXBuildFile; fileRef = 1F3873EA7D5C609BCEC7843F /* backyard-day.png */; };
+		C8AC613B675A167C6E5AB9CE /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = 350CABC1CBC998E073D2E9BD /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png */; };
 		D1000001 /* ASSETS.yaml in Resources */ = {isa = PBXBuildFile; fileRef = D1000011 /* ASSETS.yaml */; };
 		D1000002 /* SCENE_SPEC.yaml in Resources */ = {isa = PBXBuildFile; fileRef = D1000012 /* SCENE_SPEC.yaml */; };
 		D1000003 /* backyard.png in Resources */ = {isa = PBXBuildFile; fileRef = D1000013 /* backyard.png */; };
 		DCB9764D41D810EBD3E997EA /* Black-Jump.png in Resources */ = {isa = PBXBuildFile; fileRef = 7D37A3AB2B9A973B5379F2D4 /* Black-Jump.png */; };
 		DE54E7613F624D22671865E4 /* Black-Attack.png in Resources */ = {isa = PBXBuildFile; fileRef = 0A8BF85EB9EF87E809EA8178 /* Black-Attack.png */; };
+		E68197B5E5984B3526014A58 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 958C69C339A93F6B94A0942C /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png */; };
 		EAC28520577836AADDFEEB69 /* backyard2.png in Resources */ = {isa = PBXBuildFile; fileRef = C388D66F183C59197F34BFE4 /* backyard2.png */; };
+		EB67996E32C1DD4B0B080DD5 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = 16DF6541EAB3303BDA154659 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png */; };
+		EBB0BF5BBE324B98108051C3 /* backyard-night.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D337D0CB9601AC7A816537A /* backyard-night.png */; };
 		F32814DB58FA6FD9FDF65586 /* Black-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = C1042519F48BFCB1FA643437 /* Black-Idle.png */; };
-		F7D65632321659741F10D78B /* PlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 178BE2CF5ACECB0B8FB9BF02 /* PlayerView.swift */; };
 		F9A27B5FF0C76774ABABF89E /* Black-Death.png in Resources */ = {isa = PBXBuildFile; fileRef = 7843F5C12137F1A8E32F31ED /* Black-Death.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		350CABC1CBC998E073D2E9BD /* Tuxedo-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png"; sourceTree = SOURCE_ROOT; };
-		C8B8F6E5B040D513ABAA8EB6 /* Tuxedo-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png"; sourceTree = SOURCE_ROOT; };
-		CF971D345DE29D6105A9F334 /* Tuxedo-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png"; sourceTree = SOURCE_ROOT; };
-		25A7CD4484BC05230CA84155 /* Calico-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png"; sourceTree = SOURCE_ROOT; };
-		12AAF1B2136A336AD579141D /* Calico-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png"; sourceTree = SOURCE_ROOT; };
-		958C69C339A93F6B94A0942C /* Calico-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png"; sourceTree = SOURCE_ROOT; };
-		8B6B588FF4217517980C1125 /* Siamese-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png"; sourceTree = SOURCE_ROOT; };
-		7110138B0866DB9507E5A93C /* Siamese-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png"; sourceTree = SOURCE_ROOT; };
-		2B4F4653980959354E25D571 /* Siamese-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png"; sourceTree = SOURCE_ROOT; };
-		86C4D7A77C340FC1462CA752 /* White-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png"; sourceTree = SOURCE_ROOT; };
-		767977ABA7ECB2F97430B519 /* White-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png"; sourceTree = SOURCE_ROOT; };
-		D8FB8F79B010BB37592042B5 /* White-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png"; sourceTree = SOURCE_ROOT; };
-		964A6AD01D208AC5CCB46B41 /* Brown-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png"; sourceTree = SOURCE_ROOT; };
-		91BA8D219D128346847FEC39 /* Brown-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png"; sourceTree = SOURCE_ROOT; };
-		AA259501C20400AF551EC2F4 /* Brown-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png"; sourceTree = SOURCE_ROOT; };
-		B98335F37A00CA461199F533 /* OrangeTabby-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png"; sourceTree = SOURCE_ROOT; };
-		16DF6541EAB3303BDA154659 /* OrangeTabby-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png"; sourceTree = SOURCE_ROOT; };
-		03FF3E8D10B1BCE904BFD572 /* OrangeTabby-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png"; sourceTree = SOURCE_ROOT; };
-		D353A916E4573503C43C3269 /* CatUnlockCelebration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CatUnlockCelebration.swift; sourceTree = "<group>"; };
+		03FF3E8D10B1BCE904BFD572 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png"; sourceTree = SOURCE_ROOT; };
 		0A8BF85EB9EF87E809EA8178 /* Black-Attack.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Attack.png"; sourceTree = "<group>"; };
-		178BE2CF5ACECB0B8FB9BF02 /* PlayerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
+		12AAF1B2136A336AD579141D /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png"; sourceTree = SOURCE_ROOT; };
+		16DF6541EAB3303BDA154659 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png"; sourceTree = SOURCE_ROOT; };
+		1F3873EA7D5C609BCEC7843F /* backyard-day.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "backyard-day.png"; sourceTree = "<group>"; };
+		25A7CD4484BC05230CA84155 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png"; sourceTree = SOURCE_ROOT; };
+		2B4F4653980959354E25D571 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png"; sourceTree = SOURCE_ROOT; };
+		350CABC1CBC998E073D2E9BD /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png"; sourceTree = SOURCE_ROOT; };
 		382DA79003B8D71076BC2E6C /* Black-Run.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Run.png"; sourceTree = "<group>"; };
 		3D8ACBE449CEDF71320F9A0A /* Black-Meow.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Meow.png"; sourceTree = "<group>"; };
 		3DEC49C03A48F44CFC160C1B /* Black-Eat.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Eat.png"; sourceTree = "<group>"; };
 		43C9BF0D391EF7A09CE2D98D /* Black-Sleep.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Sleep.png"; sourceTree = "<group>"; };
-		44E7F26ADE5DD7C3034C2001 /* character.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = character.png; sourceTree = "<group>"; };
 		45AB20D983876FFBDD20562A /* Black-Hurt.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Hurt.png"; sourceTree = "<group>"; };
 		531B03861925318E62F78790 /* Black-Crouch.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Crouch.png"; sourceTree = "<group>"; };
 		598454246A8EDE6CC32F9409 /* Black-Sit.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Sit.png"; sourceTree = "<group>"; };
+		681E000ADD3D031D58B96AD7 /* background.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
+		7110138B0866DB9507E5A93C /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png"; sourceTree = SOURCE_ROOT; };
+		767977ABA7ECB2F97430B519 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png"; sourceTree = SOURCE_ROOT; };
 		7843F5C12137F1A8E32F31ED /* Black-Death.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Death.png"; sourceTree = "<group>"; };
 		7D37A3AB2B9A973B5379F2D4 /* Black-Jump.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Jump.png"; sourceTree = "<group>"; };
+		86C4D7A77C340FC1462CA752 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png"; sourceTree = SOURCE_ROOT; };
+		8B6B588FF4217517980C1125 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png"; sourceTree = SOURCE_ROOT; };
+		8D337D0CB9601AC7A816537A /* backyard-night.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "backyard-night.png"; sourceTree = "<group>"; };
 		8F99F5369805F3DFF6BBADD2 /* backyard3.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = backyard3.png; sourceTree = "<group>"; };
-		92C6AEDF3E9F53F63B99F3E1 /* JoystickView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = JoystickView.swift; sourceTree = "<group>"; };
+		91BA8D219D128346847FEC39 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png"; sourceTree = SOURCE_ROOT; };
+		958C69C339A93F6B94A0942C /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png"; sourceTree = SOURCE_ROOT; };
+		964A6AD01D208AC5CCB46B41 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png"; sourceTree = SOURCE_ROOT; };
 		A1B2C3D400000010 /* CozyKitties.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CozyKitties.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1B2C3D400000011 /* CozyKittiesApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyKittiesApp.swift; sourceTree = "<group>"; };
 		A1B2C3D400000012 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		A1B2C3D400000013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1B2C3D400000014 /* CozyKitties.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CozyKitties.entitlements; sourceTree = "<group>"; };
 		A1B2C3D400000015 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA259501C20400AF551EC2F4 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png"; sourceTree = SOURCE_ROOT; };
 		B1000011 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
 		B1000012 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
 		B1000013 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
@@ -120,6 +115,7 @@
 		B1000019 /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
 		B100001A /* AssetRegistry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetRegistry.swift; sourceTree = "<group>"; };
 		B48E4C71FF390DAA48B60A9A /* Black-Pounce.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Pounce.png"; sourceTree = "<group>"; };
+		B98335F37A00CA461199F533 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png"; sourceTree = SOURCE_ROOT; };
 		C1000011 /* ApartmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentView.swift; sourceTree = "<group>"; };
 		C1000012 /* CatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatView.swift; sourceTree = "<group>"; };
 		C1000013 /* PlantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantView.swift; sourceTree = "<group>"; };
@@ -130,9 +126,13 @@
 		C1000018 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C1042519F48BFCB1FA643437 /* Black-Idle.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Idle.png"; sourceTree = "<group>"; };
 		C388D66F183C59197F34BFE4 /* backyard2.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = backyard2.png; sourceTree = "<group>"; };
+		C8B8F6E5B040D513ABAA8EB6 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png"; sourceTree = SOURCE_ROOT; };
+		CF971D345DE29D6105A9F334 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png"; sourceTree = SOURCE_ROOT; };
 		D1000011 /* ASSETS.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = ASSETS.yaml; sourceTree = "<group>"; };
 		D1000012 /* SCENE_SPEC.yaml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = SCENE_SPEC.yaml; sourceTree = "<group>"; };
 		D1000013 /* backyard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backyard.png; sourceTree = "<group>"; };
+		D353A916E4573503C43C3269 /* CatUnlockCelebration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CatUnlockCelebration.swift; sourceTree = "<group>"; };
+		D8FB8F79B010BB37592042B5 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,15 +146,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		2C884F3F52EFD531E1DE7ECE /* Player */ = {
-			isa = PBXGroup;
-			children = (
-				44E7F26ADE5DD7C3034C2001 /* character.png */,
-			);
-			name = Player;
-			path = Player;
-			sourceTree = "<group>";
-		};
 		8E398B63001305F6460EE71D /* BlackCat */ = {
 			isa = PBXGroup;
 			children = (
@@ -171,7 +162,6 @@
 				0A8BF85EB9EF87E809EA8178 /* Black-Attack.png */,
 				C1042519F48BFCB1FA643437 /* Black-Idle.png */,
 			);
-			name = BlackCat;
 			path = BlackCat;
 			sourceTree = "<group>";
 		};
@@ -180,6 +170,7 @@
 			children = (
 				A1B2C3D400000031 /* CozyKitties */,
 				A1B2C3D400000032 /* Products */,
+				B83CE86A2F5E5C8D00D6905F /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -243,10 +234,33 @@
 			isa = PBXGroup;
 			children = (
 				D8EC2D0EBE8DE6A59A4F6C58 /* Cats */,
-				2C884F3F52EFD531E1DE7ECE /* Player */,
 			);
-			name = Sprites;
 			path = Sprites;
+			sourceTree = "<group>";
+		};
+		B83CE86A2F5E5C8D00D6905F /* Recovered References */ = {
+			isa = PBXGroup;
+			children = (
+				350CABC1CBC998E073D2E9BD /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png */,
+				C8B8F6E5B040D513ABAA8EB6 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png */,
+				CF971D345DE29D6105A9F334 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png */,
+				25A7CD4484BC05230CA84155 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png */,
+				12AAF1B2136A336AD579141D /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png */,
+				958C69C339A93F6B94A0942C /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png */,
+				8B6B588FF4217517980C1125 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png */,
+				7110138B0866DB9507E5A93C /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png */,
+				2B4F4653980959354E25D571 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png */,
+				86C4D7A77C340FC1462CA752 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png */,
+				767977ABA7ECB2F97430B519 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png */,
+				D8FB8F79B010BB37592042B5 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png */,
+				964A6AD01D208AC5CCB46B41 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png */,
+				91BA8D219D128346847FEC39 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png */,
+				AA259501C20400AF551EC2F4 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png */,
+				03FF3E8D10B1BCE904BFD572 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png */,
+				16DF6541EAB3303BDA154659 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png */,
+				B98335F37A00CA461199F533 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png */,
+			);
+			name = "Recovered References";
 			sourceTree = "<group>";
 		};
 		C1000020 /* Views */ = {
@@ -269,8 +283,6 @@
 				D353A916E4573503C43C3269 /* CatUnlockCelebration.swift */,
 				C1000013 /* PlantView.swift */,
 				C1000014 /* WindowView.swift */,
-				178BE2CF5ACECB0B8FB9BF02 /* PlayerView.swift */,
-				92C6AEDF3E9F53F63B99F3E1 /* JoystickView.swift */,
 			);
 			path = Apartment;
 			sourceTree = "<group>";
@@ -324,6 +336,9 @@
 				D1000013 /* backyard.png */,
 				C388D66F183C59197F34BFE4 /* backyard2.png */,
 				8F99F5369805F3DFF6BBADD2 /* backyard3.png */,
+				681E000ADD3D031D58B96AD7 /* background.png */,
+				8D337D0CB9601AC7A816537A /* backyard-night.png */,
+				1F3873EA7D5C609BCEC7843F /* backyard-day.png */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -333,7 +348,6 @@
 			children = (
 				8E398B63001305F6460EE71D /* BlackCat */,
 			);
-			name = Cats;
 			path = Cats;
 			sourceTree = "<group>";
 		};
@@ -395,12 +409,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C8AC613B675A167C6E5AB9CE /* Tuxedo-Idle.png in Resources */,
-				0F96A2B1D49D09AB8B869A38 /* Tuxedo-Pounce.png in Resources */,
-				8C09F6053E66F21ADFBAF6BC /* Tuxedo-Sit.png in Resources */,
-				74E9E49A2F18612C5DC1468B /* Calico-Idle.png in Resources */,
-				39A1804C60585CCD7CEDA0A1 /* Calico-Pounce.png in Resources */,
-				E68197B5E5984B3526014A58 /* Calico-Sit.png in Resources */,
+				C8AC613B675A167C6E5AB9CE /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png in Resources */,
+				0F96A2B1D49D09AB8B869A38 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png in Resources */,
+				8C09F6053E66F21ADFBAF6BC /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png in Resources */,
+				74E9E49A2F18612C5DC1468B /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png in Resources */,
+				39A1804C60585CCD7CEDA0A1 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png in Resources */,
+				E68197B5E5984B3526014A58 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png in Resources */,
 				A1B2C3D400000003 /* Assets.xcassets in Resources */,
 				D1000001 /* ASSETS.yaml in Resources */,
 				D1000002 /* SCENE_SPEC.yaml in Resources */,
@@ -417,21 +431,23 @@
 				139C030CDD7ACD95456942C4 /* Black-Sleep.png in Resources */,
 				DE54E7613F624D22671865E4 /* Black-Attack.png in Resources */,
 				F32814DB58FA6FD9FDF65586 /* Black-Idle.png in Resources */,
-				95F060EEADD93706A06DF97A /* Siamese-Sit.png in Resources */,
-				277D80D016081BC42C61F981 /* Siamese-Pounce.png in Resources */,
-				6F5DF4E7441473B214936780 /* Siamese-Idle.png in Resources */,
-				83D031003EF85D22AE0CE642 /* White-Sit.png in Resources */,
-				2919B164DBA3D85DEEE05222 /* White-Pounce.png in Resources */,
-				5B38CB23FF94DB5BB088339B /* White-Idle.png in Resources */,
-				406B5623120D83F0C7D49D8F /* Brown-Sit.png in Resources */,
-				C6408A20CA013303DF0372BA /* Brown-Pounce.png in Resources */,
-				76763738DCF59D3D4CD887D7 /* Brown-Idle.png in Resources */,
-				1696DA369100217E7AAAC826 /* OrangeTabby-Idle.png in Resources */,
-				EB67996E32C1DD4B0B080DD5 /* OrangeTabby-Pounce.png in Resources */,
-				C606F0D3A69CC4C858BD864C /* OrangeTabby-Sit.png in Resources */,
+				95F060EEADD93706A06DF97A /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png in Resources */,
+				277D80D016081BC42C61F981 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png in Resources */,
+				6F5DF4E7441473B214936780 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png in Resources */,
+				83D031003EF85D22AE0CE642 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png in Resources */,
+				2919B164DBA3D85DEEE05222 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png in Resources */,
+				5B38CB23FF94DB5BB088339B /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png in Resources */,
+				406B5623120D83F0C7D49D8F /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png in Resources */,
+				C6408A20CA013303DF0372BA /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png in Resources */,
+				76763738DCF59D3D4CD887D7 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png in Resources */,
+				1696DA369100217E7AAAC826 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png in Resources */,
+				EB67996E32C1DD4B0B080DD5 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png in Resources */,
+				C606F0D3A69CC4C858BD864C /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png in Resources */,
 				EAC28520577836AADDFEEB69 /* backyard2.png in Resources */,
-				5319B7A70D2EBB8ACF98024F /* character.png in Resources */,
 				B7D93B8386294E5B4BBB554A /* backyard3.png in Resources */,
+				46661D68EF9D41E0F09589B2 /* background.png in Resources */,
+				EBB0BF5BBE324B98108051C3 /* backyard-night.png in Resources */,
+				C6737D257D015FF1E087FB56 /* backyard-day.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,8 +479,6 @@
 				C1000006 /* ProgressDashboardView.swift in Sources */,
 				C1000007 /* OnboardingView.swift in Sources */,
 				C1000008 /* SettingsView.swift in Sources */,
-				F7D65632321659741F10D78B /* PlayerView.swift in Sources */,
-				0AFF92CC5346219D81409E1E /* JoystickView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,15 +610,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CozyKitties/CozyKitties.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = WY3GK4SM4P;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = WY3GK4SM4P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CozyKitties/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "CozyKitties needs access to your health data to track your wellness activities.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "CozyKitties needs permission to save health data from your activities.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -614,6 +631,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kathrynstyons.cozykitties;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Cozy Kitties Healthy Habits";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -626,15 +645,18 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = CozyKitties/CozyKitties.entitlements;
-				CODE_SIGN_STYLE = Automatic;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 2;
-				DEVELOPMENT_TEAM = WY3GK4SM4P;
+				DEVELOPMENT_TEAM = "";
+				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = WY3GK4SM4P;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CozyKitties/Info.plist;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "CozyKitties needs access to your health data to track your wellness activities.";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "CozyKitties needs permission to save health data from your activities.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -644,6 +666,8 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.kathrynstyons.cozykitties;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "Cozy Kitties Healthy Habits";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

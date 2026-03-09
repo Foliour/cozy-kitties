@@ -3,23 +3,20 @@ import SwiftData
 import UIKit
 
 /// Main backyard scene showing cats, plants, and outdoor environment
-/// Player sprite navigates the scene, camera follows player
+/// Drag-to-scroll viewport panning
 struct ApartmentView: View {
     @Environment(\.modelContext) private var modelContext
     private var gameStateService = GameStateService.shared
 
-    // Scene dimensions - actual PNG size (926x1111 pixels)
-    private let sceneSize = CGSize(width: 926, height: 1111)
+    // Scene dimensions - actual PNG size (928x1117 pixels)
+    private let sceneSize = CGSize(width: 928, height: 1117)
 
-    // Player state - start 5% left and 10% up from center (of 926x1111 scene)
-    @State private var playerPosition: CGPoint = CGPoint(x: 417, y: 444)
-    @State private var playerDirection: PlayerDirection = .down
-    @State private var isPlayerWalking: Bool = false
-    @State private var joystickDirection: CGVector = .zero
-
-    // Player configuration
-    private let playerSpeed: CGFloat = 200 // Points per second
-    private let playerDisplayScale: CGFloat = 2.0
+    // Viewport navigation
+    @State private var viewportOffset: CGPoint = .zero
+    @State private var gestureStartOffset: CGPoint = .zero
+    @State private var isGestureActive: Bool = false
+    @State private var viewportSize: CGSize = .zero
+    @State private var hasSetInitialPosition: Bool = false
 
     // Current weather state
     @State private var currentWeather: WeatherState = .sunny
@@ -27,71 +24,89 @@ struct ApartmentView: View {
     // Force refresh trigger
     @State private var isLoaded = false
 
-    // Animation timer for player movement
-    @State private var lastUpdateTime: Date = Date()
-
     // Cat unlock celebration
     @State private var celebratingCat: CatDefinition?
     @State private var showCelebration = false
 
+    // Day/night cycle
+    @State private var isDaytime: Bool = true
+
     var body: some View {
         GeometryReader { geometry in
-            let viewportSize = geometry.size
+            let _ = updateViewportSize(geometry.size)
 
             ZStack {
                 // Game scene layer (clipped to viewport)
                 ZStack(alignment: .topLeading) {
-                    // Scene layer - offset to follow player (camera)
-                    // allowsHitTesting(false) lets touches pass through to joystick
                     backyardScene(scaledSize: sceneSize)
                         .frame(width: sceneSize.width, height: sceneSize.height)
-                        .offset(cameraOffset(viewportSize: viewportSize))
-                        .allowsHitTesting(false)
+                        .offset(x: -viewportOffset.x, y: -viewportOffset.y)
                 }
                 .frame(width: viewportSize.width, height: viewportSize.height, alignment: .topLeading)
                 .clipped()
 
-                // Player layer - always centered in viewport (on top of scene)
-                PlayerView(
-                    position: CGPoint(x: viewportSize.width / 2, y: viewportSize.height / 2),
-                    direction: playerDirection,
-                    isWalking: isPlayerWalking,
-                    displayScale: playerDisplayScale
-                )
-                .allowsHitTesting(false)
-
                 // HUD layer - on top of clipped scene
                 VStack {
-                    // Weather indicator (top-right)
+                    // Weather indicator (top-right) and debug position
                     HStack {
+                        #if DEBUG
+                        // Debug position indicator
+                        Text("(\(Int(viewportOffset.x)), \(Int(viewportOffset.y)))")
+                            .font(.system(size: 10, design: .monospaced))
+                            .foregroundStyle(.white)
+                            .padding(4)
+                            .background(Color.black.opacity(0.5))
+                            .cornerRadius(4)
+                            .padding()
+                        #endif
                         Spacer()
                         weatherIndicator
                             .padding()
                     }
 
                     Spacer()
-
-                    // Joystick (bottom-left) - positioned above tab bar
-                    HStack(alignment: .bottom) {
-                        JoystickView { direction in
-                            joystickDirection = direction
-                            updatePlayerFromJoystick()
-                        }
-                        .frame(width: 90, height: 90)
-                        .padding(.leading, 16)
-                        .padding(.bottom, 16)
-
-                        Spacer()
-                    }
                 }
             }
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 12)
+                    .onChanged { value in
+                        if !isGestureActive {
+                            isGestureActive = true
+                            gestureStartOffset = viewportOffset
+                        }
+
+                        var t = Transaction()
+                        t.animation = nil
+                        withTransaction(t) {
+                            viewportOffset = clampedOffset(
+                                CGPoint(
+                                    x: gestureStartOffset.x - value.translation.width,
+                                    y: gestureStartOffset.y - value.translation.height
+                                )
+                            )
+                        }
+                    }
+                    .onEnded { value in
+                        isGestureActive = false
+                        applyMomentum(from: value)
+                    }
+            )
             .onAppear {
                 gameStateService.configure(with: modelContext)
                 DispatchQueue.main.async {
                     isLoaded = true
                 }
-                startMovementLoop()
                 syncHealthDataAndCheckUnlocks()
+                updateDayNightState()
+                startDayNightTimer()
+            }
+            .onChange(of: viewportSize) { _, newSize in
+                guard !hasSetInitialPosition, newSize != .zero else { return }
+                hasSetInitialPosition = true
+                let initialX = max(0, min(400 - newSize.width / 2, sceneSize.width - newSize.width))
+                let initialY = max(0, min(450 - newSize.height / 2, sceneSize.height - newSize.height))
+                viewportOffset = CGPoint(x: initialX, y: initialY)
+                gestureStartOffset = viewportOffset
             }
             .onChange(of: gameStateService.catsAwaitingCelebration.count) { oldCount, newCount in
                 // Trigger celebration when cats are added to the queue
@@ -139,75 +154,31 @@ struct ApartmentView: View {
         }
     }
 
-    // MARK: - Camera System
+    // MARK: - Viewport Navigation
 
-    /// Calculate scene offset so camera follows player
-    /// Keeps player centered, but clamps at scene edges
-    private func cameraOffset(viewportSize: CGSize) -> CGSize {
-        // Desired: player at center of viewport
-        // Offset = (viewport center) - (player position in scene)
-        var offsetX = (viewportSize.width / 2) - playerPosition.x
-        var offsetY = (viewportSize.height / 2) - playerPosition.y
-
-        // Clamp so we don't show outside the scene
-        let maxOffsetX: CGFloat = 0
-        let minOffsetX = viewportSize.width - sceneSize.width
-        let maxOffsetY: CGFloat = 0
-        let minOffsetY = viewportSize.height - sceneSize.height
-
-        offsetX = max(minOffsetX, min(maxOffsetX, offsetX))
-        offsetY = max(minOffsetY, min(maxOffsetY, offsetY))
-
-        return CGSize(width: offsetX, height: offsetY)
+    private func updateViewportSize(_ size: CGSize) {
+        if viewportSize != size { viewportSize = size }
     }
 
-    // MARK: - Player Movement
+    private func clampedOffset(_ offset: CGPoint) -> CGPoint {
+        let maxX = max(0, sceneSize.width - viewportSize.width)
+        let maxY = max(0, sceneSize.height - viewportSize.height)
+        return CGPoint(
+            x: max(0, min(offset.x, maxX)),
+            y: max(0, min(offset.y, maxY))
+        )
+    }
 
-    private func updatePlayerFromJoystick() {
-        let isMoving = abs(joystickDirection.dx) > 0.1 || abs(joystickDirection.dy) > 0.1
-        isPlayerWalking = isMoving
+    private func applyMomentum(from value: DragGesture.Value) {
+        let projectedX = gestureStartOffset.x - value.predictedEndTranslation.width
+        let projectedY = gestureStartOffset.y - value.predictedEndTranslation.height
 
-        if isMoving {
-            // Determine facing direction based on joystick
-            if abs(joystickDirection.dy) > abs(joystickDirection.dx) {
-                playerDirection = joystickDirection.dy < 0 ? .up : .down
-            } else {
-                playerDirection = joystickDirection.dx < 0 ? .left : .right
-            }
+        let target = clampedOffset(CGPoint(x: projectedX, y: projectedY))
+
+        // Cozy spring: languid response, minimal bounce
+        withAnimation(.spring(response: 0.55, dampingFraction: 0.88)) {
+            viewportOffset = target
         }
-    }
-
-    private func startMovementLoop() {
-        // Use a timer to update player position smoothly
-        Timer.scheduledTimer(withTimeInterval: 1.0 / 60.0, repeats: true) { _ in
-            let now = Date()
-            let dt = now.timeIntervalSince(lastUpdateTime)
-            lastUpdateTime = now
-
-            if isPlayerWalking {
-                movePlayer(dt: dt)
-            }
-        }
-    }
-
-    private func movePlayer(dt: TimeInterval) {
-        // Normalize joystick direction
-        let length = sqrt(joystickDirection.dx * joystickDirection.dx + joystickDirection.dy * joystickDirection.dy)
-        guard length > 0.1 else { return }
-
-        let normalizedX = joystickDirection.dx / length
-        let normalizedY = joystickDirection.dy / length
-
-        // Calculate new position
-        var newX = playerPosition.x + normalizedX * playerSpeed * CGFloat(dt)
-        var newY = playerPosition.y + normalizedY * playerSpeed * CGFloat(dt)
-
-        // Clamp to scene bounds (minimal margin to keep player visible)
-        let margin: CGFloat = 8
-        newX = max(margin, min(sceneSize.width - margin, newX))
-        newY = max(margin, min(sceneSize.height - margin, newY))
-
-        playerPosition = CGPoint(x: newX, y: newY)
     }
 
     // MARK: - Backyard Scene
@@ -237,11 +208,49 @@ struct ApartmentView: View {
         }
     }
 
+    // MARK: - Day/Night Cycle
+
+    /// Determines the background image name based on day/night setting
+    private var backgroundImageName: String {
+        isDaytime ? "backyard-day" : "backyard-night"
+    }
+
+    /// Updates isDaytime based on settings and actual time
+    private func updateDayNightState() {
+        guard let state = gameStateService.gameState else {
+            isDaytime = isActuallyDaytime()
+            return
+        }
+
+        switch state.dayNightMode {
+        case .auto:
+            isDaytime = isActuallyDaytime()
+        case .alwaysDay:
+            isDaytime = true
+        case .alwaysNight:
+            isDaytime = false
+        }
+    }
+
+    /// Returns true if the current local time is between 6 AM and 8 PM
+    private func isActuallyDaytime() -> Bool {
+        let hour = Calendar.current.component(.hour, from: Date())
+        return hour >= 6 && hour < 20  // 6 AM to 8 PM
+    }
+
+    /// Start a timer to check day/night transition periodically
+    private func startDayNightTimer() {
+        // Check every minute for day/night changes
+        Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
+            updateDayNightState()
+        }
+    }
+
     // MARK: - Background
 
     @ViewBuilder
     private var backyardBackground: some View {
-        if let uiImage = UIImage(named: "backyard3") ?? loadBundleImage("backyard3.png") {
+        if let uiImage = UIImage(named: backgroundImageName) ?? loadBundleImage("\(backgroundImageName).png") {
             Image(uiImage: uiImage)
                 .interpolation(.none)
                 .resizable()
@@ -249,7 +258,7 @@ struct ApartmentView: View {
         } else {
             Color.green
                 .overlay(
-                    Text("backyard3.png not found")
+                    Text("\(backgroundImageName).png not found")
                         .foregroundColor(.white)
                 )
         }
