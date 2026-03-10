@@ -6,9 +6,9 @@ import UIKit
 struct CatView: View {
     let cat: CatDefinition
     let isUnlocked: Bool
-    var onTap: (() -> Void)? = nil
+    var onPetted: ((String) -> Void)? = nil
 
-    @State private var showingName = false
+    @State private var showHeart = false
     @State private var currentFrame: Int = 0
     @State private var animationTimer: Timer?
     @State private var idleFrames: [UIImage] = []
@@ -37,7 +37,7 @@ struct CatView: View {
     private let displayScale: CGFloat = 1.6
 
     var body: some View {
-        VStack(spacing: 4) {
+        ZStack {
             // Animated cat sprite
             if isUnlocked && !idleFrames.isEmpty {
                 SpriteAnimationView(
@@ -67,30 +67,25 @@ struct CatView: View {
                     .foregroundStyle(.gray.opacity(0.5))
             }
 
-            // Name label (shown on tap)
-            if showingName {
-                Text(cat.name)
-                    .font(.caption)
-                    .foregroundStyle(Color.primary)
-                    .padding(.horizontal, 8)
-                    .padding(.vertical, 4)
-                    .background(.ultraThinMaterial)
-                    .clipShape(Capsule())
-                    .transition(.scale.combined(with: .opacity))
+            // Heart animation above sprite
+            if showHeart {
+                Image(systemName: "heart.fill")
+                    .font(.system(size: 24))
+                    .foregroundStyle(.pink)
+                    .transition(.opacity.combined(with: .move(edge: .bottom)))
+                    .offset(y: -frameHeight * displayScale / 2 - 16)
             }
         }
         .onTapGesture {
+            guard isUnlocked, !showHeart else { return }
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
-                showingName.toggle()
+                showHeart = true
             }
-            onTap?()
+            onPetted?(cat.name)
 
-            // Auto-hide name after 2 seconds
-            if showingName {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                    withAnimation {
-                        showingName = false
-                    }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.2) {
+                withAnimation(.easeOut(duration: 0.3)) {
+                    showHeart = false
                 }
             }
         }

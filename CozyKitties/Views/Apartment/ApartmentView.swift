@@ -31,6 +31,9 @@ struct ApartmentView: View {
     // Day/night cycle
     @State private var isDaytime: Bool = true
 
+    // Pet toast
+    @State private var toastMessage: String?
+
     var body: some View {
         GeometryReader { geometry in
             let _ = updateViewportSize(geometry.size)
@@ -65,6 +68,19 @@ struct ApartmentView: View {
                     }
 
                     Spacer()
+
+                    // Pet toast
+                    if let message = toastMessage {
+                        Text(message)
+                            .font(.subheadline)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 16)
+                            .padding(.vertical, 10)
+                            .background(Color.black.opacity(0.7))
+                            .clipShape(Capsule())
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                            .padding(.bottom, 24)
+                    }
                 }
             }
             .simultaneousGesture(
@@ -154,6 +170,19 @@ struct ApartmentView: View {
         }
     }
 
+    // MARK: - Pet Toast
+
+    private func showPetToast(_ name: String) {
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            toastMessage = "You petted \(name)"
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            withAnimation(.easeOut(duration: 0.3)) {
+                toastMessage = nil
+            }
+        }
+    }
+
     // MARK: - Viewport Navigation
 
     private func updateViewportSize(_ size: CGSize) {
@@ -201,8 +230,10 @@ struct ApartmentView: View {
             // Cats layer
             if isLoaded {
                 ForEach(gameStateService.getUnlockedCats()) { cat in
-                    CatView(cat: cat, isUnlocked: true)
-                        .position(catPosition(for: cat, in: scaledSize))
+                    CatView(cat: cat, isUnlocked: true) { name in
+                        showPetToast(name)
+                    }
+                    .position(catPosition(for: cat, in: scaledSize))
                 }
             }
         }
