@@ -5,9 +5,7 @@
 	<key>CFBundleIconName</key>
 	<string>AppIcon</string>
 	<key>NSHealthShareUsageDescription</key>
-	<string>CozyKitties needs access to your health data to track your wellness activities.</string>
-	<key>NSHealthUpdateUsageDescription</key>
-	<string>CozyKitties needs permission to save health data from your activities.</string>
+	<string>CozyKitties reads your daily steps to encourage regular walking. Unlock new cats as you meet your activity goals. All data stays on your device.</string>
 	<key>UILaunchScreen</key>
 	<dict/>
 </dict>

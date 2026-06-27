@@ -5,7 +5,6 @@ import Observation
 
 // MARK: - Asset Registry
 // Single source of truth for all game assets.
-// Mirrors the structure defined in Resources/ASSETS.yaml
 
 @Observable
 final class AssetRegistry {
@@ -18,27 +17,14 @@ final class AssetRegistry {
     // MARK: - Asset Collections
 
     private(set) var cats: [String: CatAsset] = [:]
-    private(set) var plants: [String: PlantAsset] = [:]
-    private(set) var weather: [String: WeatherAsset] = [:]
     private(set) var audio: [String: AudioAsset] = [:]
     private(set) var scene: SceneAsset?
 
     // MARK: - Loading
 
     private func loadAssets() {
-        // Load cat assets
         loadCatAssets()
-
-        // Load plant assets
-        loadPlantAssets()
-
-        // Load weather assets
-        loadWeatherAssets()
-
-        // Load audio assets
         loadAudioAssets()
-
-        // Load scene asset
         loadSceneAsset()
     }
 
@@ -179,103 +165,6 @@ final class AssetRegistry {
         ]
     }
 
-    // MARK: - Plant Assets
-
-    private func loadPlantAssets() {
-        plants = [
-            "pothos": PlantAsset(
-                id: "plant_pothos",
-                displayName: "Pothos",
-                type: .multiStage,
-                stages: [
-                    PlantStage(stage: 0, file: "Sprites/Plants/pothos_stage0", size: CGSize(width: 32, height: 32)),
-                    PlantStage(stage: 1, file: "Sprites/Plants/pothos_stage1", size: CGSize(width: 32, height: 48)),
-                    PlantStage(stage: 2, file: "Sprites/Plants/pothos_stage2", size: CGSize(width: 48, height: 64)),
-                    PlantStage(stage: 3, file: "Sprites/Plants/pothos_stage3", size: CGSize(width: 64, height: 96))
-                ]
-            ),
-            "succulent": PlantAsset(
-                id: "plant_succulent",
-                displayName: "Succulent",
-                type: .multiStage,
-                stages: [
-                    PlantStage(stage: 0, file: "Sprites/Plants/succulent_stage0", size: CGSize(width: 24, height: 24)),
-                    PlantStage(stage: 1, file: "Sprites/Plants/succulent_stage1", size: CGSize(width: 32, height: 32)),
-                    PlantStage(stage: 2, file: "Sprites/Plants/succulent_stage2", size: CGSize(width: 40, height: 40)),
-                    PlantStage(stage: 3, file: "Sprites/Plants/succulent_stage3", size: CGSize(width: 48, height: 48))
-                ]
-            ),
-            "monstera": PlantAsset(
-                id: "plant_monstera",
-                displayName: "Monstera",
-                type: .multiStage,
-                stages: [
-                    PlantStage(stage: 0, file: "Sprites/Plants/monstera_stage0", size: CGSize(width: 32, height: 32)),
-                    PlantStage(stage: 1, file: "Sprites/Plants/monstera_stage1", size: CGSize(width: 48, height: 56)),
-                    PlantStage(stage: 2, file: "Sprites/Plants/monstera_stage2", size: CGSize(width: 64, height: 80)),
-                    PlantStage(stage: 3, file: "Sprites/Plants/monstera_stage3", size: CGSize(width: 80, height: 112))
-                ]
-            ),
-            "fern": PlantAsset(
-                id: "plant_fern",
-                displayName: "Fern",
-                type: .multiStage,
-                stages: [
-                    PlantStage(stage: 0, file: "Sprites/Plants/fern_stage0", size: CGSize(width: 24, height: 28)),
-                    PlantStage(stage: 1, file: "Sprites/Plants/fern_stage1", size: CGSize(width: 36, height: 42)),
-                    PlantStage(stage: 2, file: "Sprites/Plants/fern_stage2", size: CGSize(width: 48, height: 56)),
-                    PlantStage(stage: 3, file: "Sprites/Plants/fern_stage3", size: CGSize(width: 60, height: 72))
-                ]
-            ),
-            "flowers": PlantAsset(
-                id: "plant_flowers",
-                displayName: "Flowers",
-                type: .multiStage,
-                stages: [
-                    PlantStage(stage: 0, file: "Sprites/Plants/flowers_stage0", size: CGSize(width: 24, height: 24)),
-                    PlantStage(stage: 1, file: "Sprites/Plants/flowers_stage1", size: CGSize(width: 32, height: 40)),
-                    PlantStage(stage: 2, file: "Sprites/Plants/flowers_stage2", size: CGSize(width: 40, height: 52)),
-                    PlantStage(stage: 3, file: "Sprites/Plants/flowers_stage3", size: CGSize(width: 48, height: 64))
-                ]
-            )
-        ]
-    }
-
-    // MARK: - Weather Assets
-
-    private func loadWeatherAssets() {
-        weather = [
-            "sunny": WeatherAsset(
-                id: "weather_sunny",
-                file: "Sprites/Weather/sunny",
-                type: .static,
-                size: CGSize(width: 128, height: 96),
-                animation: nil
-            ),
-            "cloudy": WeatherAsset(
-                id: "weather_cloudy",
-                file: "Sprites/Weather/cloudy",
-                type: .static,
-                size: CGSize(width: 128, height: 96),
-                animation: nil
-            ),
-            "rainy": WeatherAsset(
-                id: "weather_rainy",
-                file: "Sprites/Weather/rainy",
-                type: .animated,
-                size: CGSize(width: 128, height: 96),
-                animation: AnimationData(frames: [0, 1, 2, 3], fps: 6, loop: true)
-            ),
-            "stormy": WeatherAsset(
-                id: "weather_stormy",
-                file: "Sprites/Weather/stormy",
-                type: .animated,
-                size: CGSize(width: 128, height: 96),
-                animation: AnimationData(frames: [0, 1, 2, 3, 4, 5], fps: 8, loop: true)
-            )
-        ]
-    }
-
     // MARK: - Audio Assets
 
     private func loadAudioAssets() {
@@ -293,13 +182,6 @@ final class AssetRegistry {
                 type: .sfx,
                 durationSeconds: 1.0,
                 loop: false
-            ),
-            "rain_ambience": AudioAsset(
-                id: "audio_rain",
-                file: "Audio/rain_ambience",
-                type: .music,
-                durationSeconds: nil,
-                loop: true
             ),
             "cozy_music": AudioAsset(
                 id: "audio_cozy",
@@ -328,25 +210,20 @@ final class AssetRegistry {
                 SceneLayer(name: "walls", zIndex: 1, type: .tile),
                 SceneLayer(name: "furniture", zIndex: 2, type: .tile),
                 SceneLayer(name: "furniture_front", zIndex: 3, type: .tile),
-                SceneLayer(name: "window", zIndex: 4, type: .tile),
-                SceneLayer(name: "cat_spawns", zIndex: -1, type: .object),
-                SceneLayer(name: "plant_positions", zIndex: -1, type: .object),
-                SceneLayer(name: "window_area", zIndex: -1, type: .object)
+                SceneLayer(name: "cat_spawns", zIndex: -1, type: .object)
             ]
         )
     }
 
     // MARK: - Public API
 
-    /// Get cat asset by key (e.g., "mochi", "shadow")
+    /// Get cat asset by key
     func cat(_ key: String) -> CatAsset? {
         cats[key]
     }
 
     /// Get cat image (placeholder until real sprites are added)
     func catImage(_ key: String) -> Image {
-        // For now, return a system image placeholder
-        // When sprites are added, this will load from the bundle
         if let asset = cats[key] {
             if let uiImage = UIImage(named: asset.file) {
                 return Image(uiImage: uiImage)
@@ -362,27 +239,6 @@ final class AssetRegistry {
             return .gray
         }
         return Color(hex: hex)
-    }
-
-    /// Get plant asset by key
-    func plant(_ key: String) -> PlantAsset? {
-        plants[key]
-    }
-
-    /// Get plant image for a specific growth stage
-    func plantImage(_ key: String, stage: Int) -> Image {
-        if let asset = plants[key],
-           let stageAsset = asset.stages.first(where: { $0.stage == stage }) {
-            if let uiImage = UIImage(named: stageAsset.file) {
-                return Image(uiImage: uiImage)
-            }
-        }
-        return Image(systemName: "leaf.fill")
-    }
-
-    /// Get weather asset by key
-    func weather(_ key: String) -> WeatherAsset? {
-        self.weather[key]
     }
 
     /// Get audio asset by key
@@ -406,27 +262,6 @@ struct CatAsset {
     let frameSize: CGSize
     let animations: [String: AnimationData]
     let colors: AssetColors?
-}
-
-struct PlantAsset {
-    let id: String
-    let displayName: String
-    let type: PlantAssetType
-    let stages: [PlantStage]
-}
-
-struct PlantStage {
-    let stage: Int
-    let file: String
-    let size: CGSize
-}
-
-struct WeatherAsset {
-    let id: String
-    let file: String
-    let type: SpriteType
-    let size: CGSize
-    let animation: AnimationData?
 }
 
 struct AudioAsset {
@@ -474,11 +309,6 @@ enum SpriteType {
     case animated
 }
 
-enum PlantAssetType {
-    case multiStage
-    case spriteSheet
-}
-
 enum AudioType {
     case sfx
     case music
@@ -503,11 +333,11 @@ extension Color {
         Scanner(string: hex).scanHexInt64(&int)
         let a, r, g, b: UInt64
         switch hex.count {
-        case 3: // RGB (12-bit)
+        case 3:
             (a, r, g, b) = (255, (int >> 8) * 17, (int >> 4 & 0xF) * 17, (int & 0xF) * 17)
-        case 6: // RGB (24-bit)
+        case 6:
             (a, r, g, b) = (255, int >> 16, int >> 8 & 0xFF, int & 0xFF)
-        case 8: // ARGB (32-bit)
+        case 8:
             (a, r, g, b) = (int >> 24, int >> 16 & 0xFF, int >> 8 & 0xFF, int & 0xFF)
         default:
             (a, r, g, b) = (1, 1, 1, 0)

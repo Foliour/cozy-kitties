@@ -14,7 +14,6 @@ final class AudioService {
 
     enum AmbienceType: String {
         case cozy       // Default indoor sounds
-        case rain       // When weather is gentleRain
         case purring    // When viewing cat details
     }
 
@@ -30,44 +29,27 @@ final class AudioService {
             try audioSession?.setCategory(.ambient, mode: .default, options: [.mixWithOthers])
             try audioSession?.setActive(true)
         } catch {
+            #if DEBUG
             print("Failed to setup audio session: \(error)")
+            #endif
         }
     }
 
     // MARK: - Ambience Playback
 
     /// Start playing ambient sounds
-    /// - Parameter type: The type of ambience to play
     func playAmbience(_ type: AmbienceType = .cozy) {
         guard isEnabled else { return }
 
-        // Stop current ambience if different
         if currentAmbience != type {
             stopAmbience()
         }
 
         // TODO: Implement actual audio file loading
-        // This is a stub that will be implemented when audio files are added
-        //
-        // Example implementation:
-        // guard let url = Bundle.main.url(forResource: type.rawValue, withExtension: "mp3") else {
-        //     print("Audio file not found: \(type.rawValue).mp3")
-        //     return
-        // }
-        //
-        // do {
-        //     let player = try AVAudioPlayer(contentsOf: url)
-        //     player.numberOfLoops = -1 // Loop indefinitely
-        //     player.volume = 0.5
-        //     player.play()
-        //     audioPlayers[type.rawValue] = player
-        //     currentAmbience = type
-        // } catch {
-        //     print("Failed to play ambience: \(error)")
-        // }
-
         currentAmbience = type
+        #if DEBUG
         print("[AudioService] Would play ambience: \(type.rawValue)")
+        #endif
     }
 
     /// Stop all ambient sounds
@@ -77,7 +59,9 @@ final class AudioService {
         }
         audioPlayers.removeAll()
         currentAmbience = nil
+        #if DEBUG
         print("[AudioService] Stopped ambience")
+        #endif
     }
 
     /// Play a short purring sound effect (for cat interactions)
@@ -85,24 +69,9 @@ final class AudioService {
         guard isEnabled else { return }
 
         // TODO: Implement actual purr sound playback
-        // This is a stub that will be implemented when audio files are added
-        //
-        // Example implementation:
-        // guard let url = Bundle.main.url(forResource: "purring", withExtension: "mp3") else {
-        //     print("Purring sound file not found")
-        //     return
-        // }
-        //
-        // do {
-        //     let player = try AVAudioPlayer(contentsOf: url)
-        //     player.volume = 0.7
-        //     player.play()
-        //     audioPlayers["purr"] = player
-        // } catch {
-        //     print("Failed to play purr: \(error)")
-        // }
-
+        #if DEBUG
         print("[AudioService] Would play purr sound")
+        #endif
     }
 
     // MARK: - Configuration
@@ -113,18 +82,6 @@ final class AudioService {
 
         if !enabled {
             stopAmbience()
-        }
-    }
-
-    /// Update ambience based on weather state
-    func updateAmbienceForWeather(_ weather: WeatherState) {
-        guard isEnabled else { return }
-
-        switch weather {
-        case .gentleRain:
-            playAmbience(.rain)
-        default:
-            playAmbience(.cozy)
         }
     }
 }

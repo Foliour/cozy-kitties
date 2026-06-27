@@ -6,83 +6,89 @@ struct CatDefinition: Identifiable, Equatable {
     let id: String
     let name: String
     let appearance: String
-    let streakRequired: Int
+    let asdMultiplier: Int
     let description: String
+
+    /// Steps required to unlock this cat for a given ASD
+    func stepsRequired(asd: Int) -> Int {
+        asdMultiplier * asd
+    }
 }
 
 // MARK: - Cat Roster
-/// Hardcoded cat roster matching Specs/cats.yaml
-/// Cats are unlocked based on consecutive days meeting the step goal
+/// Hardcoded cat roster
+/// Cats are unlocked based on cumulative steps since day zero
+/// Each cat's threshold = asdMultiplier * user's Average Steps per Day
 let catRoster: [CatDefinition] = [
     CatDefinition(
-        id: "trouble",
-        name: "Trouble",
-        appearance: "cat_black",
-        streakRequired: 0,
-        description: "A mischievous black cat"
+        id: "luna",
+        name: "Luna",
+        appearance: "cat_white",
+        asdMultiplier: 0,
+        description: "Welcome home! Luna would like some pets, please."
     ),
     CatDefinition(
         id: "topaz",
         name: "Topaz",
         appearance: "cat_orange_tabby",
-        streakRequired: 1,
-        description: "Warm as a sunny afternoon"
+        asdMultiplier: 1,
+        description: "Topaz is a floppy tabby who follows you everywhere. He might as well be a dog!"
     ),
     CatDefinition(
         id: "pizza",
         name: "Pizza",
         appearance: "cat_calico",
-        streakRequired: 3,
-        description: "A colorful calico with a warm personality"
+        asdMultiplier: 3,
+        description: "Pizza is shy, quirky, and such a good girl!"
     ),
     CatDefinition(
-        id: "luna",
-        name: "Luna",
-        appearance: "cat_white",
-        streakRequired: 7,
-        description: "Elegant and mysterious"
+        id: "trouble",
+        name: "Trouble",
+        appearance: "cat_black",
+        asdMultiplier: 7,
+        description: "Trouble is the sweetest kitty in the world, but trouble always seems to find her."
+    ),
+    CatDefinition(
+        id: "mumu",
+        name: "Mumu",
+        appearance: "cat_bw",
+        asdMultiplier: 14,
+        description: "Mumu is a smart boy with a very big heart!"
+    ),
+    CatDefinition(
+        id: "jacques",
+        name: "Jacques",
+        appearance: "cat_tuxedo",
+        asdMultiplier: 21,
+        description: "Jacques is well-groomed and always on a mission."
+    ),
+    CatDefinition(
+        id: "chessie",
+        name: "Chessie",
+        appearance: "cat_gray_tabby",
+        asdMultiplier: 30,
+        description: "Chessie is a perfect lady. She does not care for kittens."
     ),
     CatDefinition(
         id: "biscuit",
         name: "Biscuit",
         appearance: "cat_siamese",
-        streakRequired: 14,
-        description: "Cream-colored and always kneading"
+        asdMultiplier: 45,
+        description: "Biscuit is a little unhinged and full of big energy!"
     ),
     CatDefinition(
-        id: "pepper",
-        name: "Pepper",
-        appearance: "cat_tuxedo",
-        streakRequired: 21,
-        description: "Formally dressed at all times"
-    ),
-    CatDefinition(
-        id: "marmalade",
-        name: "Marmalade",
+        id: "lara",
+        name: "Lara",
         appearance: "cat_brown",
-        streakRequired: 30,
-        description: "Warm as a sunny afternoon"
+        asdMultiplier: 60,
+        description: "Lara is a lovely lady. Kind, polite, and always gracious."
     ),
     CatDefinition(
-        id: "cloud",
-        name: "Cloud",
-        appearance: "cat_persian_white",
-        streakRequired: 45,
-        description: "Fluffy Persian royalty"
-    ),
-    CatDefinition(
-        id: "espresso",
-        name: "Espresso",
-        appearance: "cat_brown",
-        streakRequired: 60,
-        description: "Dark roast energy"
-    ),
-    CatDefinition(
-        id: "captain",
-        name: "Captain",
-        appearance: "cat_calico_eyepatch",
-        streakRequired: 90,
-        description: "Calico with a distinguished eyepatch marking"
+        id: "misty",
+        name: "Misty",
+        appearance: "cat_gray",
+        asdMultiplier: 90,
+        description: "Misty is adventurous and strong. Try to keep up!"
     )
 ]
 
@@ -93,14 +99,14 @@ extension Array where Element == CatDefinition {
         first { $0.id == id }
     }
 
-    /// Get cats that can be unlocked at the given streak
-    func catsUnlockableAt(streak: Int) -> [CatDefinition] {
-        filter { $0.streakRequired <= streak }
+    /// Get cats that can be unlocked at the given cumulative steps
+    func catsUnlockableAt(cumulativeSteps: Int, asd: Int) -> [CatDefinition] {
+        filter { cumulativeSteps >= $0.stepsRequired(asd: asd) }
     }
 
-    /// Get the next cat to unlock after the given streak
-    func nextCatToUnlock(afterStreak streak: Int) -> CatDefinition? {
-        sorted { $0.streakRequired < $1.streakRequired }
-            .first { $0.streakRequired > streak }
+    /// Get the next cat to unlock after the given cumulative steps
+    func nextCatToUnlock(cumulativeSteps: Int, asd: Int) -> CatDefinition? {
+        sorted { $0.asdMultiplier < $1.asdMultiplier }
+            .first { cumulativeSteps < $0.stepsRequired(asd: asd) }
     }
 }

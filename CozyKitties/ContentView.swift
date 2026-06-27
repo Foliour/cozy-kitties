@@ -12,7 +12,6 @@ struct ContentView: View {
     var body: some View {
         Group {
             if !isInitialized {
-                // Loading state
                 ProgressView()
                     .onAppear {
                         initialize()
@@ -32,34 +31,42 @@ struct ContentView: View {
     // MARK: - Main Tab View
 
     private var mainTabView: some View {
-        TabView(selection: $selectedTab) {
-            ApartmentView()
-                .tabItem {
-                    Label("Home", systemImage: "house.fill")
-                }
-                .tag(0)
+        ZStack {
+            // App background gradient
+            LinearGradient(
+                colors: [CozyColors.backgroundStart, CozyColors.backgroundEnd],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+            .ignoresSafeArea()
 
-            CatCollectionView()
-                .tabItem {
-                    Label("Cats", systemImage: "cat.fill")
+            GlassEffectContainer {
+                // Tab content
+                Group {
+                    switch selectedTab {
+                    case 0:
+                        ApartmentView()
+                    case 1:
+                        NavigationStack {
+                            CollectionView()
+                                .toolbar(.hidden, for: .navigationBar)
+                        }
+                    case 2:
+                        NavigationStack {
+                            SettingsView()
+                                .toolbar(.hidden, for: .navigationBar)
+                        }
+                    default:
+                        ApartmentView()
+                    }
                 }
-                .tag(1)
-
-            ProgressDashboardView()
-                .tabItem {
-                    Label("Progress", systemImage: "chart.bar.fill")
+                .animation(.easeInOut(duration: 0.15), value: selectedTab)
+                .safeAreaInset(edge: .bottom) {
+                    PillNavBar(selectedTab: $selectedTab)
+                        .padding(.bottom, Spacing.sm)
                 }
-                .tag(2)
-
-            SettingsView()
-                .tabItem {
-                    Label("Settings", systemImage: "gearshape.fill")
-                }
-                .tag(3)
+            }
         }
-        .tint(.orange)
-        .toolbarBackground(.visible, for: .tabBar)
-        .toolbarBackground(Color(uiColor: .systemBackground), for: .tabBar)
     }
 
     // MARK: - Initialization
@@ -67,7 +74,6 @@ struct ContentView: View {
     private func initialize() {
         gameStateService.configure(with: modelContext)
 
-        // Check if onboarding has been completed
         if let state = gameStateService.gameState {
             showOnboarding = !state.hasCompletedOnboarding
         } else {
@@ -80,5 +86,5 @@ struct ContentView: View {
 
 #Preview {
     ContentView()
-        .modelContainer(for: [GameState.self, Plant.self], inMemory: true)
+        .modelContainer(for: [GameState.self], inMemory: true)
 }

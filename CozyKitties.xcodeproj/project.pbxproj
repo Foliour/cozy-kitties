@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1B2C3D400000004 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1B2C3D400000016 /* PrivacyInfo.xcprivacy */; };
+		S1000001 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = S1000011 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sleep.png */; };
+		S1000002 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = S1000012 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sleep.png */; };
+		S1000003 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = S1000013 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sleep.png */; };
+		S1000004 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = S1000014 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sleep.png */; };
+		S1000005 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = S1000015 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sleep.png */; };
+		S1000006 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = S1000016 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sleep.png */; };
 		02C40E6B37ED13260127074D /* Black-Crouch.png in Resources */ = {isa = PBXBuildFile; fileRef = 531B03861925318E62F78790 /* Black-Crouch.png */; };
 		0F96A2B1D49D09AB8B869A38 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = C8B8F6E5B040D513ABAA8EB6 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png */; };
 		139C030CDD7ACD95456942C4 /* Black-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = 43C9BF0D391EF7A09CE2D98D /* Black-Sleep.png */; };
@@ -33,9 +40,12 @@
 		A1B69A67D55FE14B2530FE16 /* Black-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = 598454246A8EDE6CC32F9409 /* Black-Sit.png */; };
 		ABFAB330682D966CCDE8C80D /* Black-Eat.png in Resources */ = {isa = PBXBuildFile; fileRef = 3DEC49C03A48F44CFC160C1B /* Black-Eat.png */; };
 		B1000001 /* DesignTokens.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000011 /* DesignTokens.swift */; };
+		B1C00001 /* CozyCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C00006 /* CozyCard.swift */; };
+		B1C00002 /* AccentBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C00007 /* AccentBlock.swift */; };
+		B1C00003 /* PillNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C00008 /* PillNavBar.swift */; };
+		B1C00004 /* CozyProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C00009 /* CozyProgressBar.swift */; };
+		B1C00005 /* SectionHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C0000A /* SectionHeader.swift */; };
 		B1000002 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000012 /* GameState.swift */; };
-		B1000003 /* Plant.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000013 /* Plant.swift */; };
-		B1000004 /* WeatherState.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000014 /* WeatherState.swift */; };
 		B1000005 /* CatDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000015 /* CatDefinition.swift */; };
 		B1000006 /* HealthKitServiceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000016 /* HealthKitServiceProtocol.swift */; };
 		B1000007 /* HealthKitService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1000017 /* HealthKitService.swift */; };
@@ -46,8 +56,6 @@
 		BABCE5ED1E0C7CF889143C9B /* Black-Meow.png in Resources */ = {isa = PBXBuildFile; fileRef = 3D8ACBE449CEDF71320F9A0A /* Black-Meow.png */; };
 		C1000001 /* ApartmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000011 /* ApartmentView.swift */; };
 		C1000002 /* CatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000012 /* CatView.swift */; };
-		C1000003 /* PlantView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000013 /* PlantView.swift */; };
-		C1000004 /* WindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000014 /* WindowView.swift */; };
 		C1000005 /* CatCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000015 /* CatCollectionView.swift */; };
 		C1000006 /* ProgressDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000016 /* ProgressDashboardView.swift */; };
 		C1000007 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1000017 /* OnboardingView.swift */; };
@@ -67,6 +75,18 @@
 		EBB0BF5BBE324B98108051C3 /* backyard-night.png in Resources */ = {isa = PBXBuildFile; fileRef = 8D337D0CB9601AC7A816537A /* backyard-night.png */; };
 		F32814DB58FA6FD9FDF65586 /* Black-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = C1042519F48BFCB1FA643437 /* Black-Idle.png */; };
 		F9A27B5FF0C76774ABABF89E /* Black-Death.png in Resources */ = {isa = PBXBuildFile; fileRef = 7843F5C12137F1A8E32F31ED /* Black-Death.png */; };
+		BW000001 /* BW-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = BW000011 /* BW-Idle.png */; };
+		BW000002 /* BW-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = BW000012 /* BW-Pounce.png */; };
+		BW000003 /* BW-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = BW000013 /* BW-Sit.png */; };
+		BW000004 /* BW-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = BW000014 /* BW-Sleep.png */; };
+		GR000001 /* Gray-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = GR000011 /* Gray-Idle.png */; };
+		GR000002 /* Gray-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = GR000012 /* Gray-Pounce.png */; };
+		GR000003 /* Gray-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = GR000013 /* Gray-Sit.png */; };
+		GR000004 /* Gray-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = GR000014 /* Gray-Sleep.png */; };
+		GT000001 /* GrayTabby-Idle.png in Resources */ = {isa = PBXBuildFile; fileRef = GT000011 /* GrayTabby-Idle.png */; };
+		GT000002 /* GrayTabby-Pounce.png in Resources */ = {isa = PBXBuildFile; fileRef = GT000012 /* GrayTabby-Pounce.png */; };
+		GT000003 /* GrayTabby-Sit.png in Resources */ = {isa = PBXBuildFile; fileRef = GT000013 /* GrayTabby-Sit.png */; };
+		GT000004 /* GrayTabby-Sleep.png in Resources */ = {isa = PBXBuildFile; fileRef = GT000014 /* GrayTabby-Sleep.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -83,6 +103,12 @@
 		3DEC49C03A48F44CFC160C1B /* Black-Eat.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Eat.png"; sourceTree = "<group>"; };
 		43C9BF0D391EF7A09CE2D98D /* Black-Sleep.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Sleep.png"; sourceTree = "<group>"; };
 		45AB20D983876FFBDD20562A /* Black-Hurt.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Hurt.png"; sourceTree = "<group>"; };
+		S1000011 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sleep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sleep.png"; sourceTree = SOURCE_ROOT; };
+		S1000012 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sleep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sleep.png"; sourceTree = SOURCE_ROOT; };
+		S1000013 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sleep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sleep.png"; sourceTree = SOURCE_ROOT; };
+		S1000014 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sleep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sleep.png"; sourceTree = SOURCE_ROOT; };
+		S1000015 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sleep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sleep.png"; sourceTree = SOURCE_ROOT; };
+		S1000016 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sleep.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sleep.png"; sourceTree = SOURCE_ROOT; };
 		531B03861925318E62F78790 /* Black-Crouch.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Crouch.png"; sourceTree = "<group>"; };
 		598454246A8EDE6CC32F9409 /* Black-Sit.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Black-Sit.png"; sourceTree = "<group>"; };
 		681E000ADD3D031D58B96AD7 /* background.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = background.png; sourceTree = "<group>"; };
@@ -103,11 +129,15 @@
 		A1B2C3D400000013 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1B2C3D400000014 /* CozyKitties.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CozyKitties.entitlements; sourceTree = "<group>"; };
 		A1B2C3D400000015 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A1B2C3D400000016 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		AA259501C20400AF551EC2F4 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png"; sourceTree = SOURCE_ROOT; };
 		B1000011 /* DesignTokens.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignTokens.swift; sourceTree = "<group>"; };
+		B1C00006 /* CozyCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyCard.swift; sourceTree = "<group>"; };
+		B1C00007 /* AccentBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccentBlock.swift; sourceTree = "<group>"; };
+		B1C00008 /* PillNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillNavBar.swift; sourceTree = "<group>"; };
+		B1C00009 /* CozyProgressBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CozyProgressBar.swift; sourceTree = "<group>"; };
+		B1C0000A /* SectionHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SectionHeader.swift; sourceTree = "<group>"; };
 		B1000012 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
-		B1000013 /* Plant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plant.swift; sourceTree = "<group>"; };
-		B1000014 /* WeatherState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherState.swift; sourceTree = "<group>"; };
 		B1000015 /* CatDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatDefinition.swift; sourceTree = "<group>"; };
 		B1000016 /* HealthKitServiceProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitServiceProtocol.swift; sourceTree = "<group>"; };
 		B1000017 /* HealthKitService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthKitService.swift; sourceTree = "<group>"; };
@@ -118,8 +148,6 @@
 		B98335F37A00CA461199F533 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png"; sourceTree = SOURCE_ROOT; };
 		C1000011 /* ApartmentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApartmentView.swift; sourceTree = "<group>"; };
 		C1000012 /* CatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatView.swift; sourceTree = "<group>"; };
-		C1000013 /* PlantView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantView.swift; sourceTree = "<group>"; };
-		C1000014 /* WindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowView.swift; sourceTree = "<group>"; };
 		C1000015 /* CatCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatCollectionView.swift; sourceTree = "<group>"; };
 		C1000016 /* ProgressDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressDashboardView.swift; sourceTree = "<group>"; };
 		C1000017 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
@@ -133,6 +161,18 @@
 		D1000013 /* backyard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backyard.png; sourceTree = "<group>"; };
 		D353A916E4573503C43C3269 /* CatUnlockCelebration.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = CatUnlockCelebration.swift; sourceTree = "<group>"; };
 		D8FB8F79B010BB37592042B5 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png"; sourceTree = SOURCE_ROOT; };
+		BW000011 /* BW-Idle.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "BW-Idle.png"; sourceTree = "<group>"; };
+		BW000012 /* BW-Pounce.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "BW-Pounce.png"; sourceTree = "<group>"; };
+		BW000013 /* BW-Sit.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "BW-Sit.png"; sourceTree = "<group>"; };
+		BW000014 /* BW-Sleep.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "BW-Sleep.png"; sourceTree = "<group>"; };
+		GR000011 /* Gray-Idle.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Gray-Idle.png"; sourceTree = "<group>"; };
+		GR000012 /* Gray-Pounce.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Gray-Pounce.png"; sourceTree = "<group>"; };
+		GR000013 /* Gray-Sit.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Gray-Sit.png"; sourceTree = "<group>"; };
+		GR000014 /* Gray-Sleep.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "Gray-Sleep.png"; sourceTree = "<group>"; };
+		GT000011 /* GrayTabby-Idle.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "GrayTabby-Idle.png"; sourceTree = "<group>"; };
+		GT000012 /* GrayTabby-Pounce.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "GrayTabby-Pounce.png"; sourceTree = "<group>"; };
+		GT000013 /* GrayTabby-Sit.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "GrayTabby-Sit.png"; sourceTree = "<group>"; };
+		GT000014 /* GrayTabby-Sleep.png */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = image.png; path = "GrayTabby-Sleep.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +227,7 @@
 				A1B2C3D400000013 /* Assets.xcassets */,
 				A1B2C3D400000014 /* CozyKitties.entitlements */,
 				A1B2C3D400000015 /* Info.plist */,
+				A1B2C3D400000016 /* PrivacyInfo.xcprivacy */,
 			);
 			path = CozyKitties;
 			sourceTree = "<group>";
@@ -203,16 +244,27 @@
 			isa = PBXGroup;
 			children = (
 				B1000011 /* DesignTokens.swift */,
+				B1C0000B /* Components */,
 			);
 			path = Design;
+			sourceTree = "<group>";
+		};
+		B1C0000B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				B1C00006 /* CozyCard.swift */,
+				B1C00007 /* AccentBlock.swift */,
+				B1C00008 /* PillNavBar.swift */,
+				B1C00009 /* CozyProgressBar.swift */,
+				B1C0000A /* SectionHeader.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 		B1000021 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				B1000012 /* GameState.swift */,
-				B1000013 /* Plant.swift */,
-				B1000014 /* WeatherState.swift */,
 				B1000015 /* CatDefinition.swift */,
 			);
 			path = Models;
@@ -244,21 +296,27 @@
 				350CABC1CBC998E073D2E9BD /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png */,
 				C8B8F6E5B040D513ABAA8EB6 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png */,
 				CF971D345DE29D6105A9F334 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png */,
+				S1000015 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sleep.png */,
 				25A7CD4484BC05230CA84155 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png */,
 				12AAF1B2136A336AD579141D /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png */,
 				958C69C339A93F6B94A0942C /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png */,
+				S1000016 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sleep.png */,
 				8B6B588FF4217517980C1125 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png */,
 				7110138B0866DB9507E5A93C /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png */,
 				2B4F4653980959354E25D571 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png */,
+				S1000014 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sleep.png */,
 				86C4D7A77C340FC1462CA752 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png */,
 				767977ABA7ECB2F97430B519 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png */,
 				D8FB8F79B010BB37592042B5 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png */,
+				S1000013 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sleep.png */,
 				964A6AD01D208AC5CCB46B41 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png */,
 				91BA8D219D128346847FEC39 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png */,
 				AA259501C20400AF551EC2F4 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png */,
+				S1000012 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sleep.png */,
 				03FF3E8D10B1BCE904BFD572 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png */,
 				16DF6541EAB3303BDA154659 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png */,
 				B98335F37A00CA461199F533 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png */,
+				S1000011 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sleep.png */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -281,8 +339,6 @@
 				C1000011 /* ApartmentView.swift */,
 				C1000012 /* CatView.swift */,
 				D353A916E4573503C43C3269 /* CatUnlockCelebration.swift */,
-				C1000013 /* PlantView.swift */,
-				C1000014 /* WindowView.swift */,
 			);
 			path = Apartment;
 			sourceTree = "<group>";
@@ -343,10 +399,46 @@
 			path = Scenes;
 			sourceTree = "<group>";
 		};
+		BW000020 /* BWCat */ = {
+			isa = PBXGroup;
+			children = (
+				BW000011 /* BW-Idle.png */,
+				BW000012 /* BW-Pounce.png */,
+				BW000013 /* BW-Sit.png */,
+				BW000014 /* BW-Sleep.png */,
+			);
+			path = BWCat;
+			sourceTree = "<group>";
+		};
+		GR000020 /* GrayCat */ = {
+			isa = PBXGroup;
+			children = (
+				GR000011 /* Gray-Idle.png */,
+				GR000012 /* Gray-Pounce.png */,
+				GR000013 /* Gray-Sit.png */,
+				GR000014 /* Gray-Sleep.png */,
+			);
+			path = GrayCat;
+			sourceTree = "<group>";
+		};
+		GT000020 /* GrayTabby */ = {
+			isa = PBXGroup;
+			children = (
+				GT000011 /* GrayTabby-Idle.png */,
+				GT000012 /* GrayTabby-Pounce.png */,
+				GT000013 /* GrayTabby-Sit.png */,
+				GT000014 /* GrayTabby-Sleep.png */,
+			);
+			path = GrayTabby;
+			sourceTree = "<group>";
+		};
 		D8EC2D0EBE8DE6A59A4F6C58 /* Cats */ = {
 			isa = PBXGroup;
 			children = (
 				8E398B63001305F6460EE71D /* BlackCat */,
+				BW000020 /* BWCat */,
+				GR000020 /* GrayCat */,
+				GT000020 /* GrayTabby */,
 			);
 			path = Cats;
 			sourceTree = "<group>";
@@ -412,10 +504,13 @@
 				C8AC613B675A167C6E5AB9CE /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Idle.png in Resources */,
 				0F96A2B1D49D09AB8B869A38 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Pounce.png in Resources */,
 				8C09F6053E66F21ADFBAF6BC /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sit.png in Resources */,
+				S1000005 /* CozyKitties/Resources/Sprites/Cats/TuxedoCat/Tuxedo-Sleep.png in Resources */,
 				74E9E49A2F18612C5DC1468B /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Idle.png in Resources */,
 				39A1804C60585CCD7CEDA0A1 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Pounce.png in Resources */,
 				E68197B5E5984B3526014A58 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sit.png in Resources */,
+				S1000006 /* CozyKitties/Resources/Sprites/Cats/CalicoCat/Calico-Sleep.png in Resources */,
 				A1B2C3D400000003 /* Assets.xcassets in Resources */,
+				A1B2C3D400000004 /* PrivacyInfo.xcprivacy in Resources */,
 				D1000001 /* ASSETS.yaml in Resources */,
 				D1000002 /* SCENE_SPEC.yaml in Resources */,
 				D1000003 /* backyard.png in Resources */,
@@ -434,20 +529,36 @@
 				95F060EEADD93706A06DF97A /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sit.png in Resources */,
 				277D80D016081BC42C61F981 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Pounce.png in Resources */,
 				6F5DF4E7441473B214936780 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Idle.png in Resources */,
+				S1000004 /* CozyKitties/Resources/Sprites/Cats/SiameseCat/Siamese-Sleep.png in Resources */,
 				83D031003EF85D22AE0CE642 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sit.png in Resources */,
 				2919B164DBA3D85DEEE05222 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Pounce.png in Resources */,
 				5B38CB23FF94DB5BB088339B /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Idle.png in Resources */,
+				S1000003 /* CozyKitties/Resources/Sprites/Cats/WhiteCat/White-Sleep.png in Resources */,
 				406B5623120D83F0C7D49D8F /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sit.png in Resources */,
 				C6408A20CA013303DF0372BA /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Pounce.png in Resources */,
 				76763738DCF59D3D4CD887D7 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Idle.png in Resources */,
+				S1000002 /* CozyKitties/Resources/Sprites/Cats/BrownCat/Brown-Sleep.png in Resources */,
 				1696DA369100217E7AAAC826 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Idle.png in Resources */,
 				EB67996E32C1DD4B0B080DD5 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Pounce.png in Resources */,
 				C606F0D3A69CC4C858BD864C /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sit.png in Resources */,
+				S1000001 /* CozyKitties/Resources/Sprites/Cats/OrangeTabby/OrangeTabby-Sleep.png in Resources */,
 				EAC28520577836AADDFEEB69 /* backyard2.png in Resources */,
 				B7D93B8386294E5B4BBB554A /* backyard3.png in Resources */,
 				46661D68EF9D41E0F09589B2 /* background.png in Resources */,
 				EBB0BF5BBE324B98108051C3 /* backyard-night.png in Resources */,
 				C6737D257D015FF1E087FB56 /* backyard-day.png in Resources */,
+				BW000001 /* BW-Idle.png in Resources */,
+				BW000002 /* BW-Pounce.png in Resources */,
+				BW000003 /* BW-Sit.png in Resources */,
+				BW000004 /* BW-Sleep.png in Resources */,
+				GR000001 /* Gray-Idle.png in Resources */,
+				GR000002 /* Gray-Pounce.png in Resources */,
+				GR000003 /* Gray-Sit.png in Resources */,
+				GR000004 /* Gray-Sleep.png in Resources */,
+				GT000001 /* GrayTabby-Idle.png in Resources */,
+				GT000002 /* GrayTabby-Pounce.png in Resources */,
+				GT000003 /* GrayTabby-Sit.png in Resources */,
+				GT000004 /* GrayTabby-Sleep.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,9 +572,12 @@
 				A1B2C3D400000001 /* CozyKittiesApp.swift in Sources */,
 				A1B2C3D400000002 /* ContentView.swift in Sources */,
 				B1000001 /* DesignTokens.swift in Sources */,
+				B1C00001 /* CozyCard.swift in Sources */,
+				B1C00002 /* AccentBlock.swift in Sources */,
+				B1C00003 /* PillNavBar.swift in Sources */,
+				B1C00004 /* CozyProgressBar.swift in Sources */,
+				B1C00005 /* SectionHeader.swift in Sources */,
 				B1000002 /* GameState.swift in Sources */,
-				B1000003 /* Plant.swift in Sources */,
-				B1000004 /* WeatherState.swift in Sources */,
 				B1000005 /* CatDefinition.swift in Sources */,
 				B1000006 /* HealthKitServiceProtocol.swift in Sources */,
 				B1000007 /* HealthKitService.swift in Sources */,
@@ -473,8 +587,6 @@
 				C1000001 /* ApartmentView.swift in Sources */,
 				C1000002 /* CatView.swift in Sources */,
 				9F20210C81A169281D84705D /* CatUnlockCelebration.swift in Sources */,
-				C1000003 /* PlantView.swift in Sources */,
-				C1000004 /* WindowView.swift in Sources */,
 				C1000005 /* CatCollectionView.swift in Sources */,
 				C1000006 /* ProgressDashboardView.swift in Sources */,
 				C1000007 /* OnboardingView.swift in Sources */,
@@ -537,7 +649,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -594,7 +706,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;

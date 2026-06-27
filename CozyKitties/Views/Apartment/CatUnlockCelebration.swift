@@ -3,89 +3,85 @@ import SwiftUI
 /// Celebration overlay shown when a new cat is unlocked
 struct CatUnlockCelebration: View {
     let cat: CatDefinition
+    let asd: Int
     let onDismiss: () -> Void
 
     @State private var showContent = false
+    @State private var isDismissing = false
     @State private var confettiParticles: [ConfettiParticle] = []
 
     var body: some View {
         ZStack {
-            // Dimmed background
             Color.black.opacity(0.7)
                 .ignoresSafeArea()
                 .onTapGesture {
                     dismiss()
                 }
 
-            // Confetti layer
             ForEach(confettiParticles) { particle in
                 ConfettiView(particle: particle)
             }
 
-            // Content card
             VStack(spacing: 24) {
-                // Header
                 Text("NEW CAT UNLOCKED!")
-                    .font(.system(size: 24, weight: .black, design: .rounded))
+                    .font(.system(size: 24, weight: .black))
                     .foregroundStyle(
                         LinearGradient(
-                            colors: [.yellow, .orange],
+                            colors: [CozyColors.accent, CozyColors.accentSecondary],
                             startPoint: .leading,
                             endPoint: .trailing
                         )
                     )
 
-                // Cat icon placeholder (would show actual cat sprite)
                 ZStack {
                     Circle()
-                        .fill(Color.orange.opacity(0.2))
+                        .fill(CozyColors.accent.opacity(0.2))
                         .frame(width: 120, height: 120)
 
                     Image(systemName: "cat.fill")
                         .font(.system(size: 60))
-                        .foregroundStyle(.orange)
+                        .foregroundStyle(CozyColors.accent)
                 }
                 .scaleEffect(showContent ? 1.0 : 0.5)
                 .animation(.spring(response: 0.5, dampingFraction: 0.6), value: showContent)
 
-                // Cat name
                 Text(cat.name)
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .foregroundStyle(.white)
+                    .font(CozyTypography.largeTitle)
+                    .foregroundStyle(CozyColors.textOnColor)
 
-                // Cat description
                 Text(cat.description)
-                    .font(.body)
-                    .foregroundStyle(.white.opacity(0.8))
+                    .font(CozyTypography.body)
+                    .foregroundStyle(CozyColors.textOnColor.opacity(0.8))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal)
 
-                // Streak info
-                Text("\(cat.streakRequired) day streak achieved!")
-                    .font(.subheadline)
-                    .foregroundStyle(.green)
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 8)
-                    .background(Color.green.opacity(0.2))
-                    .clipShape(Capsule())
+                let steps = cat.stepsRequired(asd: asd)
+                if steps > 0 {
+                    Text("\(steps.formatted()) steps earned!")
+                        .font(CozyTypography.caption)
+                        .foregroundStyle(CozyColors.accent)
+                        .padding(.horizontal, Spacing.md)
+                        .padding(.vertical, Spacing.sm)
+                        .background(CozyColors.accent.opacity(0.2))
+                        .clipShape(Capsule())
+                }
 
-                // Dismiss button
                 Button(action: { dismiss() }) {
                     Text("Awesome!")
-                        .font(.headline)
-                        .foregroundStyle(.white)
+                        .font(CozyTypography.headline)
+                        .foregroundStyle(CozyColors.textOnColor)
                         .padding(.horizontal, 40)
                         .padding(.vertical, 14)
                         .background(
                             LinearGradient(
-                                colors: [.orange, .pink],
+                                colors: [CozyColors.accent, CozyColors.accentSecondary],
                                 startPoint: .leading,
                                 endPoint: .trailing
                             )
                         )
                         .clipShape(Capsule())
                 }
-                .padding(.top, 8)
+                .padding(.top, Spacing.sm)
             }
             .padding(32)
             .background(
@@ -105,6 +101,8 @@ struct CatUnlockCelebration: View {
     }
 
     private func dismiss() {
+        guard !isDismissing else { return }
+        isDismissing = true
         withAnimation(.easeIn(duration: 0.2)) {
             showContent = false
         }
@@ -175,9 +173,10 @@ struct ConfettiView: View {
             id: "whiskers",
             name: "Whiskers",
             appearance: "cat_tabby",
-            streakRequired: 5,
+            asdMultiplier: 5,
             description: "A curious tabby who loves exploring"
         ),
+        asd: 5000,
         onDismiss: {}
     )
 }

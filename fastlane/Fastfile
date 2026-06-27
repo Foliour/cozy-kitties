@@ -13,13 +13,28 @@ platform :ios do
   end
 
   desc "Build and upload to TestFlight"
-  lane :beta do
+  lane :beta do |options|
+    if is_ci
+      setup_ci
+
+      api_key = app_store_connect_api_key(
+        key_id: ENV["ASC_KEY_ID"],
+        issuer_id: ENV["ASC_ISSUER_ID"],
+        key_filepath: File.expand_path("~/private_keys/AuthKey_#{ENV['ASC_KEY_ID']}.p8")
+      )
+    end
+
+    if options[:build_number]
+      increment_build_number(build_number: options[:build_number])
+    end
+
     build_app(
       scheme: "CozyKitties",
       clean: true,
       export_method: "app-store"
     )
     upload_to_testflight(
+      api_key: api_key,
       skip_waiting_for_build_processing: true
     )
   end

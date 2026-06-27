@@ -19,22 +19,40 @@ enum Radius {
     static let full: CGFloat = 9999
 }
 
+// MARK: - Colors
+enum CozyColors {
+    static let accent = Color("accent")
+    static let accentSecondary = Color("accentSecondary")
+    static let backgroundStart = Color("backgroundStart")
+    static let backgroundEnd = Color("backgroundEnd")
+    static let cardSurface = Color("cardSurface")
+    static let surfaceBorder = Color("surfaceBorder")
+    static let recessedFill = Color("recessedFill")
+    static let textPrimary = Color("textPrimary")
+    static let textSecondary = Color("textSecondary")
+    static let textOnColor = Color("textOnColor")
+    static let toggleInactive = Color("toggleInactive")
+    static let destructive = Color("destructive")
+}
+
 // MARK: - Typography
-enum Typography {
-    static let largeTitle = Font.system(size: 34, weight: .bold, design: .rounded)
-    static let title = Font.system(size: 28, weight: .semibold, design: .rounded)
-    static let headline = Font.system(size: 17, weight: .semibold, design: .rounded)
-    static let body = Font.system(size: 17, weight: .regular, design: .rounded)
-    static let caption = Font.system(size: 12, weight: .regular, design: .rounded)
+enum CozyTypography {
+    static let largeTitle = Font.system(size: 34, weight: .bold)
+    static let title = Font.system(size: 28, weight: .semibold)
+    static let headline = Font.system(size: 17, weight: .semibold)
+    static let body = Font.system(size: 17, weight: .regular)
+    static let caption = Font.system(size: 12, weight: .regular)
+    static let statLarge = Font.system(size: 40, weight: .bold)
+    static let statMedium = Font.system(size: 22, weight: .bold)
 }
 
-// MARK: - Shadow
-enum Shadow {
-    static let sm = ShadowStyle(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
-    static let md = ShadowStyle(color: Color.black.opacity(0.15), radius: 8, x: 0, y: 4)
-    static let lg = ShadowStyle(color: Color.black.opacity(0.2), radius: 16, x: 0, y: 8)
+// MARK: - Elevation
+enum CozyElevation {
+    static let elevated = ShadowStyle(color: Color.black.opacity(0.08), radius: 8, x: 0, y: 4)
+    static let floating = ShadowStyle(color: Color.black.opacity(0.15), radius: 16, x: 0, y: 8)
 }
 
+// MARK: - Shadow Style
 struct ShadowStyle {
     let color: Color
     let radius: CGFloat

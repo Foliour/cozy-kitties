@@ -18,16 +18,16 @@ enum DayNightMode: Int, CaseIterable {
 
 @Model
 final class GameState {
-    // NOTE: currentStreak is NOT stored - it is derived from HealthKit on each app launch
-    // This ensures consistency with HealthKit as the source of truth
+    /// Average Steps per Day - calibrated during onboarding, used for cat unlock thresholds
+    var averageStepsPerDay: Int = 5000
 
-    var longestStreak: Int = 0
-    var totalGoodNights: Int = 0
-    var dailyStepGoal: Int = 5000
+    /// Cached cumulative steps since day zero (source of truth is HealthKit)
+    var cumulativeSteps: Int = 0
+
     var soundEnabled: Bool = true
     var hasCompletedOnboarding: Bool = false
 
-    /// Day zero - when the user started playing (for streak tracking)
+    /// Day zero - when the user started playing
     var dayZero: Date = Date()
 
     /// Day/night mode setting (stored as Int for SwiftData)
@@ -39,31 +39,29 @@ final class GameState {
         set { dayNightModeRaw = newValue.rawValue }
     }
 
-    // Track which cats have been unlocked (by ID) - unlocks are permanent
+    // Track which cats have been unlocked (by ID) - unlocks are permanent (high-water mark)
     var unlockedCatIDs: [String] = []
 
-    @Relationship(deleteRule: .cascade)
-    var plants: [Plant] = []
+    // Track which cats the user has already seen the celebration for
+    var celebratedCatIDs: [String] = []
 
     init(
-        longestStreak: Int = 0,
-        totalGoodNights: Int = 0,
-        dailyStepGoal: Int = 5000,
+        averageStepsPerDay: Int = 5000,
+        cumulativeSteps: Int = 0,
         soundEnabled: Bool = true,
         hasCompletedOnboarding: Bool = false,
         dayZero: Date = Date(),
         dayNightModeRaw: Int = 0,
         unlockedCatIDs: [String] = [],
-        plants: [Plant] = []
+        celebratedCatIDs: [String] = []
     ) {
-        self.longestStreak = longestStreak
-        self.totalGoodNights = totalGoodNights
-        self.dailyStepGoal = dailyStepGoal
+        self.averageStepsPerDay = averageStepsPerDay
+        self.cumulativeSteps = cumulativeSteps
         self.soundEnabled = soundEnabled
         self.hasCompletedOnboarding = hasCompletedOnboarding
         self.dayZero = dayZero
         self.dayNightModeRaw = dayNightModeRaw
         self.unlockedCatIDs = unlockedCatIDs
-        self.plants = plants
+        self.celebratedCatIDs = celebratedCatIDs
     }
 }

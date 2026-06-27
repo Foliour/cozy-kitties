@@ -1,234 +1,281 @@
 import SwiftUI
 import SwiftData
 
-/// Settings view with step goal slider, sound toggle, and HealthKit status
+/// Settings view with ASD slider, appearance picker, and HealthKit status
 struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var gameStateService = GameStateService.shared
-    @State private var stepGoal: Double = 5000
+    @State private var averageStepsPerDay: Double = 5000
     @State private var soundEnabled: Bool = true
     @State private var dayNightMode: DayNightMode = .auto
-    @State private var healthKitAuthorized: Bool = false
     @State private var debugInfo: String = ""
     @State private var debugDaysToAdd: Int = 5
     @State private var debugDayZero: Date = Date()
     @State private var showResetConfirmation: Bool = false
+    @State private var isLoadingSettings: Bool = true
 
     var body: some View {
-        NavigationStack {
-            List {
-                // Step Goal Section
-                Section {
+        ScrollView {
+            VStack(spacing: Spacing.lg) {
+                // Page title
+                HStack {
+                    Text("Settings")
+                        .font(CozyTypography.largeTitle)
+                        .foregroundStyle(CozyColors.textPrimary)
+                    Spacer()
+                }
+
+                // Activity Section
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    SectionHeader(emoji: "🏃", title: "Activity")
+
                     VStack(alignment: .leading, spacing: Spacing.md) {
                         HStack {
                             Text("Daily Step Goal")
+                                .font(CozyTypography.headline)
+                                .foregroundStyle(CozyColors.textPrimary)
                             Spacer()
-                            Text("\(Int(stepGoal).formatted())")
-                                .foregroundStyle(.secondary)
+                            Text("\(Int(averageStepsPerDay).formatted())")
+                                .font(CozyTypography.headline)
+                                .foregroundStyle(CozyColors.textSecondary)
                         }
 
-                        Slider(value: $stepGoal, in: 1000...20000, step: 500) {
-                            Text("Step Goal")
+                        Slider(value: $averageStepsPerDay, in: 1000...30000, step: 500) {
+                            Text("Average Steps per Day")
                         } onEditingChanged: { editing in
                             if !editing {
-                                gameStateService.updateStepGoal(Int(stepGoal))
+                                gameStateService.updateAverageStepsPerDay(Int(averageStepsPerDay))
                             }
                         }
-                        .tint(.orange)
+                        .tint(CozyColors.accent)
 
                         HStack {
                             Text("1,000")
-                                .font(Typography.caption)
-                                .foregroundStyle(.tertiary)
+                                .font(CozyTypography.caption)
+                                .foregroundStyle(CozyColors.textSecondary)
                             Spacer()
-                            Text("20,000")
-                                .font(Typography.caption)
-                                .foregroundStyle(.tertiary)
+                            Text("30,000")
+                                .font(CozyTypography.caption)
+                                .foregroundStyle(CozyColors.textSecondary)
                         }
+
+                        Text("This determines how many steps you need to unlock each cat.")
+                            .font(CozyTypography.caption)
+                            .foregroundStyle(CozyColors.textSecondary)
                     }
-                    .padding(.vertical, Spacing.sm)
-                } header: {
-                    Label("Activity", systemImage: "figure.walk")
+                    .cozyCard()
                 }
 
-                // Sound Section
-                Section {
-                    Toggle(isOn: $soundEnabled) {
-                        HStack {
-                            Image(systemName: soundEnabled ? "speaker.wave.2.fill" : "speaker.slash.fill")
-                                .foregroundStyle(.purple)
-                            Text("Sound Effects")
-                        }
-                    }
-                    .tint(.purple)
-                    .onChange(of: soundEnabled) { _, newValue in
-                        gameStateService.toggleSound(newValue)
-                    }
-                } header: {
-                    Label("Audio", systemImage: "speaker.wave.2")
-                }
+                // Appearance Section
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    SectionHeader(emoji: "🎨", title: "Appearance")
 
-                // Day/Night Mode Section
-                Section {
-                    Picker(selection: $dayNightMode) {
-                        ForEach(DayNightMode.allCases, id: \.self) { mode in
-                            Text(mode.displayName).tag(mode)
-                        }
-                    } label: {
-                        HStack {
-                            Image(systemName: dayNightMode == .alwaysNight ? "moon.stars.fill" : "sun.max.fill")
-                                .foregroundStyle(dayNightMode == .alwaysNight ? .indigo : .orange)
-                            Text("Time of Day")
-                        }
-                    }
-                    .onChange(of: dayNightMode) { _, newValue in
-                        gameStateService.updateDayNightMode(newValue)
-                    }
-                } header: {
-                    Label("Appearance", systemImage: "paintpalette")
-                } footer: {
-                    Text("Auto changes background based on your local time (day 6AM-8PM).")
-                }
+                    VStack(alignment: .leading, spacing: Spacing.md) {
+                        Text("Time of Day")
+                            .font(CozyTypography.headline)
+                            .foregroundStyle(CozyColors.textPrimary)
 
-                // HealthKit Section
-                Section {
-                    HStack {
-                        Image(systemName: "heart.fill")
-                            .foregroundStyle(.red)
-                        Text("HealthKit Status")
-                        Spacer()
-                        Text(healthKitAuthorized ? "Connected" : "Not Connected")
-                            .foregroundStyle(healthKitAuthorized ? .green : .secondary)
-                    }
-
-                    if !healthKitAuthorized {
-                        Button(action: { requestHealthKitAccess() }) {
-                            HStack {
-                                Image(systemName: "arrow.right.circle.fill")
-                                    .foregroundStyle(.red)
-                                Text("Connect HealthKit")
+                        HStack(spacing: Spacing.sm) {
+                            ForEach(DayNightMode.allCases, id: \.self) { mode in
+                                let isSelected = dayNightMode == mode
+                                Button {
+                                    dayNightMode = mode
+                                    gameStateService.updateDayNightMode(mode)
+                                } label: {
+                                    Text(mode.displayName)
+                                        .font(CozyTypography.caption)
+                                        .frame(maxWidth: .infinity)
+                                        .padding(.vertical, Spacing.sm)
+                                }
+                                .if(isSelected) { view in
+                                    view.accentBlock(elevated: false)
+                                }
+                                .if(!isSelected) { view in
+                                    view
+                                        .foregroundStyle(CozyColors.textSecondary)
+                                        .background(CozyColors.recessedFill)
+                                        .clipShape(RoundedRectangle(cornerRadius: Radius.lg))
+                                }
+                                .buttonStyle(.plain)
                             }
                         }
-                    }
 
-                    // Data types
-                    VStack(alignment: .leading, spacing: Spacing.sm) {
-                        dataTypeRow(icon: "figure.walk", name: "Steps", description: "Unlocks new cats")
-                        dataTypeRow(icon: "moon.zzz.fill", name: "Sleep", description: "Grows plants")
-                        dataTypeRow(icon: "speaker.wave.2.fill", name: "Audio Exposure", description: "Sets weather")
+                        Text("Auto changes background based on your local time (day 6AM–8PM).")
+                            .font(CozyTypography.caption)
+                            .foregroundStyle(CozyColors.textSecondary)
                     }
-                    .padding(.vertical, Spacing.sm)
-                } header: {
-                    Label("Health Data", systemImage: "heart.text.square")
-                } footer: {
-                    Text("All health data is processed on-device and never leaves your phone.")
+                    .cozyCard()
+                }
+
+                // Health Data Section
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    SectionHeader(emoji: "❤️", title: "Health Data")
+
+                    VStack(alignment: .leading, spacing: Spacing.md) {
+                        Button(action: { requestHealthKitAccess() }) {
+                            HStack {
+                                Image(systemName: "heart.fill")
+                                    .foregroundStyle(.red)
+                                Text("Connect HealthKit")
+                                    .font(CozyTypography.headline)
+                                    .foregroundStyle(CozyColors.textPrimary)
+                                Spacer()
+                            }
+                        }
+                        .buttonStyle(.plain)
+
+                        HStack(spacing: Spacing.md) {
+                            Image(systemName: "figure.walk")
+                                .font(.caption)
+                                .foregroundStyle(CozyColors.textSecondary)
+                                .frame(width: 20)
+
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text("Steps")
+                                    .font(CozyTypography.caption)
+                                    .foregroundStyle(CozyColors.textPrimary)
+                                Text("Unlocks new cats")
+                                    .font(.system(size: 10))
+                                    .foregroundStyle(CozyColors.textSecondary)
+                            }
+                        }
+
+                        Text("Your daily steps unlock new cats. All health data is processed on-device and never leaves your phone.")
+                            .font(CozyTypography.caption)
+                            .foregroundStyle(CozyColors.textSecondary)
+                    }
+                    .cozyCard()
                 }
 
                 // About Section
-                Section {
-                    HStack {
-                        Text("Version")
-                        Spacer()
-                        Text("1.0.0")
-                            .foregroundStyle(.secondary)
-                    }
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    SectionHeader(emoji: "ℹ️", title: "About")
 
-                    HStack {
-                        Text("Cats Collected")
-                        Spacer()
-                        let unlockedCount = gameStateService.getUnlockedCats().count
-                        Text("\(unlockedCount)/\(catRoster.count)")
-                            .foregroundStyle(.secondary)
-                    }
-
-                    HStack {
-                        Text("Plants Grown")
-                        Spacer()
-                        let unlockedPlants = gameStateService.getPlants().filter { $0.unlockedAt != nil }.count
-                        Text("\(unlockedPlants)/\(PlantType.allCases.count)")
-                            .foregroundStyle(.secondary)
-                    }
-                } header: {
-                    Label("About", systemImage: "info.circle")
-                }
-
-                // Reset Game Section
-                Section {
-                    Button(action: { showResetConfirmation = true }) {
+                    VStack(spacing: Spacing.md) {
                         HStack {
-                            Image(systemName: "arrow.counterclockwise")
-                                .foregroundStyle(.red)
-                            Text("Reset Game")
-                                .foregroundStyle(.red)
+                            Text("Version")
+                                .font(CozyTypography.body)
+                                .foregroundStyle(CozyColors.textPrimary)
+                            Spacer()
+                            Text("1.0.0")
+                                .font(CozyTypography.body)
+                                .foregroundStyle(CozyColors.textSecondary)
+                        }
+
+                        HStack {
+                            Text("Cats Collected")
+                                .font(CozyTypography.body)
+                                .foregroundStyle(CozyColors.textPrimary)
+                            Spacer()
+                            let unlockedCount = gameStateService.getUnlockedCats().count
+                            Text("\(unlockedCount)/\(catRoster.count)")
+                                .font(CozyTypography.body)
+                                .foregroundStyle(CozyColors.textSecondary)
+                        }
+
+                        Link(destination: URL(string: "https://kathrynstyons.com/cozykitties/privacy")!) {
+                            HStack {
+                                Text("Privacy Policy")
+                                    .font(CozyTypography.body)
+                                    .foregroundStyle(CozyColors.textPrimary)
+                                Spacer()
+                                Image(systemName: "arrow.up.right.square")
+                                    .foregroundStyle(CozyColors.textSecondary)
+                            }
                         }
                     }
-                } header: {
-                    Label("Data", systemImage: "externaldrive")
-                } footer: {
-                    Text("This will reset all progress, unlock only the starter cat, and set today as your new Day Zero.")
+                    .cozyCard()
+                }
+
+                // Data Section
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    SectionHeader(emoji: "💾", title: "Data")
+
+                    VStack(spacing: Spacing.md) {
+                        Button(action: { showResetConfirmation = true }) {
+                            HStack {
+                                Image(systemName: "arrow.counterclockwise")
+                                    .foregroundStyle(CozyColors.destructive)
+                                Text("Reset Game")
+                                    .font(CozyTypography.headline)
+                                    .foregroundStyle(CozyColors.destructive)
+                                Spacer()
+                            }
+                        }
+                        .buttonStyle(.plain)
+
+                        Text("This will reset all progress, unlock only the starter cat, and set today as your new Day Zero.")
+                            .font(CozyTypography.caption)
+                            .foregroundStyle(CozyColors.textSecondary)
+                    }
+                    .cozyCard()
                 }
 
                 // Debug Section (only in DEBUG builds)
                 #if DEBUG
-                Section {
-                    // Day Zero display and picker
-                    DatePicker(
-                        "Day Zero",
-                        selection: $debugDayZero,
-                        displayedComponents: .date
-                    )
-                    .onChange(of: debugDayZero) { _, newValue in
-                        gameStateService.setDayZero(newValue)
-                    }
+                VStack(alignment: .leading, spacing: Spacing.sm) {
+                    SectionHeader(emoji: "🔧", title: "Debug")
 
-                    // Days stepper
-                    Stepper(value: $debugDaysToAdd, in: 1...50) {
-                        HStack {
-                            Text("Days to add:")
-                            Spacer()
-                            Text("\(debugDaysToAdd)")
-                                .foregroundStyle(.secondary)
+                    VStack(spacing: Spacing.md) {
+                        DatePicker(
+                            "Day Zero",
+                            selection: $debugDayZero,
+                            displayedComponents: .date
+                        )
+                        .onChange(of: debugDayZero) { _, newValue in
+                            guard !isLoadingSettings else { return }
+                            gameStateService.setDayZero(newValue)
                         }
-                    }
 
-                    Button(action: { addTestSteps() }) {
-                        HStack {
-                            Image(systemName: "figure.walk")
-                                .foregroundStyle(.green)
-                            Text("Add 5,000 Steps (\(debugDaysToAdd) days)")
+                        Stepper(value: $debugDaysToAdd, in: 1...50) {
+                            HStack {
+                                Text("Days to add:")
+                                Spacer()
+                                Text("\(debugDaysToAdd)")
+                                    .foregroundStyle(CozyColors.textSecondary)
+                            }
                         }
-                    }
 
-                    Button(action: { checkStreak() }) {
-                        HStack {
-                            Image(systemName: "chart.line.uptrend.xyaxis")
-                                .foregroundStyle(.blue)
-                            Text("Check Streak & Unlock Cats")
+                        Button(action: { addTestSteps() }) {
+                            HStack {
+                                Image(systemName: "figure.walk")
+                                    .foregroundStyle(.green)
+                                Text("Add 5,000 Steps (\(debugDaysToAdd) days)")
+                            }
                         }
-                    }
 
-                    Button(action: { resetOnboarding() }) {
-                        HStack {
-                            Image(systemName: "arrow.counterclockwise")
-                                .foregroundStyle(.orange)
-                            Text("Reset Onboarding")
+                        Button(action: { checkSteps() }) {
+                            HStack {
+                                Image(systemName: "chart.line.uptrend.xyaxis")
+                                    .foregroundStyle(.blue)
+                                Text("Check Steps & Unlock Cats")
+                            }
                         }
-                    }
 
-                    // Debug info display
-                    if !debugInfo.isEmpty {
-                        Text(debugInfo)
-                            .font(.system(.caption, design: .monospaced))
-                            .foregroundStyle(.secondary)
+                        Button(action: { resetOnboarding() }) {
+                            HStack {
+                                Image(systemName: "arrow.counterclockwise")
+                                    .foregroundStyle(.orange)
+                                Text("Reset Onboarding")
+                            }
+                        }
+
+                        if !debugInfo.isEmpty {
+                            Text(debugInfo)
+                                .font(.system(.caption, design: .monospaced))
+                                .foregroundStyle(CozyColors.textSecondary)
+                        }
+
+                        let asd = Int(averageStepsPerDay)
+                        Text("Cat thresholds (ASD=\(asd)): \(catRoster.map { "\($0.stepsRequired(asd: asd).formatted())" }.joined(separator: ", ")) steps")
+                            .font(CozyTypography.caption)
+                            .foregroundStyle(CozyColors.textSecondary)
                     }
-                } header: {
-                    Label("Debug", systemImage: "hammer")
-                } footer: {
-                    Text("Cat unlock thresholds: 0, 1, 3, 7, 14, 21, 30, 45, 60, 90 days")
+                    .cozyCard()
                 }
                 #endif
             }
-            .navigationTitle("Settings")
+            .padding(Spacing.md)
         }
         .onAppear {
             loadSettings()
@@ -237,55 +284,36 @@ struct SettingsView: View {
             Button("Cancel", role: .cancel) { }
             Button("Reset", role: .destructive) {
                 gameStateService.resetGame()
-                loadSettings() // Refresh UI
+                loadSettings()
             }
         } message: {
-            Text("This will reset all your progress. You'll keep only Trouble (the starter cat) and today will become your new Day Zero. This cannot be undone.")
-        }
-    }
-
-    // MARK: - Helper Views
-
-    private func dataTypeRow(icon: String, name: String, description: String) -> some View {
-        HStack(spacing: Spacing.md) {
-            Image(systemName: icon)
-                .font(.caption)
-                .foregroundStyle(.secondary)
-                .frame(width: 20)
-
-            VStack(alignment: .leading, spacing: 2) {
-                Text(name)
-                    .font(Typography.caption)
-                Text(description)
-                    .font(.system(size: 10))
-                    .foregroundStyle(.tertiary)
-            }
+            Text("This will reset all your progress. You'll keep only Luna (the starter cat) and today will become your new Day Zero. This cannot be undone.")
         }
     }
 
     // MARK: - Actions
 
     private func loadSettings() {
+        isLoadingSettings = true
         gameStateService.configure(with: modelContext)
         if let state = gameStateService.gameState {
-            stepGoal = Double(state.dailyStepGoal)
+            averageStepsPerDay = Double(state.averageStepsPerDay)
             soundEnabled = state.soundEnabled
             dayNightMode = state.dayNightMode
             debugDayZero = state.dayZero
         }
-        // Check HealthKit status
-        // healthKitAuthorized = HealthKitService.shared.isAuthorized
+        DispatchQueue.main.async {
+            isLoadingSettings = false
+        }
     }
 
     private func requestHealthKitAccess() {
         Task {
-            // try await HealthKitService.shared.requestAuthorization()
-            // await MainActor.run {
-            //     healthKitAuthorized = HealthKitService.shared.isAuthorized
-            // }
+            try? await HealthKitService.shared.requestAuthorization()
         }
     }
 
+    #if DEBUG
     private func resetOnboarding() {
         if let state = gameStateService.gameState {
             state.hasCompletedOnboarding = false
@@ -305,7 +333,6 @@ struct SettingsView: View {
                     debugInfo = "Writing \(daysToAdd) days of steps..."
                 }
 
-                // Write steps for the specified number of days
                 for day in 1...daysToAdd {
                     try await HealthKitService.shared.writeTestSteps(5000, daysAgo: day)
                 }
@@ -314,8 +341,7 @@ struct SettingsView: View {
                     debugInfo = "Added 5,000 steps for \(daysToAdd) days!"
                 }
 
-                // Auto-check streak after adding
-                await checkStreakInternal()
+                await checkStepsInternal()
             } catch {
                 await MainActor.run {
                     debugInfo = "Error: \(error.localizedDescription)"
@@ -324,13 +350,13 @@ struct SettingsView: View {
         }
     }
 
-    private func checkStreak() {
+    private func checkSteps() {
         Task {
-            await checkStreakInternal()
+            await checkStepsInternal()
         }
     }
 
-    private func checkStreakInternal() async {
+    private func checkStepsInternal() async {
         guard let state = gameStateService.gameState else {
             await MainActor.run {
                 debugInfo = "Error: No game state"
@@ -338,11 +364,11 @@ struct SettingsView: View {
             return
         }
 
-        let goal = state.dailyStepGoal
-        var info = "Step Goal: \(goal)\n"
-        info += "Unlocked: \(state.unlockedCatIDs.joined(separator: ", "))\n\n"
+        let asd = state.averageStepsPerDay
+        var info = "ASD: \(asd)\n"
+        let unlockedNames = gameStateService.getUnlockedCats().map { $0.name }
+        info += "Unlocked: \(unlockedNames.joined(separator: ", "))\n\n"
 
-        // Check recent days
         let calendar = Calendar.current
         let today = calendar.startOfDay(for: Date())
 
@@ -351,31 +377,45 @@ struct SettingsView: View {
             do {
                 let steps = try await HealthKitService.shared.fetchSteps(for: checkDate)
                 let dayLabel = daysAgo == 0 ? "Today" : daysAgo == 1 ? "Yesterday" : "\(daysAgo) days ago"
-                let met = steps >= goal ? "✓" : "✗"
-                info += "\(dayLabel): \(steps) steps \(met)\n"
+                info += "\(dayLabel): \(steps) steps\n"
             } catch {
-                info += "Day -\(daysAgo): Error\n"
+                info += "Day -\(daysAgo): Error - \(error.localizedDescription)\n"
             }
         }
 
-        // Calculate streak (respecting dayZero)
-        let streak = await HealthKitService.shared.calculateCurrentStreak(goal: goal, dayZero: state.dayZero)
+        let cumulative = await HealthKitService.shared.fetchCumulativeSteps(since: state.dayZero)
         info += "\nDay Zero: \(state.dayZero.formatted(date: .abbreviated, time: .omitted))"
-        info += "\nStreak: \(streak) days"
+        info += "\nCumulative Steps: \(cumulative.formatted())"
 
-        // Check for unlocks
-        let newCats = gameStateService.checkAndUnlockCats(currentStreak: streak)
-        if !newCats.isEmpty {
-            info += "\n🎉 Unlocked: \(newCats.map { $0.name }.joined(separator: ", "))"
+        let uncelebrated = gameStateService.checkAndUnlockCats(cumulativeSteps: cumulative)
+        if !uncelebrated.isEmpty {
+            info += "\nNewly unlocked: \(uncelebrated.map { $0.name }.joined(separator: ", "))"
         }
 
         await MainActor.run {
             debugInfo = info
         }
     }
+    #endif
+}
+
+// MARK: - Conditional Modifier Helper (for Settings segmented picker)
+
+private extension View {
+    @ViewBuilder
+    func `if`<Transform: View>(
+        _ condition: Bool,
+        transform: (Self) -> Transform
+    ) -> some View {
+        if condition {
+            transform(self)
+        } else {
+            self
+        }
+    }
 }
 
 #Preview {
     SettingsView()
-        .modelContainer(for: [GameState.self, Plant.self], inMemory: true)
+        .modelContainer(for: [GameState.self], inMemory: true)
 }

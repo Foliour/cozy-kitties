@@ -2,14 +2,15 @@ import SwiftUI
 import SwiftData
 import UIKit
 
-/// Main backyard scene showing cats, plants, and outdoor environment
+/// Main backyard scene showing cats
 /// Drag-to-scroll viewport panning
 struct ApartmentView: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) private var scenePhase
     private var gameStateService = GameStateService.shared
 
-    // Scene dimensions - actual PNG size (928x1117 pixels)
-    private let sceneSize = CGSize(width: 928, height: 1117)
+    // Scene dimensions - actual PNG size (848x1048 pixels)
+    private let sceneSize = CGSize(width: 848, height: 1048)
 
     // Viewport navigation
     @State private var viewportOffset: CGPoint = .zero
@@ -18,21 +19,28 @@ struct ApartmentView: View {
     @State private var viewportSize: CGSize = .zero
     @State private var hasSetInitialPosition: Bool = false
 
-    // Current weather state
-    @State private var currentWeather: WeatherState = .sunny
-
     // Force refresh trigger
     @State private var isLoaded = false
 
     // Cat unlock celebration
     @State private var celebratingCat: CatDefinition?
     @State private var showCelebration = false
+    @State private var celebrationQueue: [CatDefinition] = []
 
     // Day/night cycle
     @State private var isDaytime: Bool = true
 
     // Pet toast
     @State private var toastMessage: String?
+
+    // HealthKit alert (shown at most once per session)
+    @State private var showHealthKitAlert = false
+    @State private var didCheckHealthKitAccess = false
+
+    // Randomized cat layout - reshuffled on each appear/foreground
+    @State private var catSpawnAssignments: [String: Int] = [:]
+    @State private var catAnimationAssignments: [String: CatAnimationType] = [:]
+    @State private var catFacingAssignments: [String: Bool] = [:]
 
     var body: some View {
         GeometryReader { geometry in
@@ -48,12 +56,10 @@ struct ApartmentView: View {
                 .frame(width: viewportSize.width, height: viewportSize.height, alignment: .topLeading)
                 .clipped()
 
-                // HUD layer - on top of clipped scene
+                // HUD layer
                 VStack {
-                    // Weather indicator (top-right) and debug position
                     HStack {
                         #if DEBUG
-                        // Debug position indicator
                         Text("(\(Int(viewportOffset.x)), \(Int(viewportOffset.y)))")
                             .font(.system(size: 10, design: .monospaced))
                             .foregroundStyle(.white)
@@ -63,8 +69,6 @@ struct ApartmentView: View {
                             .padding()
                         #endif
                         Spacer()
-                        weatherIndicator
-                            .padding()
                     }
 
                     Spacer()
@@ -72,14 +76,15 @@ struct ApartmentView: View {
                     // Pet toast
                     if let message = toastMessage {
                         Text(message)
-                            .font(.subheadline)
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 16)
-                            .padding(.vertical, 10)
+                            .font(CozyTypography.body)
+                            .foregroundStyle(CozyColors.textOnColor)
+                            .padding(.horizontal, Spacing.md)
+                            .padding(.vertical, Spacing.sm)
                             .background(Color.black.opacity(0.7))
                             .clipShape(Capsule())
+                            .shadow(CozyElevation.floating)
                             .transition(.move(edge: .bottom).combined(with: .opacity))
-                            .padding(.bottom, 24)
+                            .padding(.bottom, Spacing.lg)
                     }
                 }
             }
@@ -109,12 +114,21 @@ struct ApartmentView: View {
             )
             .onAppear {
                 gameStateService.configure(with: modelContext)
+                randomizeCatLayout()
                 DispatchQueue.main.async {
                     isLoaded = true
                 }
                 syncHealthDataAndCheckUnlocks()
                 updateDayNightState()
-                startDayNightTimer()
+            }
+            .task {
+                await dayNightPollingLoop()
+            }
+            .onChange(of: scenePhase) { _, newPhase in
+                if newPhase == .active {
+                    randomizeCatLayout()
+                    syncHealthDataAndCheckUnlocks()
+                }
             }
             .onChange(of: viewportSize) { _, newSize in
                 guard !hasSetInitialPosition, newSize != .zero else { return }
@@ -124,20 +138,27 @@ struct ApartmentView: View {
                 viewportOffset = CGPoint(x: initialX, y: initialY)
                 gestureStartOffset = viewportOffset
             }
-            .onChange(of: gameStateService.catsAwaitingCelebration.count) { oldCount, newCount in
-                // Trigger celebration when cats are added to the queue
-                if newCount > oldCount && !showCelebration {
-                    showNextCelebration()
+        }
+        .alert("Health Access Needed", isPresented: $showHealthKitAlert) {
+            Button("Allow Access") {
+                Task {
+                    try? await HealthKitService.shared.requestAuthorization()
+                    syncHealthDataAndCheckUnlocks()
                 }
             }
+            Button("Not Now", role: .cancel) { }
+        } message: {
+            Text("CozyKitties needs access to your step count to unlock cats.")
         }
         .overlay {
-            // Cat unlock celebration overlay
             if showCelebration, let cat = celebratingCat {
-                CatUnlockCelebration(cat: cat) {
+                CatUnlockCelebration(
+                    cat: cat,
+                    asd: gameStateService.gameState?.averageStepsPerDay ?? 5000
+                ) {
+                    gameStateService.markCelebrated(catID: cat.id)
                     showCelebration = false
                     celebratingCat = nil
-                    // Check if there are more cats to celebrate
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         showNextCelebration()
                     }
@@ -150,24 +171,34 @@ struct ApartmentView: View {
 
     private func syncHealthDataAndCheckUnlocks() {
         Task {
-            // First sync health data (may unlock new cats)
-            _ = await gameStateService.syncHealthData()
+            let uncelebrated = await gameStateService.syncHealthData()
 
-            // Check for any cats awaiting celebration (from Settings or sync)
             await MainActor.run {
+                if uncelebrated.isEmpty == false {
+                    randomizeCatLayout()
+                }
+                celebrationQueue = uncelebrated
                 showNextCelebration()
+
+                // If onboarding is done but no steps are syncing, HealthKit may be denied
+                // Only show once per session
+                if !didCheckHealthKitAccess,
+                   let state = gameStateService.gameState,
+                   state.hasCompletedOnboarding,
+                   state.cumulativeSteps == 0,
+                   gameStateService.getUnlockedCats().count <= 1 {
+                    didCheckHealthKitAccess = true
+                    showHealthKitAlert = true
+                }
             }
         }
     }
 
     private func showNextCelebration() {
-        // Check if there are cats awaiting celebration
-        if let firstCat = gameStateService.catsAwaitingCelebration.first {
-            celebratingCat = firstCat
-            showCelebration = true
-            // Remove the first cat from the queue
-            gameStateService.catsAwaitingCelebration.removeFirst()
-        }
+        guard !celebrationQueue.isEmpty, !showCelebration else { return }
+        let next = celebrationQueue.removeFirst()
+        celebratingCat = next
+        showCelebration = true
     }
 
     // MARK: - Pet Toast
@@ -204,7 +235,6 @@ struct ApartmentView: View {
 
         let target = clampedOffset(CGPoint(x: projectedX, y: projectedY))
 
-        // Cozy spring: languid response, minimal bounce
         withAnimation(.spring(response: 0.55, dampingFraction: 0.88)) {
             viewportOffset = target
         }
@@ -215,24 +245,23 @@ struct ApartmentView: View {
     @ViewBuilder
     private func backyardScene(scaledSize: CGSize) -> some View {
         ZStack {
-            // Ground layer - background image
             backyardBackground
-
-            // Plants layer
-            ForEach(gameStateService.getPlants(), id: \.id) { plant in
-                PlantView(plant: plant)
-                    .position(
-                        x: scaledSize.width * plant.positionX,
-                        y: scaledSize.height * plant.positionY
-                    )
-            }
 
             // Cats layer
             if isLoaded {
                 ForEach(gameStateService.getUnlockedCats()) { cat in
-                    CatView(cat: cat, isUnlocked: true) { name in
+                    let anim = catAnimationAssignments[cat.id] ?? .idle
+                    let facing = catFacingAssignments[cat.id] ?? false
+                    let spawn = catSpawnAssignments[cat.id] ?? -1
+                    CatView(
+                        cat: cat,
+                        isUnlocked: true,
+                        assignedAnimation: anim,
+                        assignedFacingLeft: facing
+                    ) { name in
                         showPetToast(name)
                     }
+                    .id("\(cat.id)-\(spawn)-\(String(describing: anim))-\(facing)")
                     .position(catPosition(for: cat, in: scaledSize))
                 }
             }
@@ -241,12 +270,10 @@ struct ApartmentView: View {
 
     // MARK: - Day/Night Cycle
 
-    /// Determines the background image name based on day/night setting
     private var backgroundImageName: String {
         isDaytime ? "backyard-day" : "backyard-night"
     }
 
-    /// Updates isDaytime based on settings and actual time
     private func updateDayNightState() {
         guard let state = gameStateService.gameState else {
             isDaytime = isActuallyDaytime()
@@ -263,16 +290,14 @@ struct ApartmentView: View {
         }
     }
 
-    /// Returns true if the current local time is between 6 AM and 8 PM
     private func isActuallyDaytime() -> Bool {
         let hour = Calendar.current.component(.hour, from: Date())
-        return hour >= 6 && hour < 20  // 6 AM to 8 PM
+        return hour >= 6 && hour < 20
     }
 
-    /// Start a timer to check day/night transition periodically
-    private func startDayNightTimer() {
-        // Check every minute for day/night changes
-        Timer.scheduledTimer(withTimeInterval: 60.0, repeats: true) { _ in
+    private func dayNightPollingLoop() async {
+        while !Task.isCancelled {
+            try? await Task.sleep(for: .seconds(300))
             updateDayNightState()
         }
     }
@@ -309,72 +334,70 @@ struct ApartmentView: View {
         return nil
     }
 
-    // MARK: - Weather Indicator
+    // MARK: - Cat Positioning & Randomization
 
-    @ViewBuilder
-    private var weatherIndicator: some View {
-        let weatherColor: Color = {
-            switch currentWeather {
-            case .sunny: return Color(hex: "#87CEEB")
-            case .partlyCloudy: return Color(hex: "#9CA3AF")
-            case .overcast: return Color(hex: "#6B7280")
-            case .gentleRain: return Color(hex: "#374151")
-            }
-        }()
-
-        Circle()
-            .fill(weatherColor)
-            .frame(width: 40, height: 40)
-            .overlay(
-                Circle()
-                    .stroke(Color.white.opacity(0.5), lineWidth: 2)
-            )
-            .shadow(radius: 4)
-    }
-
-    // MARK: - Cat Positioning
-
-    /// Spawn points for cats (in pixels, based on 926x1111 scene)
     private static let catSpawnPoints: [CGPoint] = [
-        CGPoint(x: 444, y: 235),
-        CGPoint(x: 160, y: 240),
-        CGPoint(x: 620, y: 228),
-        CGPoint(x: 460, y: 400),
-        CGPoint(x: 690, y: 400),
-        CGPoint(x: 280, y: 575),
-        CGPoint(x: 140, y: 688),
-        CGPoint(x: 550, y: 658),
-        CGPoint(x: 242, y: 905),
-        CGPoint(x: 520, y: 900),
+        CGPoint(x: 205, y: 227),
+        CGPoint(x: 426, y: 101),
+        CGPoint(x: 675, y: 347),
+        CGPoint(x: 392, y: 401),
+        CGPoint(x: 519, y: 478),
+        CGPoint(x: 670, y: 533),
+        CGPoint(x: 439, y: 654),
+        CGPoint(x: 143, y: 575),
+        CGPoint(x: 319, y: 733),
+        CGPoint(x: 242, y: 810),
+        CGPoint(x: 200, y: 918),
+        CGPoint(x: 502, y: 926),
     ]
 
-    /// Pre-shuffled spawn point assignments to ensure no duplicates
-    /// Uses a seeded shuffle so assignments are consistent across app launches
-    private static let shuffledSpawnIndices: [Int] = {
-        var indices = Array(0..<catSpawnPoints.count)
-        // Seeded shuffle using a simple deterministic algorithm
-        var seed = 12345
-        for i in stride(from: indices.count - 1, through: 1, by: -1) {
-            seed = (seed &* 1103515245 &+ 12345) & 0x7fffffff
-            let j = seed % (i + 1)
-            indices.swapAt(i, j)
+    private func randomizeCatLayout() {
+        let unlockedCats = gameStateService.getUnlockedCats()
+        guard !unlockedCats.isEmpty else { return }
+
+        let spawnIndices = Array(0..<Self.catSpawnPoints.count).shuffled()
+        var newSpawnAssignments: [String: Int] = [:]
+        for (i, cat) in unlockedCats.enumerated() {
+            newSpawnAssignments[cat.id] = spawnIndices[i % spawnIndices.count]
         }
-        return indices
-    }()
+
+        let allTypes: [CatAnimationType] = [.idle, .pounce, .sit, .sleep]
+        var newAnimAssignments: [String: CatAnimationType] = [:]
+
+        if unlockedCats.count >= allTypes.count {
+            let shuffledCats = unlockedCats.shuffled()
+            for (i, cat) in shuffledCats.enumerated() {
+                if i < allTypes.count {
+                    newAnimAssignments[cat.id] = allTypes[i]
+                } else {
+                    newAnimAssignments[cat.id] = allTypes.randomElement()!
+                }
+            }
+        } else {
+            for cat in unlockedCats {
+                newAnimAssignments[cat.id] = allTypes.randomElement()!
+            }
+        }
+
+        var newFacingAssignments: [String: Bool] = [:]
+        for cat in unlockedCats {
+            newFacingAssignments[cat.id] = Bool.random()
+        }
+
+        catSpawnAssignments = newSpawnAssignments
+        catAnimationAssignments = newAnimAssignments
+        catFacingAssignments = newFacingAssignments
+    }
 
     private func catPosition(for cat: CatDefinition, in size: CGSize) -> CGPoint {
-        // Find this cat's index in the roster to assign a unique spawn point
-        guard let rosterIndex = catRoster.firstIndex(where: { $0.id == cat.id }) else {
+        guard let spawnIndex = catSpawnAssignments[cat.id] else {
             return CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         }
-
-        // Use the shuffled index to get a unique spawn point
-        let spawnIndex = Self.shuffledSpawnIndices[rosterIndex % Self.shuffledSpawnIndices.count]
         return Self.catSpawnPoints[spawnIndex]
     }
 }
 
 #Preview {
     ApartmentView()
-        .modelContainer(for: [GameState.self, Plant.self], inMemory: true)
+        .modelContainer(for: [GameState.self], inMemory: true)
 }

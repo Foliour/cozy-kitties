@@ -1,24 +1,12 @@
 import SwiftUI
 import SwiftData
-import UIKit
 
 @main
 struct CozyKittiesApp: App {
-
-    init() {
-        // Configure tab bar appearance with solid background
-        let tabBarAppearance = UITabBarAppearance()
-        tabBarAppearance.configureWithOpaqueBackground()
-        tabBarAppearance.backgroundColor = UIColor.systemBackground
-
-        UITabBar.appearance().standardAppearance = tabBarAppearance
-        UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
-    }
-    /// SwiftData model container for GameState and Plant models
+    /// SwiftData model container for GameState
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
-            GameState.self,
-            Plant.self
+            GameState.self
         ])
         let modelConfiguration = ModelConfiguration(
             schema: schema,
@@ -31,7 +19,22 @@ struct CozyKittiesApp: App {
                 configurations: [modelConfiguration]
             )
         } catch {
-            fatalError("Could not create ModelContainer: \(error)")
+            // If the store is corrupted, delete it and retry
+            let storeURL = modelConfiguration.url
+            try? FileManager.default.removeItem(at: storeURL)
+            do {
+                return try ModelContainer(
+                    for: schema,
+                    configurations: [modelConfiguration]
+                )
+            } catch {
+                // Last resort: use in-memory container so the app doesn't crash
+                let inMemoryConfig = ModelConfiguration(isStoredInMemoryOnly: true)
+                if let fallback = try? ModelContainer(for: schema, configurations: [inMemoryConfig]) {
+                    return fallback
+                }
+                fatalError("Could not create ModelContainer after all recovery attempts: \(error)")
+            }
         }
     }()
 

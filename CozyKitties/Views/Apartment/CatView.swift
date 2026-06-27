@@ -1,11 +1,21 @@
 import SwiftUI
 import UIKit
 
+/// Animation types for cats - shared between ApartmentView and CatView
+enum CatAnimationType {
+    case idle       // Just idle animation
+    case pounce     // variable idle-pounce combo (cadence varies per cat)
+    case sit        // sitting animation
+    case sleep      // sleeping animation
+}
+
 /// Individual cat view with animated sprites
 /// Loads sprite sheets, slices into frames, and swaps between them
 struct CatView: View {
     let cat: CatDefinition
     let isUnlocked: Bool
+    var assignedAnimation: CatAnimationType = .idle
+    var assignedFacingLeft: Bool = false
     var onPetted: ((String) -> Void)? = nil
 
     @State private var showHeart = false
@@ -14,21 +24,11 @@ struct CatView: View {
     @State private var idleFrames: [UIImage] = []
     @State private var pounceFrames: [UIImage] = []
     @State private var sitFrames: [UIImage] = []
-
-    // Random properties determined once per cat instance
-    @State private var facingLeft: Bool = false
-    @State private var animationType: AnimationType = .idle
-    @State private var hasInitialized: Bool = false
+    @State private var sleepFrames: [UIImage] = []
 
     // Animation state for pounce combo pattern
     @State private var comboPhase: Int = 0  // 0 to (idleCadence-1) = idle, idleCadence = pounce
     @State private var idleCadence: Int = 2  // Number of idle loops before pounce (unique per cat)
-
-    enum AnimationType {
-        case idle       // Just idle animation
-        case pounce     // variable idle-pounce combo (cadence varies per cat)
-        case sit        // idle-idle-sit combo
-    }
 
     // Sprite sheet configuration - frames are 48x48 pixels
     private let frameWidth: CGFloat = 48
@@ -45,7 +45,7 @@ struct CatView: View {
                     currentFrame: currentFrame,
                     displayScale: displayScale
                 )
-                .scaleEffect(x: facingLeft ? -1 : 1, y: 1)
+                .scaleEffect(x: assignedFacingLeft ? -1 : 1, y: 1)
                 .onAppear {
                     startAnimation()
                 }
@@ -57,7 +57,7 @@ struct CatView: View {
                 Color.clear
                     .frame(width: frameWidth * displayScale, height: frameHeight * displayScale)
                     .onAppear {
-                        initializeRandomProperties()
+                        initializePounce()
                         loadFrames()
                     }
             } else {
@@ -73,9 +73,12 @@ struct CatView: View {
                     .font(.system(size: 24))
                     .foregroundStyle(.pink)
                     .transition(.opacity.combined(with: .move(edge: .bottom)))
-                    .offset(y: -frameHeight * displayScale / 2 - 16)
+                    .offset(y: -frameHeight * displayScale / 2 + 4)
             }
         }
+        .accessibilityElement(children: .ignore)
+        .accessibilityLabel(isUnlocked ? cat.name : "Locked cat")
+        .accessibilityHint(isUnlocked ? "Double-tap to pet" : "Walk more steps to unlock")
         .onTapGesture {
             guard isUnlocked, !showHeart else { return }
             withAnimation(.spring(response: 0.3, dampingFraction: 0.6)) {
@@ -93,13 +96,16 @@ struct CatView: View {
 
     /// Get current frames based on animation type and combo phase
     private var currentAnimationFrames: [UIImage] {
-        switch animationType {
+        switch assignedAnimation {
         case .idle:
             // Idle cats just loop idle forever
             return idleFrames
         case .sit:
             // Sit cats just loop sit forever (no alternating)
             return sitFrames.isEmpty ? idleFrames : sitFrames
+        case .sleep:
+            // Sleep cats just loop sleep forever
+            return sleepFrames.isEmpty ? idleFrames : sleepFrames
         case .pounce:
             // Pounce cats alternate: idle loops, then pounce
             if comboPhase >= idleCadence {
@@ -111,41 +117,10 @@ struct CatView: View {
 
     // MARK: - Initialization
 
-    private func initializeRandomProperties() {
-        guard !hasInitialized else { return }
-        hasInitialized = true
-
-        // Use cat ID for seeded randomness so it's consistent per cat
-        // but different cats get different values
-        var hasher = Hasher()
-        hasher.combine(cat.id)
-        hasher.combine("facing")
-        let facingSeed = hasher.finalize()
-        facingLeft = abs(facingSeed % 2) == 0
-
-        hasher = Hasher()
-        hasher.combine(cat.id)
-        hasher.combine("animation")
-        let animSeed = abs(hasher.finalize() % 3)
-        switch animSeed {
-        case 0:
-            animationType = .idle
-        case 1:
-            animationType = .pounce
-        case 2:
-            animationType = .sit
-        default:
-            animationType = .idle
-        }
-
-        // Assign unique cadence for pounce cats based on roster index
-        // Each pounce cat gets a different number of idle loops (2, 3, 4, etc.)
-        if animationType == .pounce {
-            if let rosterIndex = catRoster.firstIndex(where: { $0.id == cat.id }) {
-                // Cadence starts at 2 and increases by roster index
-                // This ensures no two cats have the same pounce rhythm
-                idleCadence = 2 + rosterIndex
-            }
+    /// Set a random pounce cadence for pounce-type cats
+    private func initializePounce() {
+        if assignedAnimation == .pounce {
+            idleCadence = Int.random(in: 2...5)
         }
     }
 
@@ -169,6 +144,12 @@ struct CatView: View {
             spriteBaseName = "Tuxedo"
         case "cat_calico":
             spriteBaseName = "Calico"
+        case "cat_bw":
+            spriteBaseName = "BW"
+        case "cat_gray":
+            spriteBaseName = "Gray"
+        case "cat_gray_tabby":
+            spriteBaseName = "GrayTabby"
         default:
             return
         }
@@ -183,7 +164,7 @@ struct CatView: View {
         }
 
         // Load action frames based on animation type
-        switch animationType {
+        switch assignedAnimation {
         case .pounce:
             if let pounceImage = loadSprite(named: "\(spriteBaseName)-Pounce") {
                 pounceFrames = sliceSpriteSheet(
@@ -196,6 +177,14 @@ struct CatView: View {
             if let sitImage = loadSprite(named: "\(spriteBaseName)-Sit") {
                 sitFrames = sliceSpriteSheet(
                     image: sitImage,
+                    frameWidth: frameWidth,
+                    frameHeight: frameHeight
+                )
+            }
+        case .sleep:
+            if let sleepImage = loadSprite(named: "\(spriteBaseName)-Sleep") {
+                sleepFrames = sliceSpriteSheet(
+                    image: sleepImage,
                     frameWidth: frameWidth,
                     frameHeight: frameHeight
                 )
@@ -236,7 +225,7 @@ struct CatView: View {
             currentFrame = 0
 
             // Only pounce cats need phase transitions (idle-idle-...-pounce pattern)
-            if animationType == .pounce {
+            if assignedAnimation == .pounce {
                 if comboPhase < idleCadence {
                     // Still in idle phases, advance to next
                     comboPhase += 1

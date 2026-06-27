@@ -1,9 +1,6 @@
-Welcome to Cozy Kitties! This is our initial release featuring:
+What's new:
 
-- 10 adorable cats to unlock through walking streaks
-- 5 plant types that grow with quality sleep
-- Dynamic weather based on your environment
-- Beautiful cozy apartment to customize
-- Shame-free design that celebrates progress
-
-We hope you enjoy your new cozy wellness companion!
+- Streamlined apartment view
+- Heart animation when petting your cats
+- Improved onboarding flow
+- CI/CD pipeline for faster updates
